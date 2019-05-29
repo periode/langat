@@ -60,7 +60,7 @@ _/all/pending_
 
 #### SIGN UP REQUEST MESSAGE
 __client__
-_/control/signup-request_
+_/control/join_
 
 [
   "user_id": String,

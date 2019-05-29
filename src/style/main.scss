@@ -1,0 +1,22 @@
+body{
+  font-family: 'Public Sans', sans-serif;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+main{
+  height: auto;
+  overflow: auto;
+  padding-bottom: 50px;
+}
+
+.centered {
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  max-width: 100%;
+  margin: auto;
+}
