@@ -30,6 +30,10 @@
 </template>
 
 <style scoped>
+  main{
+    height: 88vh;
+  }
+
   .popup{
     height: 300px;
     width: 300px;
@@ -120,7 +124,18 @@
               break;
             case '/all/next':
               console.log('[STATE] - next');
-              this.prompt = args[0]
+              if(args.length === 3){ //-- binary choice
+                this.prompt = args[0]
+              }else if(args.length === 7){ //-- different checkboxes
+                //-- essentially just send the ratio of tickboxes that remained ticked
+              }else if( args[1] === "Input"){ //-- this should be for displaying the text input
+                //
+              }
+
+              break;
+            case '/all/choose':
+              console.log('[STATE] - choose');
+              //this is where we actually display the choices that have been preloaded
               break;
             case '/user_'+this.info.id:
               if(args[0] == 'confirmed'){
@@ -133,7 +148,7 @@
           }
         })
 
-        //-- the rest of the socket code goes here
+        window.client = this.client
       })
 
     }
