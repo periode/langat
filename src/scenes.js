@@ -1,13 +1,5 @@
 let scenes = [
   {
-    "id": "Intro",
-    "timelines": ["T0"],
-    "prompt": "",
-    "choices": ["A Beginning"],
-    "following": ["A Beginning"],
-    "choice_type": "single"
-  },
-  {
     "id": "A Beginning",
     "timelines": ["T1"],
     "prompt": "Select one area of interest:",

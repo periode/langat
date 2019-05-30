@@ -47,6 +47,10 @@
     font-size: 1.2em;
     white-space: pre-line;
     text-align: center;
+    color: #1335B1;
+    border: 3px solid #1335B1;
+    background-color: white;
+    z-index: 2;
   }
 
   .prompt{
@@ -130,6 +134,8 @@
       submitChoice: function(evt){
         console.log('choosing', evt.target.value);
 
+        this.displayFeedback()
+
         this.client.send('/control/choose', [this.current_mode, evt.target.value])
       },
       submitForm: function(evt){
@@ -156,6 +162,13 @@
         this.button_choice = false
         this.beginning_choice = false
         this.prompt = ''
+      },
+      displayFeedback: function(){
+        this.beginning_choice = false
+        this.button_choice = false
+        this.input_choice = false
+        this.prompt = "Thank you for your contribution ;)"
+        setTimeout(() => { this.prompt = ''}, 4000)
       }
     },
     mounted(){

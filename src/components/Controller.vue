@@ -11,20 +11,24 @@
         </div>
         <div class="subcontrols">
           <div class="legend">
-            ARM NEXT
+            ARMED NEXT: {{ current.id }}
           </div>
-          <button v-for="choice in current.choices" @click="armNext(choice)">{{choice}}</button>
+          <div class="legend">
+            CHOICES NEXT:<br />
+            <span v-for="choice in current.choices">- {{choice}}</span>
+          </div>
+
         </div>
         <div class="subcontrols" v-if="armed">
           <div class="legend">
-            SEND NEXT
+            SEND NEXT CHOICE
           </div>
           <button @click="sendNext">SEND</button>
         </div>
       </div>
       <div class="info">
         <div>
-          Status: {{ isConnected }}
+          Status: {{ isConnected ? "Connected" : "Disconnected" }}
         </div>
         <div>
           Current users: {{ users.length }}
@@ -36,7 +40,7 @@
           </div>
         </div>
         <div class="logs">
-          <li v-for="log in logs">
+          <li v-for="log in logs.reverse()">
             {{ log }}
           </li>
         </div>
@@ -98,6 +102,10 @@ input{
 }
 
 .logs{
+  overflow-y: scroll;
+  height: 50vh;
+  position: relative;
+
   border-top: 2px solid #dbdbdb;
   margin-top: 10px;
   padding-top: 10px;
@@ -164,7 +172,10 @@ class User{
         console.log(evt);
       },
       sendStart: function(evt){
+        this.armed = true
         this.client.send('/all/start', ['go'])
+        this.armNext(this.current.id)
+        evt.target.disabled = true
       },
       armNext: function(data){
         for(let scene of scenes){
@@ -197,6 +208,9 @@ class User{
         this.logs.push('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
         this.logs.push('[NEXT] The next scene is: ' + this.current.following[highest_index])
         this.current_scene = this.armNext(this.current.following[highest_index])
+
+        for(let choice of this.choices)
+          choice.votes = 0
 
       },
       findScene: function(_next){
@@ -233,7 +247,6 @@ class User{
               this.client.send('/user_'+user.id, ['confirmed'])
               break;
             case '/control/choose':
-
               if(args[0] === "binary"){
                 this.choices[0].votes += args[1] == '0' ? 1 : 0
                 this.choices[1].votes += args[1] == '1' ? 1 : 0
@@ -247,7 +260,6 @@ class User{
               }else{
                 console.log("[CHOICE] - got choice type: "+args[0])
               }
-
               break;
             default:
               console.log("[WARN] - received address: "+address+" - "+args)
