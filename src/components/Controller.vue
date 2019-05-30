@@ -30,8 +30,11 @@
           Current users: {{ users.length }}
         </div>
         <div>Current scene: {{ current.id }}</div>
-        <div v-if="current.id == 'A Beginning'">Current vote:  A: {{ choices_A }} / B: {{ choices_B }} / C: {{ choices_C }} / D: {{ choices_D }}</div>
-        <div v-else>Current vote:  choice A: {{ choices_A }} / choice B: {{ choices_B }}</div>
+        <div>Current vote:<br />
+          <div v-for="choice in choices">
+            {{choice.name}} - {{choice.votes}}
+          </div>
+        </div>
         <div class="logs">
           <li v-for="log in logs">
             {{ log }}
@@ -135,10 +138,24 @@ class User{
         armed: false,
         next_message: [],
         current_scene: 'None',
-        choices_A: 0,
-        choices_B: 0,
-        choices_C: 0,
-        choices_D: 0,
+        choices: [
+          {
+            name: "0",
+            votes: 0
+          },
+          {
+            name: "1",
+            votes: 0
+          },
+          {
+            name: "2",
+            votes: 0
+          },
+          {
+            name: "3",
+            votes: 0
+          }
+        ],
         client: null
       }
     },
@@ -152,17 +169,42 @@ class User{
       armNext: function(data){
         for(let scene of scenes){
           if(scene.id === data){
+            this.current = scene
             this.logs.push("[SCENE] - Arming next scene: " + scene.id)
             this.armed = true
             this.next_message = [scene.choice_type, scene.prompt, ...scene.choices]
-            this.logs.push("[SCENE] - Sending "+this.next_message.join("-"))
-            this.client.send('/all/next', this.next_message)
           }
         }
       },
       sendNext: function(evt){
-        this.logs.push("[SCENE] - Sending /all/choose")
-        this.client.send('/all/choose', [])
+        this.logs.push("[SCENE] - Sending "+this.next_message.join(" | "))
+        this.client.send('/all/next', this.next_message)
+        setTimeout(this.evaluateResults, 17000)
+      },
+      evaluateResults: function(evt){
+
+        // TODO: MAKE THIS RANDOM FOR TIE
+
+        let highest_value = -100
+        let highest_index = null
+        for(let index in this.choices){
+          if(this.choices[index].votes > highest_value){
+            highest_value = this.choices[index].votes
+            highest_index = index
+          }
+        }
+
+        this.logs.push('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
+        this.logs.push('[NEXT] The next scene is: ' + this.current.following[highest_index])
+        this.current_scene = this.armNext(this.current.following[highest_index])
+
+      },
+      findScene: function(_next){
+        for(let scene of scenes){
+          if(scene.id == _next){
+            return scene
+          }
+        }
       }
     },
     mounted(){
@@ -191,14 +233,15 @@ class User{
               this.client.send('/user_'+user.id, ['confirmed'])
               break;
             case '/control/choose':
+
               if(args[0] === "binary"){
-                choices_A += args[1]
-                choices_B += args[2]
+                this.choices[0].votes += args[1] == '0' ? 1 : 0
+                this.choices[1].votes += args[1] == '1' ? 1 : 0
               }else if(args[0] === "beginning"){
-                choices_A += args[1]
-                choices_B += args[2]
-                choices_C += args[3]
-                choices_D += args[4]
+                this.choices[0].votes += args[1] == '0' ? 1 : 0
+                this.choices[1].votes += args[1] == '1' ? 1 : 0
+                this.choices[2].votes += args[1] == '2' ? 1 : 0
+                this.choices[3].votes += args[1] == '3' ? 1 : 0
               }else if(args[0] === "single"){
 
               }else{

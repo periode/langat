@@ -12,20 +12,21 @@
         </div>
         <div id="choices" class="choices centered">
           <span v-if="beginning_choice">
-            <button class="button-input" @click="submitChoice" value="A">Social</button>
-            <button class="button-input" @click="submitChoice" value="B">Music</button>
-            <button class="button-input" @click="submitChoice" value="B">Photography</button>
-            <button class="button-input" @click="submitChoice" value="B">News</button>
+            <button class="button-input" @click="submitChoice" value="0">Social</button>
+            <button class="button-input" @click="submitChoice" value="1">Music</button>
+            <button class="button-input" @click="submitChoice" value="2">Photography</button>
+            <button class="button-input" @click="submitChoice" value="3">News</button>
           </span>
           <span v-if="button_choice">
-            <button class="button-input" @click="submitChoice" value="A">{{choice_A}}</button>
-            <button class="button-input" @click="submitChoice" value="B">{{choice_B}}</button>
+            <button class="button-input" @click="submitChoice" value="0">{{choice_A}}</button>
+            <button class="button-input" @click="submitChoice" value="1">{{choice_B}}</button>
           </span>
           <span v-if="checkbox_choice == true">
 
           </span>
           <span v-if="input_choice == true">
-            <input class="text-input" type="text" placeholder="Enter your thoughts here..."/>
+            <input class="text-input" type="text" placeholder="Enter your thoughts here..."/><br />
+            <button @click="submitChoice">SUBMIT</button>
           </span>
         </div>
       </span>
@@ -53,11 +54,12 @@
     width: 300px;
     background-color: white;
     color: #1335B1;
-    border: 2px solid #1335B1;
+    border: 3px solid #1335B1;
     top: -300px;
     text-align: center;
     line-height: 50px;
     font-size: 1.5em;
+    font-weight: bold;
   }
 
   .choices{
@@ -102,6 +104,7 @@
         button_choice: false,
         checkbox_choice: false,
         input_choice: false,
+        current_mode: '',
         choice_A: '',
         choice_B: '',
         message: '',
@@ -125,7 +128,9 @@
 
       },
       submitChoice: function(evt){
-        console.log(evt);
+        console.log('choosing', evt.target.value);
+
+        this.client.send('/control/choose', [this.current_mode, evt.target.value])
       },
       submitForm: function(evt){
         this.info = evt
@@ -145,7 +150,7 @@
       },
       timerEnd: function(){
         this.timerReset = false
-        // this.resetAll()
+        this.resetAll()
       },
       resetAll: function(){
         this.button_choice = false
@@ -180,16 +185,18 @@
             case '/all/next':
               console.log('[STATE] - next');
 
+              this.current_mode = args[0]
               this.prompt = args[1]
-              if(args[0] === "beginning"){ //-- binary choice
+
+              if(this.current_mode === "beginning"){ //-- binary choice
                 this.beginning_choice = true
-              }else if(args[0] === "binary"){
+              }else if(this.current_mode === "binary"){
                 this.button_choice = true
                 this.choice_A = args[2]
                 this.choice_B = args[3]
-              }else if(args.length === 7){ //-- different checkboxes
+              }else if(this.current_mode === "checkboxes"){ //-- different checkboxes
                 //-- essentially just send the ratio of tickboxes that remained ticked
-              }else if(args[1] === "input"){ //-- this should be for displaying the text input
+              }else if(this.current_mode === "input"){ //-- this should be for displaying the text input
                 //
               }
 
