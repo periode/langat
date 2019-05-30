@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "watch": "webpack --config webpack.config.js --watch & rhizome rhizome-config.js",
-    "dev": "webpack-dev-server --config webpack.config.js"
+    "watch": "webpack --config webpack.config.js --watch",
+    "start": "webpack --config webpack.config.js --watch & rhizome rhizome-config.js"
   },
   "devDependencies": {
     "dotenv-webpack": "^1.7.0",

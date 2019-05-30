@@ -24,6 +24,9 @@
       </div>
       <div class="info">
         <div>
+          Status: {{ isConnected }}
+        </div>
+        <div>
           Current users: {{ users.length }}
         </div>
         <div>Current scene: {{ current.id }}</div>
@@ -125,6 +128,7 @@ class User{
     },
     data: function(){
       return {
+        isConnected: false,
         users: [],
         logs: [],
         current: {},
@@ -150,7 +154,7 @@ class User{
           if(scene.id === data){
             this.logs.push("[SCENE] - Arming next scene: " + scene.id)
             this.armed = true
-            this.next_message = [scene.choice_type, ...scene.choices]
+            this.next_message = [scene.choice_type, scene.prompt, ...scene.choices]
             this.logs.push("[SCENE] - Sending "+this.next_message.join("-"))
             this.client.send('/all/next', this.next_message)
           }
@@ -167,6 +171,8 @@ class User{
       this.client.start((err) => {
         if(err)
           alert(err)
+
+        this.isConnected = true
 
         this.client.on('connected', () => {
           this.logs.push('[SOCK] - connected')

@@ -7,13 +7,19 @@
       </div>
       <Form v-if="showForm" @formCompleted="submitForm" :message="message" :connected="connected"/>
       <span v-else>
-        <div id="prompt">
+        <div v-if="prompt.length > 0" id="prompt" class="prompt centered">
           {{ prompt }}
         </div>
-        <div id="choices">
-          <span v-if="button_choice == true">
-            <button class="button-input" @click="submitChoice" value="A">choice A</button>
-            <button class="button-input" @click="submitChoice" value="B">choice B</button>
+        <div id="choices" class="choices centered">
+          <span v-if="beginning_choice">
+            <button class="button-input" @click="submitChoice" value="A">Social</button>
+            <button class="button-input" @click="submitChoice" value="B">Music</button>
+            <button class="button-input" @click="submitChoice" value="B">Photography</button>
+            <button class="button-input" @click="submitChoice" value="B">News</button>
+          </span>
+          <span v-if="button_choice">
+            <button class="button-input" @click="submitChoice" value="A">{{choice_A}}</button>
+            <button class="button-input" @click="submitChoice" value="B">{{choice_B}}</button>
           </span>
           <span v-if="checkbox_choice == true">
 
@@ -23,7 +29,7 @@
           </span>
         </div>
       </span>
-
+      <Timer :isActive="timerReset" @timer-end="timerEnd"/>
     </main>
     <Footer/>
   </div>
@@ -41,27 +47,63 @@
     white-space: pre-line;
     text-align: center;
   }
+
+  .prompt{
+    height: 100px;
+    width: 300px;
+    background-color: white;
+    color: #1335B1;
+    border: 2px solid #1335B1;
+    top: -300px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 1.5em;
+  }
+
+  .choices{
+    top: 400px;
+    width: 300px;
+    min-height: 200px;
+    max-height: 400px;
+  }
+
+  .button-input{
+    float: left;
+    width: 100%;
+    font-size: 1.5em;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color: #1335B1;
+    border: none;
+    color: white;
+    height: 50px;
+  }
 </style>
 
 <script>
   import Form from './Form.vue'
   import Header from './Header.vue'
   import Footer from './Footer.vue'
+  import Timer from './Timer.vue'
 
   export default {
     components: {
       Form,
       Header,
-      Footer
+      Footer,
+      Timer
     },
     data: function(){
       return {
         connected: false,
         showForm: true,
         prompt: '',
+        beginning_choice: false,
         button_choice: false,
         checkbox_choice: false,
         input_choice: false,
+        choice_A: '',
+        choice_B: '',
         message: '',
         popup: '',
         client: null,
@@ -73,7 +115,9 @@
           gender: "tMale",
           marital_status: "tMarried",
           occupation: "tLehrer"
-        }
+        },
+        timerReset: false,
+        timerVisible: false
       }
     },
     methods: {
@@ -98,10 +142,20 @@
         this.client.send('/control/join', [rand, evt.first_name, evt.last_name, evt.birthdate, evt.origin, evt.gender, evt.marital_status, evt.occupation])
 
         this.client.send('/sys/subscribe', ['/user_'+this.info.id])
+      },
+      timerEnd: function(){
+        this.timerReset = false
+        // this.resetAll()
+      },
+      resetAll: function(){
+        this.button_choice = false
+        this.beginning_choice = false
+        this.prompt = ''
       }
     },
     mounted(){
       this.client = new rhizome.Client()
+      window.client = this.client
 
       this.client.start((err) => {
         if(err)
@@ -120,17 +174,27 @@
           switch (address) {
             case '/all/start':
               console.log('[STATE] - start');
-              document.body.setAttribute('style', 'background: black')
+              this.showForm = false
+              document.body.style.backgroundColor = "black"
               break;
             case '/all/next':
               console.log('[STATE] - next');
-              if(args.length === 3){ //-- binary choice
-                this.prompt = args[0]
+
+              this.prompt = args[1]
+              if(args[0] === "beginning"){ //-- binary choice
+                this.beginning_choice = true
+              }else if(args[0] === "binary"){
+                this.button_choice = true
+                this.choice_A = args[2]
+                this.choice_B = args[3]
               }else if(args.length === 7){ //-- different checkboxes
                 //-- essentially just send the ratio of tickboxes that remained ticked
-              }else if( args[1] === "Input"){ //-- this should be for displaying the text input
+              }else if(args[1] === "input"){ //-- this should be for displaying the text input
                 //
               }
+
+              this.timerReset = true //reset the timer
+              this.timerVisible = true //reset the timer
 
               break;
             case '/all/choose':
@@ -148,7 +212,7 @@
           }
         })
 
-        window.client = this.client
+
       })
 
     }
