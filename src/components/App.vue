@@ -37,6 +37,14 @@
             <button class="button-input" @click="submitChoice">{{choice_0}}</button>
           </span>
           <span v-if="checkbox_choice">
+            <div class="checkbox-input" v-for="c_choice in checkbox_choices" @click="toggleBox">
+              <div class="toggle">
+                <div class="toggle-inner">
+
+                </div>
+              </div>
+              <div class="toggle-text">{{ c_choice }}</div>
+            </div>
             <button class="button-input" @click="submitApproval">CONSENT</button>
           </span>
           <span v-if="input_choice">
@@ -111,6 +119,37 @@
     z-index: 2;
   }
 
+  .checkbox-input{
+    background-color: white;
+    width: 96%;
+    color: #1335B1;
+    padding: 1%;
+    margin: 1%;
+    margin-right: 3%;
+    float: left;
+    line-height: 40px;
+  }
+
+  .toggle{
+    float: left;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background-color: white;
+    border: 2px solid #1335B1;
+  }
+
+  .toggle-inner{
+    background-color: #1335B1;
+    width: 30px;
+    height: 30px;
+    transition: all 0.1s linear;
+  }
+
+  .toggle-text{
+    font-size: 1.1em;
+  }
+
   .button-input{
     float: left;
     width: 100%;
@@ -159,6 +198,7 @@
         beginning_choice: false,
         button_choice: false,
         checkbox_choice: false,
+        checkbox_choices: [],
         input_choice: false,
         single_choice: '',
         choice_0: '',
@@ -187,6 +227,22 @@
     },
     methods: {
       submitInformation: function(evt){
+
+      },
+      toggleBox: function(evt){
+        console.log(evt.target);
+        let el;
+        if(evt.target.className == 'toggle-text')
+          el = evt.target.parentNode.children[0].children[0]
+        else if(evt.target.className == 'toggle-inner')
+          el = evt.target
+        else if(evt.target.className == 'toggle')
+          el = evt.target.children[0]
+        else if(evt.target.className == 'checkbox-input')
+          el = evt.target.children[0].children[0]
+        else
+          return
+        el.style.backgroundColor = el.style.backgroundColor == 'white' ? '#1335B1' :'white'
 
       },
       submitChoice: function(evt){
@@ -307,6 +363,7 @@
                 //-- essentially just send the ratio of tickboxes that remained ticked
                 this.timerReset = true //reset the timer
                 this.prompt = args[1]
+                this.checkbox_choices = [args[2], args[3], args[4], args[5], args[6]]
                 this.checkbox_choice = true
               }else if(this.current_mode === "input"){ //-- this should be for displaying the text input
                 this.showChat = true

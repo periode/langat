@@ -27,7 +27,7 @@ let scenes = [
     "id": "Rave",
     "timelines": ["T1", "T3"],
     "prompt": "Generally speaking, do you enjoy coming back home from a night out?",
-    "choices": ["Consent 1", "Consent 2", "Consent 3", "Consent 4", "Consent 5", "Consent 6", "Consent 7"], // -- IMPROVE
+    "choices": ["I consent to this", "I consent to that", "I consent to that too", "I consent to that as well", "I consent also to this"], // -- IMPROVE
     "following": ["Clever one", "Slowmotion"],
     "choice_type": "checkboxes"
   },
