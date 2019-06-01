@@ -45,7 +45,7 @@
               </div>
               <div class="toggle-text">{{ c_choice }}</div>
             </div>
-            <button class="button-input" @click="submitApproval">CONSENT</button>
+            <button class="button-input" @click="submitConsent">CONSENT</button>
           </span>
           <span v-if="input_choice">
             <input class="text-input" id="text-input" type="text" placeholder="Enter your thoughts here..."/><br />
@@ -198,7 +198,8 @@
         beginning_choice: false,
         button_choice: false,
         checkbox_choice: false,
-        checkbox_choices: [],
+        checkbox_choices: ["I consent", "I consent", "I consent", "I consent"],
+        checkboxes_unticked: 0,
         input_choice: false,
         single_choice: '',
         choice_0: '',
@@ -230,7 +231,7 @@
 
       },
       toggleBox: function(evt){
-        console.log(evt.target);
+
         let el;
         if(evt.target.className == 'toggle-text')
           el = evt.target.parentNode.children[0].children[0]
@@ -242,7 +243,19 @@
           el = evt.target.children[0].children[0]
         else
           return
-        el.style.backgroundColor = el.style.backgroundColor == 'white' ? '#1335B1' :'white'
+
+        if(el.style.backgroundColor == 'white'){
+          this.checkboxes_unticked--;
+          el.style.backgroundColor = 'rgb(19, 53, 177)'
+
+        }else{
+          this.checkboxes_unticked++;
+          el.style.backgroundColor = 'white'
+
+        }
+
+        console.log(this.checkboxes_unticked);
+        // el.style.backgroundColor = el.style.backgroundColor == 'white' ? '#1335B1' :'white'
 
       },
       submitChoice: function(evt){
@@ -272,9 +285,13 @@
 
         this.client.send('/control/choose', [this.current_mode, ...val])
       },
-      submitApproval: function(){
-        this.single_choice = false
-        this.client.send('/control/choose', [this.current_mode, "approval"])
+      submitConsent: function(){
+        console.log(this.checkboxes_unticked);
+        this.checkbox_choice = false
+
+        this.displayFeedback()
+
+        this.client.send('/control/choose', [this.current_mode, this.checkboxes_unticked])
       },
       submitForm: function(evt){
         this.info = evt
@@ -363,7 +380,7 @@
                 //-- essentially just send the ratio of tickboxes that remained ticked
                 this.timerReset = true //reset the timer
                 this.prompt = args[1]
-                this.checkbox_choices = [args[2], args[3], args[4], args[5], args[6]]
+                this.checkbox_choices = [args[2], args[3], args[4], args[5]]
                 this.checkbox_choice = true
               }else if(this.current_mode === "input"){ //-- this should be for displaying the text input
                 this.showChat = true

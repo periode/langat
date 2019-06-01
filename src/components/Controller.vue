@@ -190,6 +190,7 @@ class User{
         next_message: [],
         current_scene: 'None',
         inputs: [],
+        consents: 0,
         highlighted_user: '',
         showMediaDisplay: false,
         choices: [
@@ -257,25 +258,33 @@ class User{
         this.client.send('/all/media', [data])
       },
       evaluateResults: function(evt){
+        if(this.current.choice_type == "checkboxes"){
+          //max checkboxes = users * 4
+          let results = (this.consents / (this.users.length * this.current.choices.length)) * 100
+          this.logs.unshift('[CONSENT] - ' + results + '% of consents');
+          if(results > 50) //if users have overall left 50% of the consents checked
+            this.armNext(this.current.following[0])
+          else
+            this.armNext(this.current.following[1])
+        }else{
+          // TODO: MAKE THIS RANDOM FOR TIE
 
-        // TODO: MAKE THIS RANDOM FOR TIE
-
-        let highest_value = -100
-        let highest_index = null
-        for(let index in this.choices){
-          if(this.choices[index].votes > highest_value){
-            highest_value = this.choices[index].votes
-            highest_index = index
+          let highest_value = -100
+          let highest_index = null
+          for(let index in this.choices){
+            if(this.choices[index].votes > highest_value){
+              highest_value = this.choices[index].votes
+              highest_index = index
+            }
           }
+
+          this.logs.unshift('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
+          this.logs.unshift('[NEXT] The next scene is: ' + this.current.following[highest_index])
+          this.armNext(this.current.following[highest_index])
+
+          for(let choice of this.choices)
+            choice.votes = 0
         }
-
-        this.logs.unshift('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
-        this.logs.unshift('[NEXT] The next scene is: ' + this.current.following[highest_index])
-        this.armNext(this.current.following[highest_index])
-
-        for(let choice of this.choices)
-          choice.votes = 0
-
       },
       findScene: function(_next){
         for(let scene of scenes){
@@ -293,6 +302,8 @@ class User{
           alert(err)
 
         this.isConnected = true
+
+        this.users.push({"fake":"fake"})
 
         this.client.on('connected', () => {
           this.logs.unshift('[SOCK] - connected')
@@ -324,6 +335,9 @@ class User{
               }else if(args[0] === "input"){
                 this.logs.unshift("[MSG] received input: " + args[1] + "from " + args[2])
                 this.inputs.push({user: args[2], text: args[1]})
+              }else if(args[0] === "checkboxes"){
+                this.logs.unshift("[MSG] received checkboxes: " + args[1])
+                this.consents += parseInt(args[1])
               }else{
                 console.log("[WARN] - got different choice type: "+args[0])
               }
