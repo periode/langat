@@ -1,8 +1,11 @@
 <template>
-  <div>
+  <div id="window">
     <Header/>
     <main>
+
       <Chat :showChat="showChat" :showChatContent="showChatContent" :additionalChatContents="additionalChatContents" id="chat" @chat-over="onChatOver"/>
+
+      <Camera/>
 
       <img v-if="image_src.length > 0" class="media-holder centered" :src="image_src" />
       <video v-if="video_src.length" class="media-holder centered" :src="video_src" muted></video>
@@ -30,8 +33,11 @@
             <button class="button-input" @click="submitChoice" value="0">{{choice_A}}</button>
             <button class="button-input" @click="submitChoice" value="1">{{choice_B}}</button>
           </span>
+          <span v-if="single_choice">
+            <button class="button-input" @click="submitChoice">{{choice_0}}</button>
+          </span>
           <span v-if="checkbox_choice">
-
+            <button class="button-input" @click="submitApproval">CONSENT</button>
           </span>
           <span v-if="input_choice">
             <input class="text-input" id="text-input" type="text" placeholder="Enter your thoughts here..."/><br />
@@ -133,6 +139,7 @@
   import Footer from './Footer.vue'
   import Timer from './Timer.vue'
   import Chat from './Chat.vue'
+  import Camera from './Camera.vue'
 
   export default {
     components: {
@@ -140,18 +147,21 @@
       Header,
       Footer,
       Timer,
-      Chat
+      Chat,
+      Camera
     },
     data: function(){
       return {
         connected: false,
-        showForm: false,
+        showForm: true,
         prompt: '',
         chat_prompt: '',
         beginning_choice: false,
         button_choice: false,
         checkbox_choice: false,
         input_choice: false,
+        single_choice: '',
+        choice_0: '',
         current_mode: '',
         choice_A: '',
         choice_B: '',
@@ -192,6 +202,10 @@
           case 'checkboxes':
             // TODO:
             break;
+          case 'end':
+            console.log('disconnect');
+            document.getElementById('window').style.display = 'none'
+            document.body.style.backgroundColor = 'black'
           default: //-- 'single' and 'binary'
             val = [evt.target.value]
 
@@ -201,6 +215,10 @@
         this.displayFeedback()
 
         this.client.send('/control/choose', [this.current_mode, ...val])
+      },
+      submitApproval: function(){
+        this.single_choice = false
+        this.client.send('/control/choose', [this.current_mode, "approval"])
       },
       submitForm: function(evt){
         this.info = evt
@@ -233,6 +251,7 @@
         this.beginning_choice = false
         this.button_choice = false
         this.input_choice = false
+        this.checkbox_choice = false
         this.prompt = "Thank you for your contribution ;)"
         setTimeout(() => { this.prompt = ''}, 4000)
       },
@@ -295,6 +314,14 @@
                 // this.input_choice = true
               }else if(this.current_mode === "camera"){
 
+              }else if(this.current_mode === "single"){
+                this.single_choice = true
+                this.prompt = args[1]
+                this.choice_0 = args[2]
+              }else if(this.current_mode === "end"){
+                this.single_choice = true
+                this.prompt = args[1]
+                this.choice_0 = args[2]
               }
               //// TODO: longer duration for text input section?
 

@@ -62,7 +62,7 @@ module.exports = {
     // if the data associated to each connection is critical.
     // By default, nothing is persisted.
     // If you want it persisted : put the path of a folder where to save the data
-    store: './wstemp'
+//    store: './wstemp'
 
   }
 }

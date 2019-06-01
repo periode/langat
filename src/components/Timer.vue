@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div id="timer" class="timer">
+    <div id="timer_holder" class="timer_holder">
+      <div id="timer" class="timer">
 
+      </div>
     </div>
   </div>
 </template>
@@ -12,12 +14,53 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  opacity: 0;
+  opacity: 1;
 
   z-index: -3;
 
   background-color: white;
-  transition: height 15s linear, opacity 0.2s linear;
+}
+
+.timer_holder{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+  height: 100vh;
+  width: 100%;
+
+  z-index: -3;
+}
+
+.down{
+  animation-duration: 15s;
+  animation-name: go_down;
+}
+
+.up{
+  animation-duration: 1s;
+  animation-name: go_up;
+}
+
+@keyframes go_down {
+  from {
+    height: 100vh;
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+@keyframes go_up {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 100vh;
+  }
 }
 </style>
 <script>
@@ -25,7 +68,7 @@
 export default {
   data: function(){
     return {
-      timer: null,
+      timerHolder: null,
       timerEl: null
     }
   },
@@ -35,23 +78,26 @@ export default {
   watch: {
     isActive: function(newVal, oldVal){
       if(newVal){
-        this.timerEl.style.opacity = '1'
-        this.timerEl.style.height = "0"
+        this.timerHolder.style.display = 'block'
+        setTimeout(() => {
+          this.timerHolder.style.opacity = '1'
+          this.timerEl.className = 'timer down'
+        }, 50)
+
 
         setTimeout(() => {this.$emit('timer-end');}, 15000)
       }else{
-        this.timerEl.style.opacity = '0'
-        this.timerEl.style.height = "100vh"
-      }
-    }
-  },
-  methods: {
-    resetTimer: function(){
+        this.timerHolder.style.opacity = '0'
+        this.timerHolder.style.display = 'none'
 
+        setTimeout(() => {this.timerEl.className = 'timer up'}, 500)
+
+      }
     }
   },
   mounted(){
     this.timerEl = document.getElementById("timer")
+    this.timerHolder = document.getElementById("timer_holder")
   }
 }
 </script>

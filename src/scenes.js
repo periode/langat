@@ -43,15 +43,15 @@ let scenes = [
     "id": "Consequences",
     "timelines": ["T1", "T3"],
     "prompt": "WiFi Loss",
-    "choices": [],
+    "choices": ["OK"],
     "following": ["End"],
     "choice_type": "end"
   },
   {
     "id": "Clever end",
     "timelines": ["T1", "T3"],
-    "prompt": "Disconnection", // -- IMPROVE
-    "choices": [],
+    "prompt": "You have been disconnected.", // -- IMPROVE
+    "choices": ["OK"],
     "following": ["End"],
     "choice_type": "end"
   },
@@ -75,7 +75,7 @@ let scenes = [
     "id": "Subjects",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
-    "choices": [],
+    "choices": ["OK"],
     "following": ["End"],
     "choice_type": "end"
   },
@@ -99,7 +99,7 @@ let scenes = [
     "id": "Stop Participating",
     "timelines": ["T1", "T2"],
     "prompt": "Because you've stopped participating, you've been disconnected",
-    "choices": ["Agree", "Disagree"],
+    "choices": ["Agree"],
     "following": ["End"],
     "choice_type": "end"
   },
@@ -123,7 +123,7 @@ let scenes = [
     "id": "Choosing the Dark",
     "timelines": ["T1", "T2", "T3", "T4"],
     "prompt": "Enjoy.",
-    "choices": [],
+    "choices": ["OK"],
     "following": ["End"],
     "choice_type": "end"
   },
@@ -199,6 +199,10 @@ let scenes = [
     "following": ["End"],
     "choice_type": "single"
   },
+  {
+    "id": "End",
+    "choices": ["none"]
+  }
 ]
 
 module.exports = scenes

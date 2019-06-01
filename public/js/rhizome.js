@@ -480,8 +480,11 @@ _.extend(Client.prototype, EventEmitter.prototype, coreValidation.ValidateConfig
       query.os = global.navigator.oscpu || global.navigator.platform
       query.browser = global.navigator.userAgent
     }
+    // return this._config.protocol + '://'
+    //   + this._config.hostname + ':' + this._config.port
+    //   + '/?' + querystring.stringify(query)
     return this._config.protocol + '://'
-      + this._config.hostname + ':' + this._config.port
+      + '192.168.1.171' + ':' + '8000'
       + '/?' + querystring.stringify(query)
   },
 

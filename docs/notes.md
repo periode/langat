@@ -1,4 +1,14 @@
 -> protocole de debut de scene (nom, prenom, pseudo)
+http://paletton.com/#uid=53Q0g0kzjxyhN5Wkyvw5Gy61uwh
+
+## QUESTIONS
+- tension entre la similarité digitale et différences qui exitent dans la réalité
+- changement de styles suivant les timelines
+- feedback necessaire/suffisant pour les publics?
+- comment trouver l'équivalent du langage dramaturgique réelle sur des écrans
+- comment des choix individuels forment-ils un groupe? (mais les codes ne sont pas pour le bien de tous, mais pour le bien de chacun)
+- qu'est-ce qui se passe dans une société quand chacun décide pour soi? on va faire croire à une réalité/fiction qui devient atomisée?
+- qui décide du système de montage d'internet? le public? le programmeur? le "système"?
 
 ## TECH
 - projection sur trois surfaces minimum
