@@ -29,7 +29,7 @@ let scenes = [
     "prompt": "Generally speaking, do you enjoy coming back home from a night out?",
     "choices": ["Consent 1", "Consent 2", "Consent 3", "Consent 4", "Consent 5", "Consent 6", "Consent 7"], // -- IMPROVE
     "following": ["Clever one", "Slowmotion"],
-    "choice_type": "binary"
+    "choice_type": "checkboxes"
   },
   {
     "id": "Clever one",
@@ -44,14 +44,16 @@ let scenes = [
     "timelines": ["T1", "T3"],
     "prompt": "WiFi Loss",
     "choices": [],
-    "following": ["End"]
+    "following": ["End"],
+    "choice_type": "end"
   },
   {
     "id": "Clever end",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnection", // -- IMPROVE
     "choices": [],
-    "following": ["End"]
+    "following": ["End"],
+    "choice_type": "end"
   },
   {
     "id": "Slowmotion",
@@ -66,14 +68,16 @@ let scenes = [
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
     "choices": [],
-    "following": ["End"]
+    "following": ["End"],
+    "choice_type": "end"
   },
   {
     "id": "Subjects",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
     "choices": [],
-    "following": ["End"]
+    "following": ["End"],
+    "choice_type": "end"
   },
   {
     "id": "MTV Dance",
@@ -96,7 +100,8 @@ let scenes = [
     "timelines": ["T1", "T2"],
     "prompt": "Because you've stopped participating, you've been disconnected",
     "choices": ["Agree", "Disagree"],
-    "following": ["End"]
+    "following": ["End"],
+    "choice_type": "end"
   },
   {
     "id": "Broadway",
@@ -120,7 +125,7 @@ let scenes = [
     "prompt": "Enjoy.",
     "choices": [],
     "following": ["End"],
-    "choice_type": "single"
+    "choice_type": "end"
   },
   {
     "id": "Adsvideo",

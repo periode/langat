@@ -3,27 +3,43 @@
     <Header/>
     <main>
       <div class="controls">
-        <div class="subcontrols">
+        <div class="subcontrols legend">
           <input type="text" id="address"/><button @click="sendMsg">SEND</button>
         </div>
+        <hr />
+        <div class="subcontrols legend">
+          <button @click="sendStart">START</button> <button @click="sendEnd">END</button>
+        </div>
+        <hr />
         <div class="subcontrols">
-          <button @click="sendStart">START</button>
+          <div class="legend">
+            <span class="legend-static">⇝</span> {{ current.id }} (<span v-for="choice in current.choices">{{choice.toLowerCase()}}, </span>) <button v-if="armed" @click="sendNext">SEND</button>
+          </div>
+        </div>
+        <hr />
+        <div class="subcontrols">
+          <span class="legend-static">text inputs</span><button class="button-unfold" @click="showTextInput=!showTextInput">{{showTextInput ? '-' : '+'}}</button>
+          <div v-if="showTextInput">
+            <br />
+            <span class="legend">
+              <input type="text" v-model="highlighted_user" placeholder="highlight user"/><button class="legend" @click="sendHighlight(highlighted_user, 'red')">HIGHLIGHT</button>
+            </span>
+            <span class="legend">
+              <input type="text" v-model="text_input" placeholder="added chat text input"/><button class="legend" @click="sendTextInput">SEND TEXT</button>
+            </span>
+            <div v-for="input in inputs">{{input.text}} by {{input.user}}</div>
+          </div>
         </div>
         <div class="subcontrols">
-          <div class="legend">
-            ARMED NEXT: {{ current.id }}
+          <span class="legend-static">media display</span><button class="button-unfold" @click="showMediaDisplay=!showMediaDisplay">{{showMediaDisplay ? '-' : '+'}}</button>
+          <div v-if="showMediaDisplay" class="legend">
+            <br />
+            <button class="legend" @click="sendMedia('wolf_pack')">WOLF PACK SELFIE</button>
+            <button class="legend" @click="sendMedia('red_hood')">RED HOOD SELFIE</button>
+            <button class="legend" @click="sendMedia('burning_soul')">SOUL PILL VIDEO</button>
+            <button class="legend" @click="sendMedia('shadow')">SHADOW VIDEO</button>
+            <button class="legend" @click="sendMedia('off')">OFF</button>
           </div>
-          <div class="legend">
-            CHOICES NEXT:<br />
-            <span v-for="choice in current.choices">- {{choice}}</span>
-          </div>
-
-        </div>
-        <div class="subcontrols" v-if="armed">
-          <div class="legend">
-            SEND NEXT CHOICE
-          </div>
-          <button @click="sendNext">SEND</button>
         </div>
       </div>
       <div class="info">
@@ -40,7 +56,7 @@
           </div>
         </div>
         <div class="logs">
-          <li v-for="log in logs.reverse()">
+          <li v-for="log in logs">
             {{ log }}
           </li>
         </div>
@@ -53,8 +69,9 @@
 
 main{
   height: 100vh;
-  background-color: #09090e;
+  background-color:  #101420;
   color: #dbdbdb;
+  font-size: 0.8em;
 }
 
 button{
@@ -86,10 +103,33 @@ input{
   border-bottom: 2px solid #dbdbdb;
 }
 
+.button-unfold{
+  float: right;
+  font-size: 1em;
+  background-color: #dbdbdb;
+  color:  #0C59AA
+}
+
 .legend{
   width: 100%;
   float: left;
+  font-size: 1.1em;
+}
+
+.legend-static{
+  background-color: white;
+  color: #0C59AA;
+  padding: 2px;
   font-size: 1.5em;
+  font-size: bold;
+}
+
+.legend button{
+  font-style: italic;
+  background-color: white;
+  color:  #0C59AA;
+  border: none;
+  font-weight: bold;
 }
 
 .info{
@@ -144,8 +184,14 @@ class User{
         logs: [],
         current: {},
         armed: false,
+        showTextInput: false,
+        text_input: '',
+        showMediaDisplay: false,
         next_message: [],
         current_scene: 'None',
+        inputs: [],
+        highlighted_user: '',
+        showMediaDisplay: false,
         choices: [
           {
             name: "0",
@@ -175,22 +221,40 @@ class User{
         this.armed = true
         this.client.send('/all/start', ['go'])
         this.armNext(this.current.id)
-        evt.target.disabled = true
+        // evt.target.disabled = true
+      },
+      sendEnd: function(){
+        console.log('sending end');
+      },
+      sendHighlight: function(user, color){
+        console.log('sending highlight',user,color);
+        if(user == 'all')
+          client.send('/all/color', [color])
+        else
+          client.send('/user_'+user+'/color', [color])
+      },
+      sendTextInput: function(){
+        console.log('sending', this.text_input);
+        client.send('/all/textinput', [this.text_input])
       },
       armNext: function(data){
         for(let scene of scenes){
           if(scene.id === data){
             this.current = scene
-            this.logs.push("[SCENE] - Arming next scene: " + scene.id)
+            this.logs.unshift("[SCENE] - Arming next scene: " + scene.id)
             this.armed = true
             this.next_message = [scene.choice_type, scene.prompt, ...scene.choices]
           }
         }
       },
       sendNext: function(evt){
-        this.logs.push("[SCENE] - Sending "+this.next_message.join(" | "))
+        this.logs.unshift("[SCENE] - Sending "+this.next_message.join(" | "))
         this.client.send('/all/next', this.next_message)
         setTimeout(this.evaluateResults, 17000)
+      },
+      sendMedia: function(data){
+        this.logs.unshift("[MEDIA] - Sending " + data)
+        this.client.send('/all/media', [data])
       },
       evaluateResults: function(evt){
 
@@ -205,9 +269,9 @@ class User{
           }
         }
 
-        this.logs.push('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
-        this.logs.push('[NEXT] The next scene is: ' + this.current.following[highest_index])
-        this.current_scene = this.armNext(this.current.following[highest_index])
+        this.logs.unshift('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
+        this.logs.unshift('[NEXT] The next scene is: ' + this.current.following[highest_index])
+        this.armNext(this.current.following[highest_index])
 
         for(let choice of this.choices)
           choice.votes = 0
@@ -231,7 +295,7 @@ class User{
         this.isConnected = true
 
         this.client.on('connected', () => {
-          this.logs.push('[SOCK] - connected')
+          this.logs.unshift('[SOCK] - connected')
         })
 
         this.client.send('/sys/subscribe', ['/control'])
@@ -242,7 +306,7 @@ class User{
               let user = new User(...args)
               this.users.push(user)
 
-              this.logs.push('[ADMIN] - got a new user: ' + user.first_name)
+              this.logs.unshift('[ADMIN] - got a new user: ' + user.first_name)
 
               this.client.send('/user_'+user.id, ['confirmed'])
               break;
@@ -257,12 +321,15 @@ class User{
                 this.choices[3].votes += args[1] == '3' ? 1 : 0
               }else if(args[0] === "single"){
 
+              }else if(args[0] === "input"){
+                this.logs.unshift("[MSG] received input: " + args[1] + "from " + args[2])
+                this.inputs.push({user: args[2], text: args[1]})
               }else{
-                console.log("[CHOICE] - got choice type: "+args[0])
+                console.log("[WARN] - got different choice type: "+args[0])
               }
               break;
             default:
-              console.log("[WARN] - received address: "+address+" - "+args)
+              console.log("[WARN] - received address: " + address + " - " + args)
           }
         })
 

@@ -1,7 +1,8 @@
 body{
   font-family: 'Public Sans', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
   height: 100%;
+  transition: background-color 5s linear;
 }
 
 main{
