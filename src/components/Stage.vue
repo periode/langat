@@ -1,0 +1,126 @@
+<template>
+  <div id="window">
+    <Header/>
+    <main id="background">
+      <div class="scene-title">
+        <span>{{current}}</span>
+      </div>
+      <hr />
+      <div class="scene-content">
+        <div v-for="content in contents">
+          {{content}}
+        </div>
+      </div>
+      <hr />
+      <div class="next-title">
+        <span>NEXT</span>
+        <div class="single-next" v-for="one in following">{{one}}</div>
+      </div>
+    </main>
+    <Footer/>
+  </div>
+</template>
+<style scoped>
+main{
+  background-color: black;
+  transition: all 2s linear;
+  height: 100vh;
+  color: white;
+  padding: 5%;
+}
+
+hr{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.scene-title{
+  width: 90%;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.next-title{
+  width: 90%;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.next-title span{
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.single-next{
+  margin: 1%;
+}
+
+.scene-content{
+  font-size: 1em;
+  margin: 1%;
+}
+</style>
+<script>
+import Header from './Header.vue'
+import Footer from './Footer.vue'
+
+export default {
+  components: {
+    Header,
+    Footer
+  },
+  data: function(){
+    return {
+      client: null,
+      current: 'BEGINNING',
+      // contents: ['This is a rather long content, just to check.', 'This is a rather long content, just to check.','This is a rather long content, just to check.','This is a rather long content, just to check.'],
+      contents: [],
+      // following: ["Social", "Music", "Photography", "News"],
+      following: [],
+      background: null
+    }
+  },
+  mounted(){
+    this.background = document.getElementById('background')
+
+    this.client = new rhizome.Client()
+    window.client = this.client
+
+    this.client.start((err) => {
+      if(err)
+        alert(err)
+
+        this.client.on('connected', () => {
+          console.log('[SOCK] Connected');
+          this.connected = true
+        })
+
+      this.client.send('/sys/subscribe', ['/stage'])
+
+      this.client.on('message', (address, args) => {
+        console.log('[MSG] received at ' + address + ' - ' + args);
+
+        switch (address) {
+          case '/stage/next':
+              this.background.style.backgroundColor = 'black'
+              this.background.style.color = 'white'
+
+              this.current = args[0]
+              let length = args[1]
+              this.contents = args.slice(2, 2 + length)
+              this.following = args.slice(2 + length, args.length)
+            break;
+            case '/stage/color':
+              this.background.style.backgroundColor = args[0]
+              this.background.style.color = 'black'
+              break;
+          default:
+            console.log('[WARN] received unsure - ' + address + ' - ' + args);
+
+        }
+      })
+    })
+  }
+}
+</script>

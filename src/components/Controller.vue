@@ -245,12 +245,18 @@ class User{
             this.logs.unshift("[SCENE] - Arming next scene: " + scene.id)
             this.armed = true
             this.next_message = [scene.choice_type, scene.prompt, ...scene.choices]
+
+            //-- letting the actors know what is going to happen
+            client.send('/stage/next', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
           }
         }
       },
       sendNext: function(evt){
         this.logs.unshift("[SCENE] - Sending "+this.next_message.join(" | "))
         this.client.send('/all/next', this.next_message)
+
+        //-- highlighting the actors
+        this.client.send('/stage/color', ['white'])
         setTimeout(this.evaluateResults, 17000)
       },
       sendMedia: function(data){

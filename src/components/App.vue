@@ -153,7 +153,7 @@
   .button-input{
     float: left;
     width: 100%;
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin-top: 2%;
     margin-bottom: 2%;
     background-color: #1335B1;
