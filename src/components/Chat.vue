@@ -3,6 +3,7 @@
     <div class="chat-switch">
       <img src="media/switch.png" alt="switch icon" @click="point_of_view = point_of_view == 'L1' ? 'L2' : 'L1'"/>
     </div>
+
     <div class="chat-scroll" id="chat_scroll">
       <div v-for="display in displayed" class="single-post">
         <div>
@@ -18,6 +19,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div id="scroll_placeholder">
+
       </div>
     </div>
     <div class="chat-input">
@@ -35,18 +39,44 @@
 }
 
 .chat-scroll{
-  overflow-y: scroll;
-  height: 87%;
+  position: absolute;
+  top: 5%;
+  bottom: 7%;
+  width: 100%;
+
+  overflow-y: auto;
   border-bottom: 2px solid #1335B1;
 }
 
+#scroll_placeholder{
+  height: 15vh;
+  overflow: unset;
+  position: relative;
+  background-color: white;
+  width: 100%;
+  float: left;
+}
+
 .chat-switch{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
   width: 100%;
   height: 5%;
   background-color: #1335B1;
 }
 
+.single-post{
+  float: left;
+  width: 100%;
+}
+
 .chat-input{
+  position: absolute;
+  bottom: 0;
+  right: 1%;
+  z-index: 2;
   background-color: #1335B1;
   border-radius: 15px;
   text-align: right;
@@ -57,7 +87,7 @@
   padding-right: 3%;
   height: 6%;
   float: right;
-  width: 95%;
+  width: 93%;
   line-height: 30px;
 }
 
@@ -181,7 +211,10 @@ export default {
         this.chat_scroll = document.getElementById('chat_scroll')
 
       this.displayed.push(dialogue[this.index])
-      this.chat_scroll.scrollTop = this.chat_scroll.scrollHeight
+      console.log(dialogue[this.index].text);
+      console.log(this.chat_scroll.scrollHeight);
+      // this.chat_scroll.scrollTop = this.chat_scroll.scrollHeight * 2
+      this.chat_scroll.scrollTop = 1200
 
       if(this.index < dialogue.length-1 && dialogue[this.index + 1].sender != '')
         this.typing_text = dialogue[this.index + 1].sender + ' is typing...'
@@ -192,10 +225,10 @@ export default {
 
       if(this.index < dialogue.length){
         // let rand = Math.floor(Math.random()*2000+4000)
-        let rand = Math.floor(Math.random()*1000)
+        let rand = Math.floor(Math.random()*2000+4000)
         setTimeout(this.addNewMessage, rand)
       }else{
-        this.$emit('chat-over')
+        //this.$emit('chat-over')
       }
     }
   },
