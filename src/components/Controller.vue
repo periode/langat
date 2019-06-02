@@ -8,7 +8,7 @@
         </div>
         <hr />
         <div class="subcontrols legend">
-          <button @click="sendStart">START</button> <button @click="sendEnd">END</button>
+          <button @click="sendStart">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendEnd">END</button>
         </div>
         <hr />
         <div class="subcontrols">
@@ -223,6 +223,11 @@ class User{
         this.client.send('/all/start', ['go'])
         this.armNext(this.current.id)
         // evt.target.disabled = true
+      },
+      sendKaraoke: function(){
+        this.client.send('/all/karaoke')
+        this.client.send('/stage/karaoke')
+        console.log('sending end');
       },
       sendEnd: function(){
         console.log('sending end');

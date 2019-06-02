@@ -78,7 +78,8 @@ export default {
       contents: [],
       // following: ["Social", "Music", "Photography", "News"],
       following: [],
-      background: null
+      background: null,
+      showKaraoke: false
     }
   },
   mounted(){
@@ -103,10 +104,13 @@ export default {
 
         switch (address) {
           case '/stage/next':
+              this
               this.background.style.backgroundColor = 'black'
               this.background.style.color = 'white'
 
               this.current = args[0]
+              if(this.current === "Karaoke")
+                this.showKaraoke = true
               let length = args[1]
               this.contents = args.slice(2, 2 + length)
               this.following = args.slice(2 + length, args.length)

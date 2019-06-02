@@ -7,6 +7,8 @@
 
       <Camera/>
 
+      <Karaoke :showKaraoke="showKaraoke"/>
+
       <img v-if="image_src.length > 0" class="media-holder centered" :src="image_src" />
       <video v-if="video_src.length" class="media-holder centered" :src="video_src" muted></video>
 
@@ -179,6 +181,7 @@
   import Footer from './Footer.vue'
   import Timer from './Timer.vue'
   import Chat from './Chat.vue'
+  import Karaoke from './Karaoke.vue'
   import Camera from './Camera.vue'
 
   export default {
@@ -188,6 +191,7 @@
       Footer,
       Timer,
       Chat,
+      Karaoke,
       Camera
     },
     data: function(){
@@ -210,6 +214,7 @@
         showChat: false,
         showChatContent: true,
         additionalChatContents: '',
+        showKaraoke: false,
         message: '',
         popup: '',
         image_src: '',
@@ -317,7 +322,13 @@
       resetAll: function(){
         this.button_choice = false
         this.beginning_choice = false
+        this.checkbox_choice = false
+        this.single_choice = false
         this.showChatContent = true
+        this.showKaraoke = false
+        this.showTextInput = false
+
+        this.popup = ''
         this.prompt = ''
 
       },
@@ -404,6 +415,10 @@
             case '/all/choose': // TODO: OBSOLOETE??????????????
               console.log('[STATE] - choose');
               //this is where we actually display the choices that have been preloaded
+              break;
+            case '/all/karaoke': // TODO: OBSOLOETE??????????????
+              console.log('[KARAOKE] - choose');
+              this.showKaraoke = true
               break;
             case '/all/textinput': // TODO: OBSOLOETE??????????????
               console.log('[INPUT] - received',args[0]);
