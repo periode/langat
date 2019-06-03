@@ -36,7 +36,7 @@
             <button class="button-input" @click="submitChoice" value="1">{{choice_B}}</button>
           </span>
           <span v-if="single_choice">
-            <button class="button-input" @click="submitChoice">{{choice_0}}</button>
+            <button class="button-input" @click="submitChoice">{{single_choice_text}}</button>
           </span>
           <span v-if="checkbox_choice">
             <div class="checkbox-input" v-for="c_choice in checkbox_choices" @click="toggleBox">
@@ -55,7 +55,7 @@
           </span>
         </div>
       </span>
-      <Timer :isActive="timerReset" @timer-end="timerEnd"/>
+      <Timer :isActive="showTimer" @timer-end="timerEnd"/>
     </main>
     <Footer/>
   </div>
@@ -159,12 +159,17 @@
     margin-top: 2%;
     margin-bottom: 2%;
     background-color: #1335B1;
-    border: none;
+    border: 2px solid #1335B1;
     color: white;
     height: auto;
     padding: 2%;
 
     z-index: 2;
+  }
+
+  .selected {
+    background-color: white;
+    color: #1335B1;
   }
 
   .text-input{
@@ -198,29 +203,32 @@
       return {
         connected: false,
         showForm: true,
-        prompt: '',
-        chat_prompt: '',
+        showTimer: false,
+        prompt: '', //-- prompt for each questions
+        chat_prompt: '', //-- buffer for the chat prompt
         beginning_choice: false,
         button_choice: false,
         checkbox_choice: false,
-        checkbox_choices: ["I consent", "I consent", "I consent", "I consent"],
-        checkboxes_unticked: 0,
         input_choice: false,
-        single_choice: '',
-        choice_0: '',
-        current_mode: '',
-        choice_A: '',
-        choice_B: '',
-        showChat: false,
-        showChatContent: true,
-        additionalChatContents: '',
-        showKaraoke: false,
-        message: '',
-        popup: '',
-        image_src: '',
-        video_src: '',
+        single_choice: false,
+        checkbox_choices: [], //-- list of the choices
+        checkboxes_unticked: 0, //-- keeping track of how many checkboxes are ticked or unticked
+        single_choice_text: '', //--single choice
+        current_mode: '', //-- current type of input [single, binary, beginning, text, checkboxes]
+        choice_A: '', //-- choice for binary
+        choice_B: '', //-- choice for binary
+        showChat: false, //-- display the chat
+        showChatContent: true, //-- toggle chat contents on and off, during the audience input to the chat
+        additionalChatContents: '', //-- push additional lines to the chat
+        showKaraoke: false, //-- display the karaoke
+        message: '', //-- used at the end of the form
+        popup: '', //-- popup message, used in the beginning (join the network)
+        image_src: '', //-- src of the images sent to the devices
+        video_src: '', //-- src of the video element that is displayed
+        last_scene: '', //-- the last scene that was received, used in the storage retrieval
         client: null,
         info: {
+          id:"",
           first_name: "tPierre",
           last_name: "tDepaz",
           birthdate: "t1991-05-20",
@@ -229,13 +237,9 @@
           marital_status: "tMarried",
           occupation: "tLehrer"
         },
-        timerReset: false
       }
     },
     methods: {
-      submitInformation: function(evt){
-
-      },
       toggleBox: function(evt){
 
         let el;
@@ -259,10 +263,6 @@
           el.style.backgroundColor = 'white'
 
         }
-
-        console.log(this.checkboxes_unticked);
-        // el.style.backgroundColor = el.style.backgroundColor == 'white' ? '#1335B1' :'white'
-
       },
       submitChoice: function(evt){
         let val = []
@@ -274,9 +274,6 @@
             else
               val.push('Pierre_Depaz_666')
             break;
-          case 'checkboxes':
-            // TODO:
-            break;
           case 'end':
             console.log('disconnect');
             document.getElementById('window').style.display = 'none'
@@ -287,7 +284,7 @@
         }
         console.log('choosing:', val);
 
-        this.displayFeedback()
+        this.displayFeedback(evt.target)
 
         this.client.send('/control/choose', [this.current_mode, ...val])
       },
@@ -306,18 +303,25 @@
         console.log('[ADMIN] - Submitting new profile for ' + evt.first_name + ' ' + evt.last_name)
 
         let rand = '';
-        while (rand.length < 5){
+        while (rand.length < 5)
           rand += Math.floor(Math.random()*10) + ''
-        }
 
         this.info.id = evt.first_name+'_'+evt.last_name+'_'+rand;
-        this.client.send('/control/join', [rand, evt.first_name, evt.last_name, evt.birthdate, evt.origin, evt.gender, evt.marital_status, evt.occupation])
 
+        if(localStorageAvailable())
+          localStorage.setItem("user_id", this.info.id)
+
+        this.client.send('/control/join', [rand, evt.first_name, evt.last_name, evt.birthdate, evt.origin, evt.gender, evt.marital_status, evt.occupation])
         this.client.send('/sys/subscribe', ['/user_'+this.info.id])
       },
       timerEnd: function(){
-        this.timerReset = false
+        this.showTimer = false
         this.resetAll()
+      },
+      curtainUp: function(){
+        this.showForm = false
+        this.popup = ''
+        document.body.style.backgroundColor = "black"
       },
       resetAll: function(){
         this.button_choice = false
@@ -332,22 +336,94 @@
         this.prompt = ''
 
       },
-      displayFeedback: function(){
-        this.beginning_choice = false
-        this.button_choice = false
-        this.input_choice = false
-        this.checkbox_choice = false
+      displayFeedback: function(el){
+        this.disableInputs()
         this.prompt = "Thank you for your contribution ;)"
-        setTimeout(() => { this.prompt = ''}, 4000)
+        if(el)
+          el.className = "button-input selected"
+      },
+      disableInputs: function(){
+        let btns = document.getElementsByClassName("button-input")
+        for(let b of btns){
+          b.disabled = true
+        }
+      },
+      enableInputs: function(){
+        let btns = document.getElementsByClassName("button-input")
+        for(let b of btns){
+          b.className = "button-input"
+          b.disabled = false
+        }
       },
       onChatOver: function(){
         this.showChatContent = false
         this.input_choice = true
-        this.timerReset = true
+        this.showTimer = true
         this.prompt = this.chat_prompt
+      },
+      checkStorageContents: function(){
+        if(localStorageAvailable()){
+          this.info.id = localStorage.getItem("user_id")
+          this.last_scene = localStorage.getItem("last_scene")
+
+          //-- first we check for the ID
+          //-- if we don't have a user ID, we create one
+          if(this.info.id == null){
+            let rand = '';
+            while (rand.length < 5)
+              rand += Math.floor(Math.random()*10) + ''
+
+            this.info.id = "Temp_User_"+rand
+
+            localStorage.setItem("user_id", this.info.id)
+          }
+
+          //-- then we check for the scene
+          if(this.last_scene == null){ //-- this means we have never participated in the show
+            return
+          }else{ //-- we have participated at some point
+            this.curtainUp()
+            switch (this.last_scene) {
+              case "A Love Story":
+                this.showChat = true
+                break;
+              case "Karaoke":
+                this.showKaraoke = true
+                break;
+              case "Subjects End":
+                console.log("show the red hood selfies");
+                break;
+              case "Objects End":
+                console.log("show the wolf pack selfies");
+                break;
+              case "MTV Dance":
+                console.log("switch lights");
+                break;
+              case "Adsvideo":
+                console.log("show ads video #1");
+                break;
+              case "Adsvideo":
+                console.log("show ads video #2");
+                break;
+              case "Camera":
+                console.log("show the shadowmon video");
+                break;
+              case "Popcorn":
+                console.log("show the shadowmon video");
+                break;
+              default:
+
+            }
+          }
+        }else{
+          console.log("[WARN] - No local storage available");
+        }
       }
     },
     mounted(){
+
+      this.checkStorageContents()
+
       this.client = new rhizome.Client()
       window.client = this.client
 
@@ -362,65 +438,66 @@
 
         this.client.send('/sys/subscribe', ['/all'])
 
+        if(this.info.id) //-- if we've checked the storage contents
+          this.client.send('/sys/subscribe', ['/user_'+this.info.id])
+
         this.client.on('message', (address, args) => {
           console.log('[MSG] received at ' + address + ' - ' + args);
 
           switch (address) {
             case '/all/start':
               console.log('[STATE] - start');
-              this.showForm = false
-              this.popup = ''
-              document.body.style.backgroundColor = "black"
+              this.curtainUp()
               break;
             case '/all/next':
               console.log('[STATE] - next');
 
+              this.enableInputs()
               this.current_mode = args[0]
               this.showChat = false
 
               if(this.current_mode === "beginning"){ //-- binary choice
-                this.timerReset = true //reset the timer
+                this.showTimer = true //reset the timer
                 this.prompt = args[1]
                 this.beginning_choice = true
               }else if(this.current_mode === "binary"){
-                this.timerReset = true //reset the timer
+                this.showTimer = true //reset the timer
                 this.prompt = args[1]
                 this.button_choice = true
                 this.choice_A = args[2]
                 this.choice_B = args[3]
               }else if(this.current_mode === "checkboxes"){ //-- different checkboxes
-                //-- essentially just send the ratio of tickboxes that remained ticked
-                this.timerReset = true //reset the timer
+                this.showTimer = true
                 this.prompt = args[1]
-                this.checkbox_choices = [args[2], args[3], args[4], args[5]]
+                this.checkbox_choices = args.slice(2, args.length)
                 this.checkbox_choice = true
               }else if(this.current_mode === "input"){ //-- this should be for displaying the text input
                 this.showChat = true
                 this.chat_prompt = args[1]
-                // this.input_choice = true
               }else if(this.current_mode === "camera"){
-
+                console.log('received camera');
               }else if(this.current_mode === "single"){
                 this.single_choice = true
                 this.prompt = args[1]
-                this.choice_0 = args[2]
+                this.single_choice_text = args[2]
               }else if(this.current_mode === "end"){
                 this.single_choice = true
                 this.prompt = args[1]
-                this.choice_0 = args[2]
+                this.single_choice_text = args[2]
               }
-              //// TODO: longer duration for text input section?
 
               break;
-            case '/all/choose': // TODO: OBSOLOETE??????????????
-              console.log('[STATE] - choose');
-              //this is where we actually display the choices that have been preloaded
+            case '/all/current': //-- this just broadcasts what is the current scene we are playing
+              console.log('[MSG] - setting current scene');
+              this.last_scene = args[0]
+              if(localStorageAvailable())
+                localStorage.setItem("last_scene", this.last_scene)
               break;
-            case '/all/karaoke': // TODO: OBSOLOETE??????????????
+            case '/all/karaoke':
               console.log('[KARAOKE] - choose');
               this.showKaraoke = true
               break;
-            case '/all/textinput': // TODO: OBSOLOETE??????????????
+            case '/all/textinput':
               console.log('[INPUT] - received',args[0]);
               this.additionalChatContents = args[0]
               break;
@@ -452,4 +529,29 @@
 
     }
   }
+
+  let localStorageAvailable = () => {
+  var storage;
+  try {
+      storage = window['localStorage'];
+      var x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+  }
+  catch(e) {
+      return e instanceof DOMException && (
+          // everything except Firefox
+          e.code === 22 ||
+          // Firefox
+          e.code === 1014 ||
+          // test name field too, because code might not be present
+          // everything except Firefox
+          e.name === 'QuotaExceededError' ||
+          // Firefox
+          e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+          // acknowledge QuotaExceededError only if there's something already stored
+          (storage && storage.length !== 0);
+  }
+}
 </script>

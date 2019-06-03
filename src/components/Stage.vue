@@ -74,9 +74,7 @@ export default {
     return {
       client: null,
       current: 'BEGINNING',
-      // contents: ['This is a rather long content, just to check.', 'This is a rather long content, just to check.','This is a rather long content, just to check.','This is a rather long content, just to check.'],
       contents: [],
-      // following: ["Social", "Music", "Photography", "News"],
       following: [],
       background: null,
       showKaraoke: false

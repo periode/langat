@@ -253,6 +253,7 @@ class User{
 
             //-- letting the actors know what is going to happen
             client.send('/stage/next', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
+            client.send('/all/current', [this.current.id])
           }
         }
       },

@@ -75,10 +75,10 @@ let scenes = [
     "id": "Objects",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
-    "content":["The rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
+    "content":["There is a rape of the The rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
     "choices": ["Share"],
-    "following": ["End"],
-    "choice_type": "end"
+    "following": ["Objects End"],
+    "choice_type": "single"
   },
   {
     "id": "Subjects",
@@ -86,6 +86,24 @@ let scenes = [
     "prompt": "Disconnect - Image",
     "content":["The rave continues. The Red Hood takes selfies, and the Wolf Pack are absorbed by the crowd of dancers."],
     "choices": ["Share"],
+    "following": ["Subjects End"],
+    "choice_type": "single"
+  },
+  {
+    "id":"Objects End",
+    "timelines": ["T1", "T3"],
+    "prompt": "Disconnect - Image",
+    "content":["The crowd receives the selfies."],
+    "choices": ["End"],
+    "following": ["End"],
+    "choice_type": "end"
+  },
+  {
+    "id":"Subjects End",
+    "timelines": ["T1", "T3"],
+    "prompt": "Disconnect - Image",
+    "content":["The crowd receives the selfies."],
+    "choices": ["End"],
     "following": ["End"],
     "choice_type": "end"
   },
@@ -155,7 +173,7 @@ let scenes = [
   {
     "id": "Shadow",
     "timelines": ["T3", "T4"],
-    "prompt": "Try to catch it with your camera!",
+    "prompt": "Live on Camera!",
     "content":["The shadow is coming up to give his monologue."],
     "choices": ["Ok"],
     "following": ["Camera"],
