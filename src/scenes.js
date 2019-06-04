@@ -22,7 +22,7 @@ let scenes = [
     "timelines": ["T1"],
     "prompt": "Generally speaking, do you enjoy coming back home from a night out?",
     "content":["Actors get a new message, they are confused, debate it, and then ask for the last person to get banned. PBlack sees the phone that gets highlighted."],
-    "choices": ["Before midnight", "After midnight"],
+    "choices": ["After midnight", "Before midnight"],
     "following": ["Rave", "MTV Dance"],
     "choice_type": "binary"
   },

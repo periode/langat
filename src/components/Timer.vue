@@ -38,6 +38,11 @@
   animation-name: go_down;
 }
 
+.down-slow{
+  animation-duration: 45s;
+  animation-name: go_down;
+}
+
 .up{
   animation-duration: 1s;
   animation-name: go_up;
@@ -73,25 +78,29 @@ export default {
     }
   },
   props: {
-    isActive: Boolean
+    isActive: Boolean,
+    isTextInput: Boolean
   },
   watch: {
-    isActive: function(newVal, oldVal){
-      if(newVal){
+    isActive: function(newIsActive){
+      if(newIsActive){
         this.timerHolder.style.display = 'block'
         setTimeout(() => {
           this.timerHolder.style.opacity = '1'
-          this.timerEl.className = 'timer down'
+
+          if(this.isTextInput){
+            this.timerEl.className = 'timer down-slow'
+            setTimeout(() => {this.$emit('timer-end');}, 45000)
+          }else{
+            this.timerEl.className = 'timer down'
+            setTimeout(() => {this.$emit('timer-end');}, 15000)
+          }
         }, 50)
-
-
-        setTimeout(() => {this.$emit('timer-end');}, 15000)
       }else{
         this.timerHolder.style.opacity = '0'
         this.timerHolder.style.display = 'none'
 
         setTimeout(() => {this.timerEl.className = 'timer up'}, 500)
-
       }
     }
   },

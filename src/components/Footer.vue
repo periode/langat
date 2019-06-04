@@ -33,6 +33,14 @@ footer{
   float: right;
   text-align: right;
 }
+@media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait)
+{
+  footer{
+    font-size: 3em;
+    
+  }
+}
+
 </style>
 <script>
   export default {

@@ -5,12 +5,12 @@
 
       <Chat :showChat="showChat" :showChatContent="showChatContent" :additionalChatContents="additionalChatContents" id="chat" @chat-over="onChatOver"/>
 
-      <Camera/>
+      <!-- <Camera/> -->
 
       <Karaoke :showKaraoke="showKaraoke"/>
 
       <img v-if="image_src.length > 0" class="media-holder centered" :src="image_src" />
-      <video v-if="video_src.length" class="media-holder centered" :src="video_src" muted></video>
+      <video v-if="video_src.length > 0" class="media-holder centered" :src="video_src" autoplay muted></video>
 
       <div class="popup centered" v-if="popup.length > 0">
         <div class="popup-inner">
@@ -55,7 +55,7 @@
           </span>
         </div>
       </span>
-      <Timer :isActive="showTimer" @timer-end="timerEnd"/>
+      <Timer :isActive="showTimer" :isTextInput="input_choice" @timer-end="timerEnd"/>
     </main>
     <Footer/>
   </div>
@@ -71,7 +71,7 @@
   }
 
   .popup{
-    min-height: 300px;
+    height: 300px;
     width: 300px;
 
     z-index: 2;
@@ -94,7 +94,6 @@
 
   .prompt-inner{
     max-height: 100%;
-    white-space: pre-line;
   }
 
   .prompt{
@@ -167,6 +166,13 @@
     z-index: 2;
   }
 
+  .text-input{
+    border: 2px solid #1335B1;
+    color: #1335B1;
+    width: 100%;
+    margin-left: 0;
+  }
+
   .selected {
     background-color: white;
     color: #1335B1;
@@ -177,6 +183,29 @@
     margin-bottom: 25px;
 
     z-index: 2;
+  }
+
+  @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
+    .prompt{
+      font-size: 4em;
+      height: 15vh;
+      width: 80vw;
+      line-height: 100px;
+    }
+
+    .choices{
+      height: 15vh;
+      top: 15vh;
+      width: 80vw;
+    }
+
+    .button-input{
+      font-size: 3.5em;
+    }
+
+    .text-input{
+      font-size: 2.7em;
+    }
   }
 </style>
 
@@ -215,8 +244,8 @@
         checkboxes_unticked: 0, //-- keeping track of how many checkboxes are ticked or unticked
         single_choice_text: '', //--single choice
         current_mode: '', //-- current type of input [single, binary, beginning, text, checkboxes]
-        choice_A: '', //-- choice for binary
-        choice_B: '', //-- choice for binary
+        choice_A: 'YES', //-- choice for binary
+        choice_B: 'NO', //-- choice for binary
         showChat: false, //-- display the chat
         showChatContent: true, //-- toggle chat contents on and off, during the audience input to the chat
         additionalChatContents: '', //-- push additional lines to the chat
@@ -276,8 +305,7 @@
             break;
           case 'end':
             console.log('disconnect');
-            document.getElementById('window').style.display = 'none'
-            document.body.style.backgroundColor = 'black'
+            this.curtainDown()
           default: //-- 'single' and 'binary'
             val = [evt.target.value]
 
@@ -311,8 +339,10 @@
         if(localStorageAvailable())
           localStorage.setItem("user_id", this.info.id)
 
-        this.client.send('/control/join', [rand, evt.first_name, evt.last_name, evt.birthdate, evt.origin, evt.gender, evt.marital_status, evt.occupation])
         this.client.send('/sys/subscribe', ['/user_'+this.info.id])
+        setTimeout(() => {
+          this.client.send('/control/join', [rand, evt.first_name, evt.last_name, evt.birthdate, evt.origin, evt.gender, evt.marital_status, evt.occupation])
+        }, 100)
       },
       timerEnd: function(){
         this.showTimer = false
@@ -323,18 +353,25 @@
         this.popup = ''
         document.body.style.backgroundColor = "black"
       },
+      curtainDown: function(){
+        this.resetAll()
+        this.cleanStorage()
+        document.getElementById("window").style.display = 'none'
+        document.body.style.backgroundColor = 'black'
+      },
       resetAll: function(){
         this.button_choice = false
         this.beginning_choice = false
         this.checkbox_choice = false
         this.single_choice = false
+        this.input_choice = false
+        this.showChat = false
         this.showChatContent = true
         this.showKaraoke = false
         this.showTextInput = false
 
         this.popup = ''
         this.prompt = ''
-
       },
       displayFeedback: function(el){
         this.disableInputs()
@@ -342,17 +379,32 @@
         if(el)
           el.className = "button-input selected"
       },
+      displayMedia: function(name){
+        if(name === "red_hood" || name === "wolf_pack")
+          this.image_src = `media/${name}.png`
+        else if(name === "burning_soul" || name === "shadow"){
+          this.video_src = `media/${name}.mp4`
+          let video = document.getElementsByTagName("video")[0]
+          video.setAttribute('playsinline', '')
+          video.play()
+        }else{
+          this.image_src = this.video_src = ''
+        }
+
+      },
       disableInputs: function(){
         let btns = document.getElementsByClassName("button-input")
-        for(let b of btns){
-          b.disabled = true
-        }
+
+        for(let i = 0; i < btns.length; i++)
+          btns[i].disabled = true
+
       },
       enableInputs: function(){
         let btns = document.getElementsByClassName("button-input")
-        for(let b of btns){
-          b.className = "button-input"
-          b.disabled = false
+
+        for(let i = 0; i < btns.length; i++){
+          btns[i].className = "button-input"
+          btns[i].disabled = false
         }
       },
       onChatOver: function(){
@@ -360,6 +412,9 @@
         this.input_choice = true
         this.showTimer = true
         this.prompt = this.chat_prompt
+      },
+      cleanStorage: function(){
+        localStorage.clear()
       },
       checkStorageContents: function(){
         if(localStorageAvailable()){
@@ -447,10 +502,13 @@
           switch (address) {
             case '/all/start':
               console.log('[STATE] - start');
+              this.resetAll()
               this.curtainUp()
               break;
             case '/all/next':
               console.log('[STATE] - next');
+
+
 
               this.enableInputs()
               this.current_mode = args[0]
@@ -484,6 +542,7 @@
                 this.single_choice = true
                 this.prompt = args[1]
                 this.single_choice_text = args[2]
+                this.cleanStorage()
               }
 
               break;
@@ -503,12 +562,7 @@
               break;
             case '/all/media':
               console.log('[MEDIA] - Displaying ' + args[0]);
-              // let video = document.getElementsByTagName("video")[0]
-              // video.setAttribute('autoplay', '')
-              // video.setAttribute('muted', '')
-              // video.setAttribute('playsinline', '')
-              // video.play()
-              // this.video_src = 'media/test.mp4'
+              this.displayMedia(args[0])
               break;
             case '/user_'+this.info.id:
               if(args[0] == 'confirmed'){
@@ -518,6 +572,9 @@
               break;
             case '/user_'+this.info.id+'/color':
               document.body.style.backgroundColor = args[0]
+              break;
+            case '/all/end':
+              this.curtainDown();
               break;
             default:
               console.log('[ERROR] received addr: ' + address + ' with args '+ args);

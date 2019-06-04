@@ -10,7 +10,7 @@
    font-family: 'Public Sans', sans-sans-serif;
    font-style: italic;
    color: white;
-   position: relative;
+   position: absolute;
    width: 96%;
    height: 50px;
    text-align: center;
@@ -37,6 +37,19 @@
    height: 100%;
    text-align: right;
    line-height: 20px;
+ }
+
+
+ @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
+   header{
+     font-size: 2em;
+     height: 100px;
+   }
+
+   .tagline{
+     font-size: 1em;
+     line-height: 50px;
+   }
  }
 </style>
 

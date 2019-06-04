@@ -484,7 +484,7 @@ _.extend(Client.prototype, EventEmitter.prototype, coreValidation.ValidateConfig
     //   + this._config.hostname + ':' + this._config.port
     //   + '/?' + querystring.stringify(query)
     return 'ws' + '://'
-      + 'localhost' + ':' + '8000'
+      + '10.150.22.23' + ':' + '8000'
       + '/?' + querystring.stringify(query)
   },
 

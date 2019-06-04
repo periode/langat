@@ -227,10 +227,11 @@ class User{
       sendKaraoke: function(){
         this.client.send('/all/karaoke')
         this.client.send('/stage/karaoke')
-        console.log('sending end');
+        console.log('sending karaoke');
       },
       sendEnd: function(){
         console.log('sending end');
+        this.client.send('/all/end')
       },
       sendHighlight: function(user, color){
         console.log('sending highlight',user,color);

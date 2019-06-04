@@ -159,6 +159,13 @@
 .chat-switch img{
   height: 24px;
 }
+
+@media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
+  .chat-holder{
+    font-size: 2.5em;
+  }
+}
+
 </style>
 <script>
 const dialogue = require('../dialogue.js')
@@ -180,20 +187,14 @@ export default {
   },
   watch: {
     showChat: function(newVal, oldVal){
-      if(newVal){
-        //when turned on chat
-
-        setTimeout(this.addNewMessage, 1000)
-      }else{
-
-      }
+      if(newVal)
+        setTimeout(this.addNewMessage, 500)
     },
     showChatContent: function(newVal, oldVal){
-      if(newVal){
+      if(newVal)
         this.chat_scroll.style.visibility = 'visible'
-      }else{
+      else
         this.chat_scroll.style.visibility = 'hidden'
-      }
     },
     additionalChatContents: function(newVal, oldVal){
       let msg = {
@@ -211,9 +212,6 @@ export default {
         this.chat_scroll = document.getElementById('chat_scroll')
 
       this.displayed.push(dialogue[this.index])
-      console.log(dialogue[this.index].text);
-      console.log(this.chat_scroll.scrollHeight);
-      // this.chat_scroll.scrollTop = this.chat_scroll.scrollHeight * 2
       this.chat_scroll.scrollTop = 1200
 
       if(this.index < dialogue.length-1 && dialogue[this.index + 1].sender != '')
@@ -228,12 +226,12 @@ export default {
         let rand = Math.floor(Math.random()*2000+4000)
         setTimeout(this.addNewMessage, rand)
       }else{
-        //this.$emit('chat-over')
+        this.$emit('chat-over')
       }
     }
   },
   mounted(){
-
+    //setTimeout(this.addNewMessage, 1500)
   }
 }
 </script>

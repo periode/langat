@@ -1,7 +1,8 @@
 <template>
   <div class="form-holder">
-    <button v-if="isWelcome && connected" class="welcome centered" @click="showForm()">JOIN THE NETWORK</button>
+    <button v-if="isWelcome && connected" class="welcome-button centered" @click="showForm()">JOIN THE NETWORK</button>
     <form v-if="isProgress && connected" v-on:submit.prevent>
+      <h1>Create account</h1>
       <label for="first_name">
         First Name:
       </label>
@@ -64,7 +65,7 @@
         Occupation:
       </label>
       <input type="text" v-model="info.occupation"/>
-      <input type="submit" @click="submitInfo()" value="JOIN">
+      <input class="submit-button" type="submit" @click="submitInfo()" value="JOIN">
     </form>
     <div class="message-box centered" v-if="isSubmission && connected">
       {{ message }}
@@ -88,7 +89,7 @@
     font-style: italic;
   }
 
-  .welcome{
+  .welcome-button{
     height: 100px;
     font-size: 1.5em;
     width: 300px;
@@ -100,10 +101,15 @@
     color: white;
   }
 
+
   form{
     width: 90%;
     margin: auto;
     padding-bottom: 50px;
+  }
+
+  form .submit-button{
+    margin-bottom: 100px;
   }
 
   label, input, select{
@@ -119,13 +125,31 @@
   }
 
   input[type=submit]{
-    height: 40px;
-    font-size: 25px;
+    height: auto;
     width: 96%;
     border: 2px solid #1335B1;
     background-color: #1335B1;
     color: white;
   }
+
+  @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
+    .welcome-button{
+      height: 15vh;
+      width: 70vw;
+      font-size: 4em;
+    }
+
+    label, input, select{
+      font-size: 3em;
+    }
+
+    input[type=submit]{
+      font-size: 4em;     
+    }
+  }
+
+
+
 </style>
 <script>
   export default {

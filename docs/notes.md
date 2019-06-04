@@ -10,6 +10,10 @@ http://paletton.com/#uid=53Q0g0kzjxyhN5Wkyvw5Gy61uwh
 - qu'est-ce qui se passe dans une société quand chacun décide pour soi? on va faire croire à une réalité/fiction qui devient atomisée?
 - qui décide du système de montage d'internet? le public? le programmeur? le "système"?
 
+
+Synthèse: question du choix? de la présence d'autrui dans le libre arbitre du choix. dialogue enregistré?
+- synthèse noeud papillon
+
 ## TECH
 - projection sur trois surfaces minimum
 - passer par QLab
