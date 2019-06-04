@@ -168,7 +168,7 @@
 
 </style>
 <script>
-const dialogue = require('../dialogue.js')
+const dialogue = require('../data/dialogue.js')
 
 export default {
   data: function() {

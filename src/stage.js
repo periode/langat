@@ -1,3 +1,5 @@
+require('./style/main.scss')
+
 import Vue from 'vue'
 import Stage from './components/Stage.vue'
 

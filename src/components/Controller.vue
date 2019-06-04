@@ -157,7 +157,7 @@ input{
 <script>
 import Header from './Header.vue'
 import Footer from './Footer.vue'
-const scenes = require('../scenes.js')
+const scenes = require('../data/scenes.js')
 
 class User{
   constructor(_id, _fn, _ln, _bd, _or, _ge, _ms, _oc){

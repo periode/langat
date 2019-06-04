@@ -7,7 +7,6 @@
 <style scoped>
  header{
    background-color: #1335B1;
-   font-family: 'Public Sans', sans-sans-serif;
    font-style: italic;
    color: white;
    position: absolute;

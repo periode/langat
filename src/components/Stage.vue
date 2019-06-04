@@ -21,6 +21,10 @@
   </div>
 </template>
 <style scoped>
+
+
+
+
 main{
   background-color: black;
   transition: all 2s linear;
@@ -60,6 +64,21 @@ hr{
   font-size: 1em;
   margin: 1%;
 }
+
+@media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait){
+  main{
+    font-size: 2em;
+    position: absolute;
+    top: 100px;
+    width: 90%;
+  }
+
+  .scene-content{
+    font-size: 1.5em;
+    text-align: center;
+  }
+}
+
 </style>
 <script>
 import Header from './Header.vue'

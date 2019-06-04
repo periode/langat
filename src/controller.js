@@ -1,3 +1,5 @@
+require('./style/main.scss')
+
 import Vue from 'vue'
 import Controller from './components/Controller.vue'
 

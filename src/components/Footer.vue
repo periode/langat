@@ -6,7 +6,6 @@
 </template>
 <style scoped>
 footer{
-  font-family: 'Public Sans', sans-sans-serif;
   background-color: #1335B1;
   color: white;
   position: fixed;
@@ -37,7 +36,7 @@ footer{
 {
   footer{
     font-size: 3em;
-    
+
   }
 }
 
