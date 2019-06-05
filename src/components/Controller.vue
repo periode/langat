@@ -8,7 +8,7 @@
         </div>
         <hr />
         <div class="subcontrols legend">
-          <button @click="sendStart">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendEnd">END</button>
+          <button @click="sendStart">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendEnd">END</button> <button @click="sendCue">CUE</button>
         </div>
         <hr />
         <div class="subcontrols">
@@ -157,6 +157,7 @@ input{
 <script>
 import Header from './Header.vue'
 import Footer from './Footer.vue'
+
 const scenes = require('../data/scenes.js')
 
 class User{
@@ -211,12 +212,16 @@ class User{
             votes: 0
           }
         ],
-        client: null
+        client: null,
+        oscClient: null
       }
     },
     methods: {
       sendMsg: function(evt){
         console.log(evt);
+      },
+      sendCue: function(evt){
+        this.oscClient.send({address:'/go'})
       },
       sendStart: function(evt){
         this.armed = true
@@ -366,6 +371,13 @@ class User{
       this.current = scenes[0]
 
       window.client = this.client
+
+      this.oscClient = new osc.WebSocketPort({
+        url: 'ws://localhost:53001',
+        metadata: true
+      })
+
+      this.oscClient.open()
     }
   }
 </script>

@@ -40,7 +40,7 @@ let scenes = [
     "timelines": ["T1", "T3"],
     "prompt": "Do you like this?",
     "content":["The clever person shows up and interrupts the rave. He talks about the system that is being lived in."],
-    "choices": ["Like", "No"],
+    "choices": ["Like", "Next"],
     "following": ["Consequences", "Clever end"],
     "choice_type": "binary"
   },

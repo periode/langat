@@ -5,7 +5,7 @@
 
       <Chat :showChat="showChat" :showChatContent="showChatContent" :additionalChatContents="additionalChatContents" id="chat" @chat-over="onChatOver"/>
 
-      <!-- <Camera/> -->
+      <Camera v-if="showCamera"/>
 
       <Karaoke :showKaraoke="showKaraoke"/>
 
@@ -26,17 +26,17 @@
         </div>
         <div id="choices" class="choices centered">
           <span v-if="beginning_choice">
-            <button class="button-input" @click="submitChoice" value="0">Social</button>
-            <button class="button-input" @click="submitChoice" value="1">Music</button>
-            <button class="button-input" @click="submitChoice" value="2">Photography</button>
-            <button class="button-input" @click="submitChoice" value="3">News</button>
+            <button class="button-input all-input" @click="submitChoice" value="0">Social</button>
+            <button class="button-input all-input" @click="submitChoice" value="1">Music</button>
+            <button class="button-input all-input" @click="submitChoice" value="2">Photography</button>
+            <button class="button-input all-input" @click="submitChoice" value="3">News</button>
           </span>
           <span v-if="button_choice">
-            <button class="button-input" @click="submitChoice" value="0">{{choice_A}}</button>
-            <button class="button-input" @click="submitChoice" value="1">{{choice_B}}</button>
+            <button class="button-input all-input" @click="submitChoice" value="0">{{choice_A}}</button>
+            <button class="button-input all-input" @click="submitChoice" value="1">{{choice_B}}</button>
           </span>
           <span v-if="single_choice">
-            <button class="button-input" @click="submitChoice">{{single_choice_text}}</button>
+            <button class="button-input all-input" @click="submitChoice">{{single_choice_text}}</button>
           </span>
           <span v-if="checkbox_choice">
             <div class="checkbox-input" v-for="c_choice in checkbox_choices" @click="toggleBox">
@@ -45,25 +45,34 @@
 
                 </div>
               </div>
-              <div class="toggle-text">{{ c_choice }}</div>
+              <div class="checkbox-text">{{ c_choice }}</div>
             </div>
-            <button class="button-input" @click="submitConsent">CONSENT</button>
+            <button class="button-input all-input" @click="submitConsent">CONSENT</button>
           </span>
           <span v-if="input_choice">
-            <input class="text-input" id="text-input" type="text" placeholder="Enter your thoughts here..."/><br />
-            <button class="button-input" @click="submitChoice">SUBMIT</button>
+            <input class="text-input all-input" id="text-input" type="text" placeholder="Enter your thoughts here..."/><br />
+            <button class="button-input all-input" @click="submitChoice">SUBMIT</button>
           </span>
         </div>
       </span>
-      <Timer :isActive="showTimer" :isTextInput="input_choice" @timer-end="timerEnd"/>
+      <Timer :isActive="showTimer" :isTextInput="input_choice" @timer-end="onTimerEnd"/>
     </main>
-    <Footer/>
+    <Footer :status="status"/>
   </div>
 </template>
 
 <style scoped>
   main{
+    position: absolute;
+    top: 50px;
+    width: 100%;
     height: 88vh;
+  }
+
+  @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
+    main{
+      top: 100px;
+    }
   }
 
   .media-holder{
@@ -71,7 +80,7 @@
   }
 
   .popup{
-    height: 300px;
+    height: 55vh;
     width: 300px;
 
     z-index: 2;
@@ -82,13 +91,12 @@
   }
 
   .popup-inner{
-    font-size: 1.2em;
     white-space: pre-line;
     text-align: center;
     color: #1335B1;
     border: 3px solid #1335B1;
     background-color: white;
-    max-height: 100%;
+    max-height: auto;
     padding: 10px;
   }
 
@@ -97,22 +105,22 @@
   }
 
   .prompt{
-    height: 200px;
-    width: 300px;
+    top: 15vh;
+    bottom: auto;
+    width: 70vw;
     background-color: white;
     color: #1335B1;
     border: 3px solid #1335B1;
-    top: -300px;
     text-align: center;
-    line-height: 50px;
     font-size: 1.5em;
     font-weight: bold;
 
     z-index: 2;
+    padding: 5vw;
   }
 
   .choices{
-    top: 300px;
+    top: 100px;
     width: 300px;
     min-height: 200px;
     max-height: 400px;
@@ -147,7 +155,7 @@
     transition: all 0.1s linear;
   }
 
-  .toggle-text{
+  .checkbox-text{
     font-size: 1.1em;
   }
 
@@ -170,7 +178,12 @@
     border: 2px solid #1335B1;
     color: #1335B1;
     width: 100%;
-    margin-left: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em;
+    margin-bottom: 25px;
+
+    z-index: 2;
   }
 
   .selected {
@@ -178,24 +191,24 @@
     color: #1335B1;
   }
 
-  .text-input{
-    font-size: 1.5em;
-    margin-bottom: 25px;
-
-    z-index: 2;
-  }
-
   @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
-    .prompt{
-      font-size: 4em;
-      height: 15vh;
+    .popup{
+      font-size: 3em;
       width: 80vw;
-      line-height: 100px;
+    }
+
+    .prompt{
+      font-size: 3em;
+      width: 70vw;
+    }
+
+    .prompt{
+      line-height: 70px;
     }
 
     .choices{
-      height: 15vh;
-      top: 15vh;
+      bottom: 17vh;
+      top: auto;
       width: 80vw;
     }
 
@@ -203,8 +216,16 @@
       font-size: 3.5em;
     }
 
+    .toggle{
+      margin-right: 20px;
+    }
+
+    .checkbox-text{
+      font-size: 3em;
+    }
+
     .text-input{
-      font-size: 2.7em;
+      font-size: 2.5em;
     }
   }
 </style>
@@ -231,6 +252,7 @@
     data: function(){
       return {
         connected: false,
+        status: '',
         showForm: true,
         showTimer: false,
         prompt: '', //-- prompt for each questions
@@ -240,6 +262,7 @@
         checkbox_choice: false,
         input_choice: false,
         single_choice: false,
+        hasSubmittedConsent: false,
         checkbox_choices: [], //-- list of the choices
         checkboxes_unticked: 0, //-- keeping track of how many checkboxes are ticked or unticked
         single_choice_text: '', //--single choice
@@ -255,6 +278,7 @@
         image_src: '', //-- src of the images sent to the devices
         video_src: '', //-- src of the video element that is displayed
         last_scene: '', //-- the last scene that was received, used in the storage retrieval
+        showCamera: false,
         client: null,
         info: {
           id:"",
@@ -271,8 +295,11 @@
     methods: {
       toggleBox: function(evt){
 
+        if(this.hasSubmittedConsent)
+          return
+
         let el;
-        if(evt.target.className == 'toggle-text')
+        if(evt.target.className == 'checkbox-text')
           el = evt.target.parentNode.children[0].children[0]
         else if(evt.target.className == 'toggle-inner')
           el = evt.target
@@ -316,11 +343,11 @@
 
         this.client.send('/control/choose', [this.current_mode, ...val])
       },
-      submitConsent: function(){
-        console.log(this.checkboxes_unticked);
-        this.checkbox_choice = false
+      submitConsent: function(evt){
+        this.hasSubmittedConsent = true
 
-        this.displayFeedback()
+        this.displayFeedback(evt.target)
+        this.disableInputs()
 
         this.client.send('/control/choose', [this.current_mode, this.checkboxes_unticked])
       },
@@ -344,9 +371,15 @@
           this.client.send('/control/join', [rand, evt.first_name, evt.last_name, evt.birthdate, evt.origin, evt.gender, evt.marital_status, evt.occupation])
         }, 100)
       },
-      timerEnd: function(){
+      onTimerEnd: function(){
         this.showTimer = false
-        this.resetAll()
+        if(this.current_mode === "input"){
+          this.showChatContent = true
+          this.prompt = ''
+          this.input_choice = false
+        }else{
+          this.resetAll()
+        }
       },
       curtainUp: function(){
         this.showForm = false
@@ -393,19 +426,20 @@
 
       },
       disableInputs: function(){
-        let btns = document.getElementsByClassName("button-input")
+        let btns = document.getElementsByClassName("all-input")
 
         for(let i = 0; i < btns.length; i++)
           btns[i].disabled = true
 
       },
       enableInputs: function(){
-        let btns = document.getElementsByClassName("button-input")
+        let btns = document.getElementsByClassName("all-input")
 
         for(let i = 0; i < btns.length; i++){
           btns[i].className = "button-input"
           btns[i].disabled = false
         }
+
       },
       onChatOver: function(){
         this.showChatContent = false
@@ -489,6 +523,17 @@
           this.client.on('connected', () => {
             console.log('[SOCK] Connected');
             this.connected = true
+            this.status = "Connected"
+          })
+
+          this.client.on('connection lost', function() {
+            this.connected = false
+            this.status = "Disconnected"
+          })
+
+          this.client.on('server full', function() {
+            this.connected = false
+            this.status = "Reconnecting..."
           })
 
         this.client.send('/sys/subscribe', ['/all'])
@@ -513,6 +558,7 @@
               this.enableInputs()
               this.current_mode = args[0]
               this.showChat = false
+              this.showKaraoke = false
 
               if(this.current_mode === "beginning"){ //-- binary choice
                 this.showTimer = true //reset the timer
@@ -567,7 +613,7 @@
             case '/user_'+this.info.id:
               if(args[0] == 'confirmed'){
                 this.showForm = false
-                this.popup = "Network successfully joined.\n\nCongratulations!\n\nTo maintain the best connection, please avoid refreshing the page.\n\nThe show will start soon."
+                this.popup = "Network successfully joined.\n\nTo maintain the best connection, please avoid refreshing the page.\n\nThe show will start soon."
               }
               break;
             case '/user_'+this.info.id+'/color':

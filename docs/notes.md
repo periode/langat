@@ -18,6 +18,9 @@ Synthèse: question du choix? de la présence d'autrui dans le libre arbitre du 
 - projection sur trois surfaces minimum
 - passer par QLab
 
+
+## ROUTER
+- ip address for laptop is 101
 ## CODE
 - each interaction is time-limited, so it needs to have a timer on the page
 - have a confirmation message once they've input their data

@@ -67,32 +67,42 @@
       <input type="text" v-model="info.occupation"/>
       <input class="submit-button" type="submit" @click="submitInfo()" value="JOIN">
     </form>
-    <div class="message-box centered" v-if="isSubmission && connected">
-      {{ message }}
+    <div class="message-box centered" v-if="connected && isSubmission">
+      <div class="message-box-inner">
+        {{ message }}
+      </div>
     </div>
     <div class="message-box centered" v-if="!connected">
-      We're getting you connected, please wait a moment.
+      <div class="message-box-inner">
+        We're getting you connected, please wait a moment.
+      </div>
     </div>
   </div>
 </template>
 <style scoped>
   .message-box{
+    height: 50vh;
+    width: 80vw;
+  }
+
+  .message-box-inner{
     font-size: 1.2em;
-    border: 3px solid #1335B1;
-
-    height: 100px;
-    width: 300px;
-
     text-align: center;
-    line-height: 50px;
+    color: #1335B1;
+    border: 3px solid #1335B1;
+    background-color: white;
+    max-height: 100%;
+    /* height: auto; */
+    padding: 10px;
+    line-height: 70px;
 
     font-style: italic;
   }
 
   .welcome-button{
-    height: 100px;
+    height: 20vh;
+    width: 80vw;
     font-size: 1.5em;
-    width: 300px;
 
     text-align: center;
 
@@ -134,9 +144,13 @@
 
   @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
     .welcome-button{
-      height: 15vh;
-      width: 70vw;
-      font-size: 4em;
+      min-height: 25vh;
+      font-size: 3em;
+      line-height: 100px;
+    }
+
+    .message-box{
+      font-size: 2em;
     }
 
     label, input, select{
@@ -144,7 +158,7 @@
     }
 
     input[type=submit]{
-      font-size: 4em;     
+      font-size: 4em;
     }
   }
 

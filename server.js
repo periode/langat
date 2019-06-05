@@ -2,6 +2,8 @@ const express = require('express')
 const fs = require('fs')
 const http = require('http');
 const https = require('https');
+const osc = require('osc')
+const WebSocket = require('ws')
 
 let cert = '/etc/letsencrypt/live/computer.enframed.net/fullchain.pem'
 let key = '/etc/letsencrypt/live/computer.enframed.net/privkey.pem'
@@ -33,4 +35,38 @@ httpsServer.listen(443, (err) => {
   if(err)
     throw err
   console.log('listening on 443');
+});
+
+
+var server = app.listen(53001);
+
+//-- websocket server for OSC
+var wss = new WebSocket.Server({
+    server: server
+});
+
+let oscUDP = new osc.UDPPort({
+  remoteAddress: "192.168.1.171",
+  remotePort: 53000
+});
+
+oscUDP.open()
+
+// Listen for Web Socket connections.
+wss.on("connection", function (socket) {
+    var socketPort = new osc.WebSocketPort({
+        socket: socket,
+        metadata: true
+    });
+
+    socketPort.on("message", function (oscMsg) {
+        console.log("An OSC Message was received!", oscMsg);
+
+        oscUDP.send({
+          address: "/go",
+          args: ''
+        });
+    });
+
+
 });

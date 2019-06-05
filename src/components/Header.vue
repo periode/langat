@@ -9,7 +9,7 @@
    background-color: #1335B1;
    font-style: italic;
    color: white;
-   position: absolute;
+   position: fixed;
    width: 96%;
    height: 50px;
    text-align: center;

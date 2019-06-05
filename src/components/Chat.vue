@@ -31,8 +31,10 @@
 </template>
 <style scoped>
 .chat-holder{
+  top: 3vh;
+  bottom: auto;
   width: 90%;
-  height: 80%;
+  height: 85%;
   background-color: white;
   border: 2px solid #1335B1;
   color: #1335B1;
@@ -156,13 +158,24 @@
   width: 100%;
 }
 
+.chat-switch{
+  height: auto;
+}
+
 .chat-switch img{
-  height: 24px;
+  height: 72px;
 }
 
 @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
   .chat-holder{
     font-size: 2.5em;
+  }
+
+  .chat-input{
+    line-height: 50px;
+    font-size: 0.6em;
+    font-weight: unset;
+    font-style: italic;
   }
 }
 

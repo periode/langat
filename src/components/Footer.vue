@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <span class="left">THREADS</span>
+    <span class="left">{{ status }}</span>
     <span class="right">© 2021</span>
   </footer>
 </template>
@@ -46,6 +46,11 @@ footer{
     data: function(){
       return {
 
+      }
+    },
+    props: {
+      status: {
+        type: String
       }
     },
     methods: {

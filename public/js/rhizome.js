@@ -483,8 +483,8 @@ _.extend(Client.prototype, EventEmitter.prototype, coreValidation.ValidateConfig
     // return this._config.protocol + '://'
     //   + this._config.hostname + ':' + this._config.port
     //   + '/?' + querystring.stringify(query)
-    return 'ws' + '://'
-      + '10.150.22.23' + ':' + '8000'
+    return this._config.protocol + '://'
+      + 'computer.enframed.net' + ':' + '8000'
       + '/?' + querystring.stringify(query)
   },
 
