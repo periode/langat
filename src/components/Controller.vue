@@ -72,11 +72,20 @@
           Current users: {{ users.length }}
         </div class="single-info">
         <div class="single-info">Current scene: {{ current.id }}</div>
-        <div class="single-info">Current vote:<br />
-          <div v-for="choice in choices">
-            {{choice.name}} - {{choice.votes}}
-          </div>
-        </div>
+
+          <table>
+            <thead>
+                <tr>
+                    <th :colspan="choices.length">Votes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td v-for="choice in choices">{{choice.votes}}</td>
+                </tr>
+            </tbody>
+          </table>
+
         <div class="category">LOGS</div>
         <div class="logs">
           <li v-for="log in logs">
@@ -111,6 +120,11 @@ input{
   background-color: #0C59AA;
   border-bottom: 1px solid #dbdbdb;
   margin-right: 5px;
+}
+
+td{
+  font-size: 1.5em;
+  padding: 5px;
 }
 
 .category, .following-choice{
@@ -452,8 +466,12 @@ class User{
                 console.log("[WARN] - got different choice type: "+args[0])
               }
               break;
+            case '/control/update':
+              this.client.send('/stage/latest', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
+              break;
             default:
               console.log("[WARN] - received address: " + address + " - " + args)
+              break;
           }
         })
 

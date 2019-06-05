@@ -244,7 +244,8 @@ let scenes = [
   },
   {
     "id": "End",
-    "choices": ["none"]
+    "choices": ["none"],
+    "content": ["The End"]
   }
 ]
 

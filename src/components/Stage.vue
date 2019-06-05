@@ -17,7 +17,7 @@
         <div class="single-next" v-for="one in following">{{one}}</div>
       </div>
     </main>
-    <Footer/>
+    <Footer :connected="connected"/>
   </div>
 </template>
 <style scoped>
@@ -91,8 +91,10 @@ export default {
   },
   data: function(){
     return {
+      connected: false,
       client: null,
-      current: 'BEGINNING',
+      updater: '',
+      current: 'WAITING',
       contents: [],
       following: [],
       background: null,
@@ -109,39 +111,77 @@ export default {
       if(err)
         alert(err)
 
-        this.client.on('connected', () => {
-          console.log('[SOCK] Connected');
-          this.connected = true
-        })
 
+    })
+
+    this.client.on('connected', () => {
+      console.log('[SOCK] Connected');
+      this.connected = true
       this.client.send('/sys/subscribe', ['/stage'])
 
-      this.client.on('message', (address, args) => {
-        console.log('[MSG] received at ' + address + ' - ' + args);
+      // this.updater = setInterval(() => {
+      //   console.log(this.client);
+      //   if(this.client._socket.readyState == 1)
+      //     this.client.send('/control/update')
+      // }, 1000)
 
-        switch (address) {
-          case '/stage/next':
-              this
-              this.background.style.backgroundColor = 'black'
-              this.background.style.color = 'white'
+      //-- attach test
 
-              this.current = args[0]
-              if(this.current === "Karaoke")
-                this.showKaraoke = true
-              let length = args[1]
-              this.contents = args.slice(2, 2 + length)
-              this.following = args.slice(2 + length, args.length)
-            break;
-            case '/stage/color':
-              this.background.style.backgroundColor = args[0]
-              this.background.style.color = 'black'
-              break;
-          default:
-            console.log('[WARN] received unsure - ' + address + ' - ' + args);
 
-        }
-      })
+
     })
+
+    document.getElementById("window").onclick = () => {
+      console.log("touch connected? "+this.client.connected);
+      if(this.client._socket.readyState == 1)
+        this.client.send('/control/update')
+    }
+
+    this.client.on('connection lost', function() {
+      console.log('[SOCK] Disconnected');
+      clearInterval(this.updater)
+      this.connected = false
+      this.status = "Disconnected"
+    })
+
+
+
+  this.client.on('message', (address, args) => {
+    console.log('[MSG] received at ' + address + ' - ' + args);
+
+    switch (address) {
+      case '/stage/latest':
+        if(this.current === args[0] && this.updater){
+          clearInterval(this.updater)
+        }else{
+          this.current = args[0]
+          if(this.current === "Karaoke")
+            this.showKaraoke = true
+          let length = args[1]
+          this.contents = args.slice(2, 2 + length)
+          this.following = args.slice(2 + length, args.length)
+        }
+        break;
+      case '/stage/next':
+          this.background.style.backgroundColor = 'black'
+          this.background.style.color = 'white'
+
+          this.current = args[0]
+          if(this.current === "Karaoke")
+            this.showKaraoke = true
+          let length = args[1]
+          this.contents = args.slice(2, 2 + length)
+          this.following = args.slice(2 + length, args.length)
+        break;
+        case '/stage/color':
+          this.background.style.backgroundColor = args[0]
+          this.background.style.color = 'black'
+          break;
+      default:
+        console.log('[WARN] received unsure - ' + address + ' - ' + args);
+        break;
+    }
+  })
   }
 }
 </script>
