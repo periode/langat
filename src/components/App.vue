@@ -62,12 +62,6 @@
 </template>
 
 <style scoped>
-  main{
-    position: absolute;
-    top: 50px;
-    width: 100%;
-    height: 88vh;
-  }
 
   @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
     main{
@@ -550,10 +544,16 @@
               this.resetAll()
               this.curtainUp()
               break;
+            case '/all/start':
+              console.log('[STATE] - stop');
+              this.resetAll()
+              break;
+            case '/all/reset':
+              console.log('[STATE] - start');
+              this.cleanStorage()
+              break;
             case '/all/next':
               console.log('[STATE] - next');
-
-
 
               this.enableInputs()
               this.current_mode = args[0]

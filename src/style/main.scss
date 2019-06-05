@@ -11,9 +11,12 @@ body{
 }
 
 main{
-  height: auto;
   overflow: auto;
   padding-bottom: 50px;
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  height: 88vh;
 }
 
 .centered {

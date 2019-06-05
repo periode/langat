@@ -3,17 +3,23 @@
     <Header/>
     <main>
       <div class="controls">
+        <div class="category">CONTROLS</div>
         <div class="subcontrols legend">
-          <input type="text" id="address"/><button @click="sendMsg">SEND</button>
-        </div>
-        <hr />
-        <div class="subcontrols legend">
-          <button @click="sendStart">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendEnd">END</button> <button @click="sendCue">CUE</button>
+          <button @click="sendStart" class="start">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendCamera">CAMERA</button> <button class="end" @click="sendStop">STOP</button> <button class="end" @click="sendReset">RESET</button> <button class="end" @click="sendEnd">END</button>
         </div>
         <hr />
         <div class="subcontrols">
+          <span class="legend-static">scenes</span>
+          <select id="scene-list" name="scene" v-model="next">
+            <option v-for="scene in scenes" :value="scene.id">
+              {{scene.id}}
+            </option>
+          </select>
+          <button @click="jumpToScene">jump</button>
+        </div>
+        <div class="subcontrols">
           <div class="legend">
-            <span class="legend-static">⇝</span> {{ current.id }} (<span v-for="choice in current.choices">{{choice.toLowerCase()}}, </span>) <button v-if="armed" @click="sendNext">SEND</button>
+            <span class="legend-static">{{ current.id }}</span>  <span v-for="choice in current.choices" class="following-choice">{{choice.toLowerCase()}} </span> <button v-if="armed" @click="sendNext">SEND</button>
           </div>
         </div>
         <hr />
@@ -22,10 +28,10 @@
           <div v-if="showTextInput">
             <br />
             <span class="legend">
-              <input type="text" v-model="highlighted_user" placeholder="highlight user"/><button class="legend" @click="sendHighlight(highlighted_user, 'red')">HIGHLIGHT</button>
+              <input type="text" v-model="highlighted_user" placeholder="highlight user"/><button @click="sendHighlight(highlighted_user, 'red')">HIGHLIGHT</button>
             </span>
             <span class="legend">
-              <input type="text" v-model="text_input" placeholder="added chat text input"/><button class="legend" @click="sendTextInput">SEND TEXT</button>
+              <input type="text" v-model="text_input" placeholder="added chat text input"/><button @click="sendTextInput">SEND TEXT</button>
             </span>
             <div v-for="input in inputs">{{input.text}} by {{input.user}}</div>
           </div>
@@ -41,20 +47,37 @@
             <button class="legend" @click="sendMedia('off')">OFF</button>
           </div>
         </div>
+        <div class="subcontrols">
+          <span class="legend-static">cues</span><button class="button-unfold" @click="showCues=!showCues">{{showCues ? '-' : '+'}}</button>
+          <div v-if="showCues" class="legend">
+            <br />
+            <button @click="sendCue">CUE</button>
+          </div>
+        </div>
+        <hr />
+        <div class="subcontrols legend">
+          <input type="text" id="address"/><button @click="sendMsg">SEND</button>
+        </div>
+
       </div>
+      <!-- LEFT -->
+      <!-- LEFT -->
+      <!-- LEFT -->
       <div class="info">
-        <div>
-          Status: {{ isConnected ? "Connected" : "Disconnected" }}
+        <div class="category">STATUS</div>
+        <div :class="connected ? 'start single-info' : 'end single-info'">
+          Status: {{ connected ? "Connected" : "Disconnected" }}
         </div>
-        <div>
+        <div class="single-info">
           Current users: {{ users.length }}
-        </div>
-        <div>Current scene: {{ current.id }}</div>
-        <div>Current vote:<br />
+        </div class="single-info">
+        <div class="single-info">Current scene: {{ current.id }}</div>
+        <div class="single-info">Current vote:<br />
           <div v-for="choice in choices">
             {{choice.name}} - {{choice.votes}}
           </div>
         </div>
+        <div class="category">LOGS</div>
         <div class="logs">
           <li v-for="log in logs">
             {{ log }}
@@ -62,7 +85,7 @@
         </div>
       </div>
     </main>
-    <Footer/>
+    <!-- <Footer :status="status"/> -->
   </div>
 </template>
 <style scoped>
@@ -76,8 +99,10 @@ main{
 
 button{
   border: 2px solid #dbdbdb;
-  background-color: #101420;
+  background-color: white;
+  color:  #0C59AA;
   padding: 5px;
+  margin: 5px;
   width: auto;
 }
 
@@ -86,6 +111,17 @@ input{
   background-color: #0C59AA;
   border-bottom: 1px solid #dbdbdb;
   margin-right: 5px;
+}
+
+.category, .following-choice{
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.category::before, .following-choice::before{
+  content: "⇝";
+  font-size: 1.5em;
 }
 
 .controls{
@@ -113,7 +149,8 @@ input{
 .legend{
   width: 100%;
   float: left;
-  font-size: 1.1em;
+  font-size: 1.0em;
+  padding: 2px;
 }
 
 .legend-static{
@@ -126,19 +163,36 @@ input{
 
 .legend button{
   font-style: italic;
-  background-color: white;
-  color:  #0C59AA;
   border: none;
   font-weight: bold;
+}
+
+.start, .end{
+  color: white;
+}
+
+.start{
+  background-color: green;
+  float: left;
+}
+
+.end{
+  background-color: darkred;
+  float: right;
 }
 
 .info{
   width: 30%;
   float: right;
-  font-size: 0.8em;
+  font-size: 1em;
   list-style: disclosure-closed;
   padding-top: 10px;
   padding-right: 10px;
+}
+
+.single-info{
+  float: left;
+  width: 100%;
 }
 
 .logs{
@@ -180,14 +234,18 @@ class User{
     },
     data: function(){
       return {
-        isConnected: false,
+        connected: false,
+        status: '',
         users: [],
         logs: [],
         current: {},
+        next: {},
+        scenes: [],
         armed: false,
         showTextInput: false,
         text_input: '',
         showMediaDisplay: false,
+        showCues: '',
         next_message: [],
         current_scene: 'None',
         inputs: [],
@@ -222,21 +280,42 @@ class User{
       },
       sendCue: function(evt){
         this.oscClient.send({address:'/go'})
+        this.logs.unshift("[SENDING] - Cue")
       },
       sendStart: function(evt){
         this.armed = true
         this.client.send('/all/start', ['go'])
         this.armNext(this.current.id)
-        // evt.target.disabled = true
+        this.logs.unshift("[SENDING] - Start")
+      },
+      sendStop: function(evt){
+        this.logs.unshift('[CONTROL] STOP')
+        this.client.send('/all/stop')
+      },
+      jumpToScene: function(){
+        let sc = document.getElementById("scene-list").value
+        this.logs.unshift("[SCENE] jumping to " + sc)
+        this.armNext(sc)
       },
       sendKaraoke: function(){
         this.client.send('/all/karaoke')
         this.client.send('/stage/karaoke')
-        console.log('sending karaoke');
+        this.logs.unshift("[SENDING] - Karaoke")
+      },
+      sendCamera: function(){
+        this.client.send('/all/camera')
+        this.logs.unshift("[SENDING] - Camera")
       },
       sendEnd: function(){
         console.log('sending end');
         this.client.send('/all/end')
+        this.logs.unshift("[SENDING] - End")
+      },
+      sendReset: function(){
+        this.logs = []
+        this.logs.push("--- [RESET] --- [RESET] --- [RESET] ----")
+        this.current = scenes[0]
+
       },
       sendHighlight: function(user, color){
         console.log('sending highlight',user,color);
@@ -314,18 +393,31 @@ class User{
     },
     mounted(){
       this.client = new rhizome.Client()
+      this.scenes = scenes
 
       this.client.start((err) => {
         if(err)
           alert(err)
 
-        this.isConnected = true
+          this.client.on('connected', () => {
+            console.log('[SOCK] Connected');
+            this.logs.unshift('[SOCK] - connected')
+            this.connected = true
+            this.status = "Connected"
+          })
+
+          this.client.on('connection lost', function() {
+            console.log('[SOCK] Disconnected');
+            this.connected = false
+            this.status = "Disconnected"
+          })
+
+          this.client.on('server full', function() {
+            this.connected = false
+            this.status = "Reconnecting..."
+          })
 
         this.users.push({"fake":"fake"})
-
-        this.client.on('connected', () => {
-          this.logs.unshift('[SOCK] - connected')
-        })
 
         this.client.send('/sys/subscribe', ['/control'])
 

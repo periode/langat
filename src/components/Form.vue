@@ -36,7 +36,7 @@
       </label>
       <!-- <input type="text" v-model="info.gender"/> -->
       <select name="gender" v-model="info.gender">
-        <option value="Male">
+        <option value="Male" default>
           Male
         </option>
         <option value="Female">

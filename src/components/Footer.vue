@@ -15,7 +15,7 @@ footer{
 
   padding-left: 2%;
   padding-right: 2%;
-  padding-top: 2%;
+  padding-top: 1%;
   padding-bottom: 1%;
 }
 
@@ -36,7 +36,6 @@ footer{
 {
   footer{
     font-size: 3em;
-
   }
 }
 
