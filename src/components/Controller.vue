@@ -293,6 +293,7 @@ class User{
         console.log(evt);
       },
       sendCue: function(evt){
+        this.oscClient.send({address:'/cue/4'})
         this.oscClient.send({address:'/go'})
         this.logs.unshift("[SENDING] - Cue")
       },
@@ -463,14 +464,14 @@ class User{
                 this.logs.unshift("[MSG] received checkboxes: " + args[1])
                 this.consents += parseInt(args[1])
               }else{
-                console.log("[WARN] - got different choice type: "+args[0])
+                console.log("[WARN] - choice type: "+args[0])
               }
               break;
             case '/control/update':
               this.client.send('/stage/latest', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
               break;
             default:
-              console.log("[WARN] - received address: " + address + " - " + args)
+              console.log("[WARN] - address: " + address + " - " + args)
               break;
           }
         })
@@ -483,7 +484,7 @@ class User{
       window.client = this.client
 
       this.oscClient = new osc.WebSocketPort({
-        url: 'ws://localhost:53001',
+        url: 'wss://computer.enframed.net:443',
         metadata: true
       })
 

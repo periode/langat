@@ -1,3 +1,30 @@
+## TODO
+
+
+## MONOLOGUE PROGRAMMER
+- what is the meaning if a choice? what does it mean to be able to choose, for yourself, for others, do you feel free just because you choose?
+- we, as characters, are following a script, made by someone, told by a computer.
+- you had the ability to choose, but anymore. //!
+- it's time to tell you the tricks: you didn't have any freedom
+- you were like the characters of a show
+- is it really a choice when you only have a few choices? i think you know the answer
+- and we were watching so we are your audience too.
+- entertainment. it's part of theater, but the most common thing was to interact: we tried, they tried —creator and computer, to make you see, with digital art. something will already have, the ability to travel through time and thought.
+- isn't it incredible to communicate, here and now. phones are just the entrance, and a door that are the way we use it today, but theater, by its roots, was already able to play with the audience since the beginning (???how??) we/they tried just to show you another way, the way were the technology now allows you to interact with it. but with those phones, now, in that old factory, you were the workers of this experience.
+
+__FREEZE__
+
+- thanks for choosing, for watching, for playing.
+- on commence a ranger les trucs
+
+- plan fixe avec vidéo sur écran, personnages freezés dans la vraie vie, et défreezés sur l'écran, qui disent chacun une voix
+- - monologue finale
+- you've only seen a fraction of the piece.
+- if your group had chosen differently, you could have seen 7 different stories, sketches and snapshots of their lives.
+- the only way to see it differently is to see it again
+
+
+
 -> protocole de debut de scene (nom, prenom, pseudo)
 http://paletton.com/#uid=53Q0g0kzjxyhN5Wkyvw5Gy61uwh
 

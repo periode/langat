@@ -18,9 +18,6 @@ const credentials = {key: privateKey, cert: certificate};
 const app = express();
 
 app.use(express.static('public'))
-app.get('/', (req, res, err) => {
-  console.log('got visit');
-})
 
 // your express configuration here
 const httpServer = http.createServer(app);
@@ -37,16 +34,22 @@ httpsServer.listen(443, (err) => {
   console.log('listening on 443');
 });
 
+// app.get('/', (req, res, err) => {
+//   console.log(req);
+//   console.log('---------------------------------------------------------------------');
+//   res.redirect('https://computer.enframed.net'+req.url)
+// })
 
-var server = app.listen(53001);
+
+// var server = app.listen(53001);
 
 //-- websocket server for OSC
 var wss = new WebSocket.Server({
-    server: server
+    server: httpsServer
 });
 
 let oscUDP = new osc.UDPPort({
-  remoteAddress: "192.168.1.171",
+  remoteAddress: "192.168.1.3",
   remotePort: 53000
 });
 
@@ -60,10 +63,10 @@ wss.on("connection", function (socket) {
     });
 
     socketPort.on("message", function (oscMsg) {
-        console.log("An OSC Message was received!", oscMsg);
+        console.log("Received OSC - ", oscMsg);
 
         oscUDP.send({
-          address: "/go",
+          address: oscMsg.address,
           args: ''
         });
     });

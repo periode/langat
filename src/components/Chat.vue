@@ -42,16 +42,17 @@
 
 .chat-scroll{
   position: absolute;
-  top: 5%;
+  top: 50px;
+  font-size: 1.3em;
   bottom: 7%;
   width: 100%;
 
   overflow-y: auto;
-  border-bottom: 2px solid #1335B1;
+  /* border-bottom: 2px solid #1335B1; */
 }
 
 #scroll_placeholder{
-  height: 15vh;
+  height: 20vh;
   overflow: unset;
   position: relative;
   background-color: white;
@@ -65,7 +66,7 @@
   left: 0;
   z-index: 2;
   width: 100%;
-  height: 5%;
+  height: 50px;
   background-color: #1335B1;
 }
 
@@ -124,6 +125,7 @@
   height: auto;
   width: 60%;
   margin: 2%;
+  font-size: 1.3em;
   border: 2px solid #1335B1;
   border-radius: 5px;
   padding: 5px;
@@ -143,13 +145,13 @@
 .control{
   width: 100%;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-style: italic;
   float: left;
 }
 
 .sender{
-  font-size: 0.7em;
+  font-size: 0.8em;
   width: 80%;
   font-style: italic;
 }
@@ -163,7 +165,7 @@
 }
 
 .chat-switch img{
-  height: 72px;
+  height: 48px;
 }
 
 @media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
@@ -201,7 +203,7 @@ export default {
   watch: {
     showChat: function(newVal, oldVal){
       if(newVal)
-        setTimeout(this.addNewMessage, 500)
+        setTimeout(this.addNewMessage, 1500)
     },
     showChatContent: function(newVal, oldVal){
       if(newVal)

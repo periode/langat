@@ -24,7 +24,7 @@
       </label>
       <!-- <input type="text" name="origin" v-model="info.origin"/> -->
       <select name="origin" v-model="info.origin">
-        <option value="Finland" default>
+        <option value="Finland" selected="selected">
           Finland
         </option>
         <option value="Other">
@@ -36,7 +36,7 @@
       </label>
       <!-- <input type="text" v-model="info.gender"/> -->
       <select name="gender" v-model="info.gender">
-        <option value="Male" default>
+        <option value="Male" selected="selected">
           Male
         </option>
         <option value="Female">
@@ -51,7 +51,7 @@
       </label>
       <!-- <input type="text" v-model="info.marital_status"/> -->
       <select name="marital_status" v-model="info.marital_status">
-        <option value="Married">
+        <option value="Married" selected="selected">
           Married
         </option>
         <option value="Single">

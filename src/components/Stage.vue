@@ -119,23 +119,17 @@ export default {
       this.connected = true
       this.client.send('/sys/subscribe', ['/stage'])
 
-      // this.updater = setInterval(() => {
-      //   console.log(this.client);
-      //   if(this.client._socket.readyState == 1)
-      //     this.client.send('/control/update')
-      // }, 1000)
-
-      //-- attach test
-
-
-
+      document.getElementById("window").onclick = () => {
+        if(this.client._socket.readyState == 1)
+          this.client.send('/control/update')
+      }
     })
 
-    document.getElementById("window").onclick = () => {
-      console.log("touch connected? "+this.client.connected);
+    this.updater = setInterval(() => {
+      console.log('sending update intervale'+this.client);
       if(this.client._socket.readyState == 1)
         this.client.send('/control/update')
-    }
+    }, 1000)
 
     this.client.on('connection lost', function() {
       console.log('[SOCK] Disconnected');
@@ -144,44 +138,42 @@ export default {
       this.status = "Disconnected"
     })
 
+    this.client.on('message', (address, args) => {
+      console.log('[MSG] received at ' + address + ' - ' + args);
 
-
-  this.client.on('message', (address, args) => {
-    console.log('[MSG] received at ' + address + ' - ' + args);
-
-    switch (address) {
-      case '/stage/latest':
-        if(this.current === args[0] && this.updater){
-          clearInterval(this.updater)
-        }else{
-          this.current = args[0]
-          if(this.current === "Karaoke")
-            this.showKaraoke = true
-          let length = args[1]
-          this.contents = args.slice(2, 2 + length)
-          this.following = args.slice(2 + length, args.length)
-        }
-        break;
-      case '/stage/next':
-          this.background.style.backgroundColor = 'black'
-          this.background.style.color = 'white'
-
-          this.current = args[0]
-          if(this.current === "Karaoke")
-            this.showKaraoke = true
-          let length = args[1]
-          this.contents = args.slice(2, 2 + length)
-          this.following = args.slice(2 + length, args.length)
-        break;
-        case '/stage/color':
-          this.background.style.backgroundColor = args[0]
-          this.background.style.color = 'black'
+      switch (address) {
+        case '/stage/latest':
+          if(this.current === args[0] && this.updater){
+            clearInterval(this.updater)
+          }else{
+            this.current = args[0]
+            if(this.current === "Karaoke")
+              this.showKaraoke = true
+            let length = args[1]
+            this.contents = args.slice(2, 2 + length)
+            this.following = args.slice(2 + length, args.length)
+          }
           break;
-      default:
-        console.log('[WARN] received unsure - ' + address + ' - ' + args);
-        break;
-    }
-  })
+        case '/stage/next':
+            this.background.style.backgroundColor = 'black'
+            this.background.style.color = 'white'
+
+            this.current = args[0]
+            if(this.current === "Karaoke")
+              this.showKaraoke = true
+            let length = args[1]
+            this.contents = args.slice(2, 2 + length)
+            this.following = args.slice(2 + length, args.length)
+          break;
+          case '/stage/color':
+            this.background.style.backgroundColor = args[0]
+            this.background.style.color = 'black'
+            break;
+        default:
+          console.log('[WARN] received unsure - ' + address + ' - ' + args);
+          break;
+      }
+    })
   }
 }
 </script>
