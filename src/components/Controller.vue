@@ -5,7 +5,7 @@
       <div class="controls">
         <div class="category">CONTROLS</div>
         <div class="subcontrols legend">
-          <button @click="sendStart" class="start">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendCamera">CAMERA</button> <button class="end" @click="sendStop">STOP</button> <button class="end" @click="sendReset">RESET</button> <button class="end" @click="sendEnd">END</button>
+          <button @click="sendStart" class="start">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendCamera('on')">CAMERA ON</button> <button @click="sendCamera('off')">CAMERA OFF</button> <button class="end" @click="sendStop">STOP</button> <button class="end" @click="sendReset">RESET</button> <button class="end" @click="sendEnd">END</button>
         </div>
         <hr />
         <div class="subcontrols">
@@ -40,11 +40,11 @@
           <span class="legend-static">media display</span><button class="button-unfold" @click="showMediaDisplay=!showMediaDisplay">{{showMediaDisplay ? '-' : '+'}}</button>
           <div v-if="showMediaDisplay" class="legend">
             <br />
-            <button class="legend" @click="sendMedia('wolf_pack')">WOLF PACK SELFIE</button>
-            <button class="legend" @click="sendMedia('red_hood')">RED HOOD SELFIE</button>
-            <button class="legend" @click="sendMedia('burning_soul')">SOUL PILL VIDEO</button>
-            <button class="legend" @click="sendMedia('shadow')">SHADOW VIDEO</button>
-            <button class="legend" @click="sendMedia('off')">OFF</button>
+            <button @click="sendMedia('wolf_pack')">WOLF PACK SELFIE</button>
+            <button @click="sendMedia('red_hood')">RED HOOD SELFIE</button>
+            <button @click="sendMedia('burning_soul')">SOUL PILL VIDEO</button>
+            <button @click="sendMedia('shadow')">SHADOW VIDEO</button>
+            <button class="end" @click="sendMedia('off')">OFF</button>
           </div>
         </div>
         <div class="subcontrols">
@@ -293,9 +293,12 @@ class User{
         console.log(evt);
       },
       sendCue: function(evt){
-        this.oscClient.send({address:'/cue/4'})
-        this.oscClient.send({address:'/go'})
+        this.oscClient.send({address:'/cue/4/start'})
+        // this.oscClient.send({address:'/go'})
         this.logs.unshift("[SENDING] - Cue")
+      },
+      sendFreeze: function(){
+        this.oscClient.send({address: '/cue/4/start'})
       },
       sendStart: function(evt){
         this.armed = true
@@ -317,8 +320,8 @@ class User{
         this.client.send('/stage/karaoke')
         this.logs.unshift("[SENDING] - Karaoke")
       },
-      sendCamera: function(){
-        this.client.send('/all/camera')
+      sendCamera: function(state){
+        this.client.send('/all/camera', [state])
         this.logs.unshift("[SENDING] - Camera")
       },
       sendEnd: function(){
@@ -359,6 +362,7 @@ class User{
       },
       sendNext: function(evt){
         this.logs.unshift("[SCENE] - Sending "+this.next_message.join(" | "))
+        this.sendFreeze()
         this.client.send('/all/next', this.next_message)
 
         //-- highlighting the actors
@@ -374,9 +378,9 @@ class User{
           //max checkboxes = users * 4
           let results = (this.consents / (this.users.length * this.current.choices.length)) * 100
           this.logs.unshift('[CONSENT] - ' + results + '% of consents');
-          if(results > 50) //if users have overall left 50% of the consents checked
+          if(results < 50) //if users have mostly unchecked the boxes >  we don't consent
             this.armNext(this.current.following[0])
-          else
+          else //if we have mostly checked the boxes > we consent
             this.armNext(this.current.following[1])
         }else{
           // TODO: MAKE THIS RANDOM FOR TIE
@@ -396,6 +400,9 @@ class User{
 
           for(let choice of this.choices)
             choice.votes = 0
+
+          //-- wait 2 seconds before sending the unfreeze
+          setTimeout(this.sendFreeze, 2000)
         }
       },
       findScene: function(_next){

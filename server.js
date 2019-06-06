@@ -63,7 +63,7 @@ wss.on("connection", function (socket) {
     });
 
     socketPort.on("message", function (oscMsg) {
-        console.log("Received OSC - ", oscMsg);
+        console.log("OSC - ", oscMsg.address);
 
         oscUDP.send({
           address: oscMsg.address,

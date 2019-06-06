@@ -227,7 +227,7 @@ let scenes = [
   {
     "id": "How to be a Man",
     "timelines": ["T4"],
-    "prompt": "",
+    "prompt": "Do you think this is going in the right direction?",
     "content":["A man comes forward and explains how hard it is to be a man."],
     "choices": ["Like", "Hide"],
     "following": ["Commenting on the Couch", "Popcorn"],

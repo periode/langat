@@ -394,6 +394,7 @@
         this.input_choice = false
         this.showChat = false
         this.showChatContent = true
+        this.showCamera = false
         this.showKaraoke = false
         this.showTextInput = false
 
@@ -578,8 +579,6 @@
               }else if(this.current_mode === "input"){ //-- this should be for displaying the text input
                 this.showChat = true
                 this.chat_prompt = args[1]
-              }else if(this.current_mode === "camera"){
-                console.log('received camera');
               }else if(this.current_mode === "single"){
                 this.single_choice = true
                 this.prompt = args[1]
@@ -609,6 +608,11 @@
             case '/all/media':
               console.log('[MEDIA] - Displaying ' + args[0]);
               this.displayMedia(args[0])
+              break;
+            case '/all/camera':
+              console.log('[CAMERA] - Toggle ' + args[0]);
+              this.resetAll()
+              this.showCamera = args[0] == 'on' ? true : false
               break;
             case '/user_'+this.info.id:
               if(args[0] == 'confirmed'){

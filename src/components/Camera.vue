@@ -3,7 +3,10 @@
 </template>
 
 <style scoped>
-
+video{
+  width: 100%;
+  height: 100%;
+}
 </style>
 
 <script>
@@ -15,18 +18,21 @@ export default {
     }
   },
   mounted() {
-    console.log('hey');
-    window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-    // navigator.getUserMedia = navigator.mediaDevices.getUserMedia
+    console.log('Camera mounted');
 
     let cam = document.getElementById('camera')
 
-    navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}})
-    .then(function(stream) {
-        cam.srcObject = stream;
-        cam.onloadedmetadata = function(e) {
+    var constraints = { audio: false, video: { width: 640, height: 360 } };
+
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+      console.log('got media devices, and stream obj: '+stream);
+      if(stream == undefined)
+        return
+
+      cam.srcObject = stream;
+      cam.onloadedmetadata = function(e) {
         cam.play();
-  };
+      };
     })
     .catch(function(err) {
       console.log(err);
