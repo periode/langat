@@ -545,7 +545,7 @@
               this.resetAll()
               this.curtainUp()
               break;
-            case '/all/start':
+            case '/all/stop':
               console.log('[STATE] - stop');
               this.resetAll()
               break;
@@ -596,6 +596,12 @@
               this.last_scene = args[0]
               if(localStorageAvailable())
                 localStorage.setItem("last_scene", this.last_scene)
+              break;
+
+            case '/all/result': //-- this just broadcasts what is the current scene we are playing
+              console.log('[MSG] - providing results');
+              this.prompt = `Most of you have chosen:\n ${args[0]}`
+              setTimeout(() => {this.prompt = ''}, 4000)
               break;
             case '/all/karaoke':
               console.log('[KARAOKE] - choose');

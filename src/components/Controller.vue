@@ -403,6 +403,7 @@ class User{
 
           //-- wait 2 seconds before sending the unfreeze
           setTimeout(this.sendFreeze, 2000)
+          this.client.send('/all/result', [this.current.following[highest_index]])
         }
       },
       findScene: function(_next){
