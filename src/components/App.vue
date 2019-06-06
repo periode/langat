@@ -266,7 +266,7 @@
         showChat: false, //-- display the chat
         showChatContent: true, //-- toggle chat contents on and off, during the audience input to the chat
         additionalChatContents: '', //-- push additional lines to the chat
-        showKaraoke: false, //-- display the karaoke
+        showKaraoke: true, //-- display the karaoke
         message: '', //-- used at the end of the form
         popup: '', //-- popup message, used in the beginning (join the network)
         image_src: '', //-- src of the images sent to the devices

@@ -1,62 +1,55 @@
 <template>
 <div class="karaoke-holder centered" v-if="showKaraoke">
   <div class="karaoke-title">
-    🎶MEMORY🎶
+    UKKOMETSU
   </div>
   <div class="karaoke-lyrics">
-I’ve memorized all the fish in the sea
-I’ve memorized each opportunity strangled
-and
-I remember awakening one morning
-and finding everything smeared with the color of
-forgotten love
-and I’ve memorized
-that too.
+Katto kallellaan siinä kuusen alla
+Seisoo vielä mökki paikallaan
+Kun ostokeskuksen
+Ohi kuljen tiedän sen
+Kohta tullut oon Ukkometsoon
+Hei tarjoillija tuokaa mulle kolpakko
+Yhtä kylmä niin niin kuin aina ennenkin
+Mull' on kova jano taas ja paksu lompakko
+En tuhaan tullut oo Ukkometsoon
 
+<i>kertosäe</i>
+Suomenniemellä, suomen kielellä
+Äijat huutaa lailla Perkeleen
+Ja kun Suomi pelaa lätkää
+Se iskee joka jätkään
+Kaljaa koneeseen ja Ukkometsoon
 
+No, Ukkometson Liisaa
+Me katsellaan, kun viinaa
+Juodaan ja me tullaan humalaan
+Liisalla on povi
+Kuin kuninkaitten hovi
+Sen edessä on pakko k**artaa
 
-I’ve memorized green rooms in
-St. Louis and New Orleans
-where I wept because I knew that by myself I
-could not overcome
-the terror of them and it.
+On Ukkometson ilta
+Ja kohta kamarilta
+Meitä tullaan pois jo hakemaan
+Me eletään vain kerran
+Ei meitä pelko Herran
+Saa jumalauta hiljaa juhlimaan
 
+<i>kertosäe</i>
+No, Reiska laittaa soimaan vielä yhden laulun
+Ja itkee sitten yhden kyyneleen
+Se laulu kertoo meistä
+Onnen enkeleistä
+Jotka pohjantähden alla asustaa
 
+On Ukkometson ilta
+Ja kohta kamarilta
+Meitä tullaan pois jo hakemaan
+Me eletään vain kerran
+Ei meitä pelko Herran
+Saa jumalauta hiljaa juhlimaan
 
-I’ve memorized all the unfaithful years
-(and the faithful ones too)
-I’ve memorized each cigarette that I’ve rolled.
-I’ve memorized Beethoven and New York City
-I’ve memorized
-riding up escalators, I’ve memorized
-Chicago and cottage cheese, and the mouths of
-some of the ladies and the legs of
-some of the ladies
-I’ve known
-and the way the rain came down hard.
-I’ve memorized the face of my father in his coffin,
-I’ve memorized all the cars I have driven
-and each of their sad deaths,
-I’ve memorized each jail cell,
-the face of each new president
-and the faces of some of the assassins;
-I’ve even memorized the arguments I’ve had with
-some of the women
-I’ve loved.
-
-
-
-best of all
-I’ve memorized tonight and now and the way the
-light falls across my fingers,
-specks and smears on the wall,
-shades down behind orange curtains;
-I light a rolled cigarette and then laugh a little,
-yes, I’ve memorized it all.
-
-
-
-the courage of my memory.
+<i>kertosäe x2</i>
   </div>
 </div>
 </template>
@@ -83,6 +76,12 @@ the courage of my memory.
 
 .karaoke-lyrics{
   padding: 3%;
+}
+
+@media only screen and (max-device-width: 640px), only screen and (max-device-width: 667px), only screen and (max-width: 480px) and (orientation : portrait) {
+  .karaoke-lyrics{
+    font-size: 2.5em;
+  }
 }
 </style>
 <script>
