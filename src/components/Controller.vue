@@ -5,7 +5,7 @@
       <div class="controls">
         <div class="category">CONTROLS</div>
         <div class="subcontrols legend">
-          <button @click="sendStart" class="start">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendCamera('on')">CAMERA ON</button> <button @click="sendCamera('off')">CAMERA OFF</button> <button class="end" @click="sendStop">STOP</button> <button class="end" @click="sendReset">RESET</button> <button class="end" @click="sendEnd">END</button>
+          <button @click="sendStart" class="start">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendCamera('on')">CAMERA ON</button> <button @click="sendCamera('off')">CAMERA OFF</button>  <button @click="sendPath">PATH</button> <button class="end" @click="sendStop">STOP</button> <button class="end" @click="sendReset">RESET</button> <button class="end" @click="sendEnd">END</button>
         </div>
         <hr />
         <div class="subcontrols">
@@ -19,7 +19,7 @@
         </div>
         <div class="subcontrols">
           <div class="legend">
-            <span class="legend-static">{{ current.id }}</span>  <span v-for="choice in current.choices" class="following-choice">{{choice.toLowerCase()}} </span> <button v-if="armed" @click="sendNext">SEND</button>
+            <span class="legend-static">{{ current.id }}</span>  <span v-for="choice, index in current.choices" class="following-choice">{{choice.toLowerCase()}} ({{current.following[index]}}) </span> <button v-if="armed" @click="sendNext">SEND</button>
           </div>
         </div>
         <hr />
@@ -264,6 +264,7 @@ class User{
         current_scene: 'None',
         inputs: [],
         consents: 0,
+        path: [],
         highlighted_user: '',
         showMediaDisplay: false,
         choices: [
@@ -315,6 +316,10 @@ class User{
         this.logs.unshift("[SCENE] jumping to " + sc)
         this.armNext(sc)
       },
+      sendPath: function(){
+        this.client.send('/all/path', this.path)
+        this.logs.unshift('[SENDING] - Path')
+      },
       sendKaraoke: function(){
         this.client.send('/all/karaoke')
         this.client.send('/stage/karaoke')
@@ -355,6 +360,7 @@ class User{
             this.next_message = [scene.choice_type, scene.prompt, ...scene.choices]
 
             //-- letting the actors know what is going to happen
+            this.path.push(this.current.path_id)
             client.send('/stage/next', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
             client.send('/all/current', [this.current.id])
           }

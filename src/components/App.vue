@@ -326,7 +326,8 @@
             break;
           case 'end':
             console.log('disconnect');
-            this.curtainDown()
+            // this.curtainDown()
+            break;
           default: //-- 'single' and 'binary'
             val = [evt.target.value]
 
@@ -598,10 +599,15 @@
                 localStorage.setItem("last_scene", this.last_scene)
               break;
 
-            case '/all/result': //-- this just broadcasts what is the current scene we are playing
+            case '/all/result': //-- this shows the result of the choices
               console.log('[MSG] - providing results');
               this.prompt = `Most of you have chosen:\n ${args[0]}`
               setTimeout(() => {this.prompt = ''}, 4000)
+              break;
+
+            case '/all/path': //-- this shows the result of the whole path
+              console.log('[MSG] - showing path');
+              this.prompt = `This was your journey through this world:\n${args[0].join('\n')}\n\nHope to see you again soon.`
               break;
             case '/all/karaoke':
               console.log('[KARAOKE] - choose');

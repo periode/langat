@@ -4,7 +4,7 @@
 ## MONOLOGUE PROGRAMMER
 - what is the meaning if a choice? what does it mean to be able to choose, for yourself, for others, do you feel free just because you choose?
 - we, as characters, are following a script, made by someone, told by a computer.
-- you had the ability to choose, but anymore. //!
+- you had the ability to choose, but not anymore. //!
 - it's time to tell you the tricks: you didn't have any freedom
 - you were like the characters of a show
 - is it really a choice when you only have a few choices? i think you know the answer
