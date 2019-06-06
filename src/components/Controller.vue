@@ -122,6 +122,10 @@ input{
   margin-right: 5px;
 }
 
+option, select{
+  color: black;
+}
+
 td{
   font-size: 1.5em;
   padding: 5px;
@@ -368,12 +372,14 @@ class User{
       },
       sendNext: function(evt){
         this.logs.unshift("[SCENE] - Sending "+this.next_message.join(" | "))
-        this.sendFreeze()
         this.client.send('/all/next', this.next_message)
+        this.client.send('/stage/color', ['white']) //-- highlighting the actors
 
-        //-- highlighting the actors
-        this.client.send('/stage/color', ['white'])
-        setTimeout(this.evaluateResults, 17000)
+        if(this.current.choice_type != 'input'){ //-- we do not send the freeze on opening the camera
+          this.sendFreeze()
+          setTimeout(this.evaluateResults, 17000)
+        }
+
       },
       sendMedia: function(data){
         this.logs.unshift("[MEDIA] - Sending " + data)
@@ -385,9 +391,9 @@ class User{
           let results = (this.consents / (this.users.length * this.current.choices.length)) * 100
           this.logs.unshift('[CONSENT] - ' + results + '% of consents');
           if(results < 50) //if users have mostly unchecked the boxes >  we don't consent
-            this.armNext(this.current.following[0])
-          else //if we have mostly checked the boxes > we consent
             this.armNext(this.current.following[1])
+          else //if we have mostly checked the boxes > we consent
+            this.armNext(this.current.following[0])
         }else{
           // TODO: MAKE THIS RANDOM FOR TIE
 
@@ -476,7 +482,7 @@ class User{
                 this.inputs.push({user: args[2], text: args[1]})
               }else if(args[0] === "checkboxes"){
                 this.logs.unshift("[MSG] received checkboxes: " + args[1])
-                this.consents += parseInt(args[1])
+                this.consents += parseInt(args[1]) // this adds to how many checkboxes have been unticked
               }else{
                 console.log("[WARN] - choice type: "+args[0])
               }

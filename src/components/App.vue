@@ -304,11 +304,10 @@
         else
           return
 
-        if(el.style.backgroundColor == 'white'){
+        if(el.style.backgroundColor == 'white'){ //from white to blue -> ticked
           this.checkboxes_unticked--;
           el.style.backgroundColor = 'rgb(19, 53, 177)'
-
-        }else{
+        }else{ //from blue to white -> unticked
           this.checkboxes_unticked++;
           el.style.backgroundColor = 'white'
 

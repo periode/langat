@@ -197,7 +197,7 @@ let scenes = [
     "content":["The shadow is coming up to give his monologue."],
     "choices": ["Ok"],
     "following": ["Camera"],
-    "choice_type": "single"
+    "choice_type": "input"
   },
   {
     "id": "Camera",

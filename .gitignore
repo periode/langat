@@ -4,3 +4,4 @@ wstemp/
 *.crt
 *.key
 *.pem
+push-notifications/
