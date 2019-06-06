@@ -164,7 +164,7 @@ let scenes = [
     "path_id": "Dance",
     "timelines": ["T1", "T2"],
     "prompt": "You're doing great.",
-    "content":["The public is invited to come dance on stage"],
+    "content":["The public is invited to come on stage. The actors slowly take their place into the audience."],
     "choices": ["Keep Dancing"],
     "following": ["Choosing the Dark"],
     "choice_type": "single"
@@ -184,7 +184,7 @@ let scenes = [
     "path_id": "Adsvideo",
     "timelines": ["T3"],
     "prompt": "Do you usually take medicine...",
-    "content":["An ad for burning soul, better person starts playing."],
+    "content":["An ad for burning soul, better person starts playing. Everyone watches the ad on the big screen."],
     "choices": ["To get excited", "To calm down"],
     "following": ["Rave", "Shadow"],
     "choice_type": "binary"
@@ -193,18 +193,18 @@ let scenes = [
     "id": "Shadow",
     "path_id": "Shadow",
     "timelines": ["T3", "T4"],
-    "prompt": "Live on Camera!",
-    "content":["The shadow is coming up to give his monologue."],
+    "prompt": "Live on Camera! Take a picture of the shadows!",
+    "content":[" People walk around. The shadow is following people. Then he comes up to give his monologue."],
     "choices": ["Ok"],
     "following": ["Camera"],
-    "choice_type": "input"
+    "choice_type": "single"
   },
   {
     "id": "Camera",
     "path_id": "Camera",
     "timelines": ["T3", "T4"],
-    "prompt": "Open your camera!",
-    "content":["The audience is seeing a video on their phones as the shadows are all running around."],
+    "prompt": "Congratulations! You have won a small portion of delicious popcorn!",
+    "content":["The audience is invited to take pictures of the shadow. The audience is seeing a video on their phones as the shadows are all running around. The others are getting ready to serve the popcorn."],
     "choices": ["Ok"],
     "following": ["Popcorn"],
     "choice_type": "single"
@@ -213,9 +213,9 @@ let scenes = [
     "id": "Popcorn",
     "path_id": "Popcorn",
     "timelines": ["T3", "T4"],
-    "prompt": "Congratulations! You have won a small portion of delicious popcorn!",
+    "prompt": "We hope you are satisfied!",
     "content":["The audience is invited on stage to come eat some popcorn."],
-    "choices": ["Great!"],
+    "choices": ["Yes!"],
     "following": ["Choosing the Dark"],
     "choice_type": "single"
   },

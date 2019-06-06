@@ -42,8 +42,8 @@
             <br />
             <button @click="sendMedia('wolf_pack')">WOLF PACK SELFIE</button>
             <button @click="sendMedia('red_hood')">RED HOOD SELFIE</button>
-            <button @click="sendMedia('burning_soul')">SOUL PILL VIDEO</button>
-            <button @click="sendMedia('shadow')">SHADOW VIDEO</button>
+            <button @click="sendMedia('shadow_1')">SHADOW 1 VIDEO</button>
+            <button @click="sendMedia('shadow_2')">SHADOW 2 VIDEO</button>
             <button class="end" @click="sendMedia('off')">OFF</button>
           </div>
         </div>
@@ -51,7 +51,17 @@
           <span class="legend-static">cues</span><button class="button-unfold" @click="showCues=!showCues">{{showCues ? '-' : '+'}}</button>
           <div v-if="showCues" class="legend">
             <br />
-            <button @click="sendCue">CUE</button>
+            <button @click="sendCue('4')">FREEZE</button>
+            <hr />
+            <button @click="sendCue('6')">ENTER</button>
+            <button @click="sendCue('7')">SHADOW</button>
+            <button @click="sendCue('8')">SLOWMOTION</button>
+            <button @click="sendCue('9')">KARAOKE</button>
+            <button @click="sendCue('10')">PARTICIPATIVE DANCE</button>
+            <hr />
+            <button @click="sendCue('2')">SHADOW 1</button>
+            <button @click="sendCue('3')">SHADOW 2</button>
+            <button @click="sendCue('5')">CHAT</button>
           </div>
         </div>
         <hr />
@@ -297,10 +307,9 @@ class User{
       sendMsg: function(evt){
         console.log(evt);
       },
-      sendCue: function(evt){
-        this.oscClient.send({address:'/cue/4/start'})
-        // this.oscClient.send({address:'/go'})
-        this.logs.unshift("[SENDING] - Cue")
+      sendCue: function(val){
+        this.oscClient.send({address:`/cue/${val}/start`})
+        this.logs.unshift(`[SENDING] - Cue ${val}`)
       },
       sendFreeze: function(){
         this.oscClient.send({address: '/cue/4/start'})
@@ -308,6 +317,7 @@ class User{
       sendStart: function(evt){
         this.armed = true
         this.client.send('/all/start', ['go'])
+        this.sendCue('6')
         this.armNext(this.current.id)
         this.logs.unshift("[SENDING] - Start")
       },
@@ -326,6 +336,7 @@ class User{
       },
       sendKaraoke: function(){
         this.client.send('/all/karaoke')
+        this.sendCue('9')
         this.client.send('/stage/karaoke')
         this.logs.unshift("[SENDING] - Karaoke")
       },
@@ -383,6 +394,12 @@ class User{
       },
       sendMedia: function(data){
         this.logs.unshift("[MEDIA] - Sending " + data)
+
+        if(data == "shadow_1")
+          this.sendCue('2')
+        else if(data == "shadow_2")
+          this.sendCue('2')
+
         this.client.send('/all/media', [data])
       },
       evaluateResults: function(evt){
@@ -415,7 +432,7 @@ class User{
 
           //-- wait 2 seconds before sending the unfreeze
           setTimeout(this.sendFreeze, 2000)
-          this.client.send('/all/result', [this.current.following[highest_index]])
+          //this.client.send('/all/result', [this.current.following[highest_index]])
         }
       },
       findScene: function(_next){

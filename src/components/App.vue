@@ -266,7 +266,7 @@
         showChat: false, //-- display the chat
         showChatContent: true, //-- toggle chat contents on and off, during the audience input to the chat
         additionalChatContents: '', //-- push additional lines to the chat
-        showKaraoke: true, //-- display the karaoke
+        showKaraoke: false, //-- display the karaoke
         message: '', //-- used at the end of the form
         popup: '', //-- popup message, used in the beginning (join the network)
         image_src: '', //-- src of the images sent to the devices
@@ -580,6 +580,8 @@
                 this.showChat = true
                 this.chat_prompt = args[1]
               }else if(this.current_mode === "single"){
+                this.showCamera = false
+                this.showTimer = true
                 this.single_choice = true
                 this.prompt = args[1]
                 this.single_choice_text = args[2]
