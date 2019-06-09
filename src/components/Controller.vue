@@ -379,7 +379,7 @@ class User{
         console.log('sending end');
         this.sendPanic()
         this.client.send('/all/end')
-        setTimeout(() => {this.sendCue('20')}, 7000)
+        setTimeout(() => {this.sendCue('20')}, 3000)
         this.logs.unshift("[SENDING] - End")
       },
       sendReset: function(){
@@ -415,11 +415,16 @@ class User{
             setTimeout(() => {
               if(this.current.id == "Love Talk"){
                 this.sendCue('5') //-- show video
-                // this.armNext(this.current.following[0])
                 this.sendNext()
+                this.armNext(this.current.following[0])
+
               }else if(this.current.id == "Rave"){
                 this.sendCue('10') //-- rave music
-              }else if(this.current.id == "Slowmotion"){
+              }else if(this.current.id == "Rave LOOP"){
+                this.sendCue('10.05') //-- rave music
+              }else if(this.current.id == "Consequences"){
+                this.sendCue('10.5')
+              }else if(this.current.id == "Slowmotion" || this.current.id == "Rave CONTINUE"){
                 this.sendCue('10.1') //-- rave music 2
               }else if(this.current.id == "Participative Dance"){
                 this.sendCue('11') //-- seven nation army
@@ -427,24 +432,29 @@ class User{
                 this.sendCue('8') //-- slowmotion music
               }else if(this.current.id == "Adsvideo"){
                 this.sendCue('2') //-- send shadow 1
+                this.sendMedia('shadow_1')
               }else if(this.current.id == "Shadow"){
                 this.sendCue('16') //-- shadow 2 + song
+                this.sendMedia('shadow_2')
               }else if(this.current.id == "Camera"){
                 this.sendCue('17') //-- pokemon song
               }else if(this.current.id == "Broadway"){
                 // this.sendCue('18') //-- greek song-- WAIT FOR FARID TO BE INSIDE
               }else if(this.current.id == "Popcorn"){
                 this.sendCue('19') //--muzak song
-              }else if(this.current.id == "Topic From News"){
+              }else if(this.current.id == "Topic from News"){
                 this.sendCue('15')
+                this.sendMedia('news')
               }else if(this.current.id == "LGBTQI Performance"){
                 this.sendCue('13')
               }else if(this.current.id == "Women Bruise"){
                 this.sendCue('12')
+              }else if(this.current.id == "How to be a Man"){
+                this.sendCue('19.5')
               }else if(this.current.id == "MTV Dance"){
                 this.sendCue('14')
               }
-            }, 3000)
+            }, 6500)
 
           }
         }
@@ -465,12 +475,12 @@ class User{
       sendMedia: function(data){
         this.logs.unshift("[MEDIA] - Sending " + data)
 
-        if(data == "shadow_1")
-          this.sendCue('2')
-        else if(data == "shadow_2")
-          this.sendCue('16')
-        else if(data == "news")
-          this.sendCue('15')
+        // if(data == "shadow_1")
+        //   this.sendCue('2')
+        // else if(data == "shadow_2")
+        //   this.sendCue('16')
+        // else if(data == "news")
+        //   this.sendCue('15')
 
         this.client.send('/all/media', [data])
       },
@@ -483,6 +493,8 @@ class User{
             this.armNext(this.current.following[1])
           else //if we have mostly checked the boxes > we consent
             this.armNext(this.current.following[0])
+
+          setTimeout(() => {this.sendUnfreeze()}, 3000)
         }else{
           // TODO: MAKE THIS RANDOM FOR TIE
 
@@ -507,7 +519,7 @@ class User{
 
           //-- wait 2 seconds before sending the unfreeze
           if(this.current_mode != 'input' || this.current_mode != 'single')
-            this.sendUnfreeze()
+            setTimeout(() => {this.sendUnfreeze()}, 3000)
           //this.client.send('/all/result', [this.current.following[highest_index]])
         }
       },
@@ -603,8 +615,8 @@ class User{
       window.client = this.client
 
       this.oscClient = new osc.WebSocketPort({
-        // url: 'wss://computer.enframed.net:443',
-        url: 'ws://192.168.1.3:80',
+        url: 'wss://computer.enframed.net:443',
+        // url: 'ws://192.168.1.3:80',
         metadata: true
       })
 

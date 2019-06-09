@@ -392,7 +392,7 @@
           document.body.innerHTML = `<h1 style="color: black;">POSTFACE</h1><br />
           <video style="float: left; width: 100%" src="media/end.mp4" muted autoplay></video>
           <h3 style="float: right; color: black;">THE END</h3>`
-        }, 7000)
+        }, 3000)
 
       },
       resetAll: function(){
@@ -409,6 +409,8 @@
 
         this.popup = ''
         this.prompt = ''
+        this.video_src = ''
+        this.image_src = ''
       },
       displayFeedback: function(el){
         this.disableInputs()

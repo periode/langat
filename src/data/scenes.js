@@ -36,6 +36,28 @@ let scenes = [
     "id": "Rave",
     "path_id": "Rave",
     "timelines": ["T1", "T3"],
+    "prompt": "Would you like to:",
+    "content":["There is a great rave happening."," THIS COULD BE A LOOP"],
+    "choices": ["Watch again", "Skip"], // -- IMPROVE
+    "following": ["Rave LOOP", "Rave CONTINUE"],
+    "choice_type": "binary",
+    "cue": "SONG - Play Rave"
+  },
+  {
+    "id": "Rave LOOP",
+    "path_id": "Rave",
+    "timelines": ["T1", "T3"],
+    "prompt": "Would you like to:",
+    "content":["There is a great rave happening."," THIS COULD BE A LOOP"],
+    "choices": ["Watch again", "Skip"], // -- IMPROVE
+    "following": ["Rave LOOP", "Rave CONTINUE"],
+    "choice_type": "binary",
+    "cue": "SONG - Play Rave"
+  },
+  {
+    "id": "Rave CONTINUE",
+    "path_id": "Rave CONTINUE",
+    "timelines": ["T1", "T3"],
     "prompt": "Please consent to the following:",
     "content":["There is a great rave happening."],
     "choices": ["I consent to this", "I consent to that", "I consent to that too", "I consent to that as well"], // -- IMPROVE
@@ -50,7 +72,7 @@ let scenes = [
     "prompt": "Do you like this?",
     "content":["The clever person shows up and interrupts the rave. He talks about the system that is being lived in."],
     "choices": ["Like", "Next"],
-    "following": ["Consequences", "Clever end"],
+    "following": ["Clever end", "Consequences"],
     "choice_type": "binary",
     "cue": ""
   },
@@ -96,7 +118,7 @@ let scenes = [
     "choices": ["Share"],
     "following": ["Objects End"],
     "choice_type": "single",
-    "cue": "SONG - Rave 2"
+    "cue": "CUE - switch between slowmo and back to rave"
   },
   {
     "id": "Subjects",
@@ -117,7 +139,7 @@ let scenes = [
     "content":["The crowd receives the selfies."],
     "choices": ["End"],
     "following": ["End"],
-    "choice_type": "end",
+    "choice_type": "single",
     "cue": ""
   },
   {
@@ -128,7 +150,7 @@ let scenes = [
     "content":["The crowd receives the selfies."],
     "choices": ["End"],
     "following": ["End"],
-    "choice_type": "end",
+    "choice_type": "single",
     "cue": ""
   },
   {
@@ -158,7 +180,7 @@ let scenes = [
     "path_id": "Stop Participating",
     "timelines": ["T1", "T2"],
     "prompt": "Because you've stopped participating, you've been disconnected",
-    "content":["PBlack comes, and tells the audience that it's over. The Party continues in the background."],
+    "content":["Farid tells actors on stage that the audience has stopped participating, then he makes an announcement to the audience.", "When he is done, everyone exits the same way they came."],
     "choices": ["Agree"],
     "following": ["End"],
     "choice_type": "end",
