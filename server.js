@@ -41,7 +41,7 @@ function ensureSecure(req, res, next){
 
 //-- websocket server for OSC
 var wss = new WebSocket.Server({
-    server: httpsServer
+    server: httpServer
 });
 
 let oscUDP = new osc.UDPPort({

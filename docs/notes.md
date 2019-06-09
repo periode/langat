@@ -12,6 +12,10 @@
 - entertainment. it's part of theater, but the most common thing was to interact: we tried, they tried —creator and computer, to make you see, with digital art. something will already have, the ability to travel through time and thought.
 - isn't it incredible to communicate, here and now. phones are just the entrance, and a door that are the way we use it today, but theater, by its roots, was already able to play with the audience since the beginning (???how??) we/they tried just to show you another way, the way were the technology now allows you to interact with it. but with those phones, now, in that old factory, you were the workers of this experience.
 
+## RETOUCHED
+- entertainment. it's part of theater, but it was always about interaction: we tried, they tried —playwrights, scriptwriters, programmers, to make you see. because we always already had this ability to travel through time and thought.
+- isn't it incredible to communicate, here and now. phones are just the entrance, and a door to the way we use it today, but theater, by its roots, was already able to play with the audience since the beginning we/they tried just to show you another way. technology now allows you to interact with it, but we still need to make it work. tonight, with those phones, in that old factory, you were the workers of this experience.
+
 __FREEZE__
 
 - thanks for choosing, for watching, for playing.

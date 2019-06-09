@@ -324,8 +324,9 @@
               val.push('Pierre_Depaz_666')
             break;
           case 'end':
-            console.log('disconnect');
-            // this.curtainDown()
+            this.resetAll()
+            this.prompt = "Exiting..."
+            return
             break;
           default: //-- 'single' and 'binary'
             val = [evt.target.value]
@@ -385,6 +386,14 @@
         this.cleanStorage()
         document.getElementById("window").style.display = 'none'
         document.body.style.backgroundColor = 'black'
+        document.body.style.color = 'white'
+
+        setTimeout(() => {
+          document.body.innerHTML = `<h1 style="color: black;">POSTFACE</h1><br />
+          <video style="float: left; width: 100%" src="media/end.mp4" muted autoplay></video>
+          <h3 style="float: right; color: black;">THE END</h3>`
+        }, 7000)
+
       },
       resetAll: function(){
         this.button_choice = false
@@ -410,7 +419,7 @@
       displayMedia: function(name){
         if(name === "red_hood" || name === "wolf_pack")
           this.image_src = `media/${name}.png`
-        else if(name === "burning_soul" || name === "shadow"){
+        else if(name === "burning_soul" || name === "shadow" || name === "news"){
           this.video_src = `media/${name}.mp4`
           let video = document.getElementsByTagName("video")[0]
           video.setAttribute('playsinline', '')
@@ -418,10 +427,12 @@
         }else{
           this.image_src = this.video_src = ''
         }
-
       },
       disableInputs: function(){
         let btns = document.getElementsByClassName("all-input")
+
+        if(btns[0] != undefined)
+          return
 
         for(let i = 0; i < btns.length; i++)
           btns[i].disabled = true
@@ -430,11 +441,13 @@
       enableInputs: function(){
         let btns = document.getElementsByClassName("all-input")
 
+        if(btns[0] != undefined)
+          return
+
         for(let i = 0; i < btns.length; i++){
           btns[i].className = "button-input"
           btns[i].disabled = false
         }
-
       },
       onChatOver: function(){
         this.showChatContent = false
@@ -556,6 +569,7 @@
             case '/all/next':
               console.log('[STATE] - next');
 
+              this.resetAll()
               this.enableInputs()
               this.current_mode = args[0]
               this.showChat = false
@@ -577,7 +591,7 @@
                 this.checkbox_choices = args.slice(2, args.length)
                 this.checkbox_choice = true
               }else if(this.current_mode === "input"){ //-- this should be for displaying the text input
-                this.showChat = true
+                setTimeout(() => {this.showChat = true}, 2500)
                 this.chat_prompt = args[1]
               }else if(this.current_mode === "single"){
                 this.showCamera = false

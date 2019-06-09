@@ -7,7 +7,8 @@ let scenes = [
     "content":["All actors start to get on the couch.", "They look at their phones"],
     "choices": ["Social", "Music", "Photography", "News"],
     "following": ["Love Talk", "MTV Dance", "Adsvideo", "Topic from News"],
-    "choice_type": "beginning"
+    "choice_type": "beginning",
+    "cue": "SONG - Play enter"
   },
   {
     "id": "Love Talk",
@@ -17,7 +18,8 @@ let scenes = [
     "content":["Two lovers are texting back and forth.", "They are looking at each other sometimes", "The other actors are still looking at their phones"],
     "choices": ["Text input"],
     "following": ["Relationship"],
-    "choice_type": "input"
+    "choice_type": "input",
+    "cue": "VIDEO - Play Chat"
   },
   {
     "id": "Relationship",
@@ -27,7 +29,8 @@ let scenes = [
     "content":["Actors get a new message, they are confused, debate it, and then ask for the last person to get banned. PBlack sees the phone that gets highlighted."],
     "choices": ["After midnight", "Before midnight"],
     "following": ["Rave", "MTV Dance"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": ""
   },
   {
     "id": "Rave",
@@ -37,7 +40,8 @@ let scenes = [
     "content":["There is a great rave happening."],
     "choices": ["I consent to this", "I consent to that", "I consent to that too", "I consent to that as well"], // -- IMPROVE
     "following": ["Clever one", "Slowmotion"],
-    "choice_type": "checkboxes"
+    "choice_type": "checkboxes",
+    "cue": "SONG - Play Rave"
   },
   {
     "id": "Clever one",
@@ -47,7 +51,8 @@ let scenes = [
     "content":["The clever person shows up and interrupts the rave. He talks about the system that is being lived in."],
     "choices": ["Like", "Next"],
     "following": ["Consequences", "Clever end"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": ""
   },
   {
     "id": "Consequences",
@@ -57,7 +62,8 @@ let scenes = [
     "content":["Slowly, the ravers start to pull out their phone, pretend to scroll or type, and they exit one by one."],
     "choices": ["OK"],
     "following": ["End"],
-    "choice_type": "end"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "Clever end",
@@ -67,7 +73,8 @@ let scenes = [
     "content":["The clever one brings the audience members outside of the stage."],
     "choices": ["OK"],
     "following": ["End"],
-    "choice_type": "end"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "Slowmotion",
@@ -77,17 +84,19 @@ let scenes = [
     "content":["In slowmotion, the Red Hood and the Wolf Pack are getting ready."],
     "choices": ["Objects", "Subjects"],
     "following": ["Objects", "Subjects"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "SONG - Play Slowmotion"
   },
   {
     "id": "Objects",
     "path_id": "Objects",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
-    "content":["There is a rape of the The rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
+    "content":["There is an assault of the red hood. The rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
     "choices": ["Share"],
     "following": ["Objects End"],
-    "choice_type": "single"
+    "choice_type": "single",
+    "cue": "SONG - Rave 2"
   },
   {
     "id": "Subjects",
@@ -97,7 +106,8 @@ let scenes = [
     "content":["The rave continues. The Red Hood takes selfies, and the Wolf Pack are absorbed by the crowd of dancers."],
     "choices": ["Share"],
     "following": ["Subjects End"],
-    "choice_type": "single"
+    "choice_type": "single",
+    "cue": "SONG - Rave 2"
   },
   {
     "id":"Objects End",
@@ -107,7 +117,8 @@ let scenes = [
     "content":["The crowd receives the selfies."],
     "choices": ["End"],
     "following": ["End"],
-    "choice_type": "end"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id":"Subjects End",
@@ -117,7 +128,8 @@ let scenes = [
     "content":["The crowd receives the selfies."],
     "choices": ["End"],
     "following": ["End"],
-    "choice_type": "end"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "MTV Dance",
@@ -127,7 +139,8 @@ let scenes = [
     "content":["The MTV Party is being set up. People are doing crazy stupid things. Move your thing."],
     "choices": ["Lead", "Follow"],
     "following": ["Karaoke", "Broadway"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "SONG - Play MTV Dance"
   },
   {
     "id": "Karaoke",
@@ -137,7 +150,8 @@ let scenes = [
     "content":["The popular song comes up."],
     "choices": ["Play next", "Disconnect"],
     "following": ["Broadway", "Stop Participating"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "WAIT UNTIL FARID HAS PRESENTED -> ACTION - Send Karaoke"
   },
   {
     "id": "Stop Participating",
@@ -147,7 +161,8 @@ let scenes = [
     "content":["PBlack comes, and tells the audience that it's over. The Party continues in the background."],
     "choices": ["Agree"],
     "following": ["End"],
-    "choice_type": "end"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "Broadway",
@@ -157,7 +172,8 @@ let scenes = [
     "content":["An acrobat is doing some tricks."],
     "choices": ["Keep Dancing", "Disconnect"],
     "following": ["Dance", "Stop Participating"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": " LIGHT+SOUND => WAIT FOR FARID TO BE INSIDE THE WHEEL TO START"
   },
   {
     "id": "Dance",
@@ -166,8 +182,9 @@ let scenes = [
     "prompt": "You're doing great.",
     "content":["The public is invited to come on stage. The actors slowly take their place into the audience."],
     "choices": ["Keep Dancing"],
-    "following": ["Choosing the Dark"],
-    "choice_type": "single"
+    "following": ["End"],
+    "choice_type": "single",
+    "cue": "AT THEN END FADE MUSIC ON QLAB"
   },
   {
     "id": "Choosing the Dark",
@@ -175,9 +192,10 @@ let scenes = [
     "timelines": ["T1", "T2", "T3", "T4"],
     "prompt": "Enjoy.",
     "content":["The public is on stage, the actors are in the public."],
-    "choices": ["OK"],
+    "choices": ["Disconnect"],
     "following": ["End"],
-    "choice_type": "end"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "Adsvideo",
@@ -187,7 +205,8 @@ let scenes = [
     "content":["An ad for burning soul, better person starts playing. Everyone watches the ad on the big screen."],
     "choices": ["To get excited", "To calm down"],
     "following": ["Rave", "Shadow"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "MOVIE - SHADOW 1"
   },
   {
     "id": "Shadow",
@@ -197,7 +216,8 @@ let scenes = [
     "content":[" People walk around. The shadow is following people. Then he comes up to give his monologue."],
     "choices": ["Ok"],
     "following": ["Camera"],
-    "choice_type": "single"
+    "choice_type": "single",
+    "cue": "MOVIE - SHADOW 2"
   },
   {
     "id": "Camera",
@@ -207,7 +227,8 @@ let scenes = [
     "content":["The audience is invited to take pictures of the shadow. The audience is seeing a video on their phones as the shadows are all running around. The others are getting ready to serve the popcorn."],
     "choices": ["Ok"],
     "following": ["Popcorn"],
-    "choice_type": "single"
+    "choice_type": "single",
+    "cue": "ACTION - Send Camera"
   },
   {
     "id": "Popcorn",
@@ -216,8 +237,9 @@ let scenes = [
     "prompt": "We hope you are satisfied!",
     "content":["The audience is invited on stage to come eat some popcorn."],
     "choices": ["Yes!"],
-    "following": ["Choosing the Dark"],
-    "choice_type": "single"
+    "following": ["End"],
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "Topic from News",
@@ -227,7 +249,8 @@ let scenes = [
     "content":["A soundtrack of current news is happening."],
     "choices": ["The most recent article", "The most commented article"],
     "following": ["Women Bruise", "LGBTQI Performance"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "MOVIE - News"
   },
   {
     "id": "LGBTQI Performance",
@@ -237,7 +260,8 @@ let scenes = [
     "content":["LGBTQI Performance"],
     "choices": ["Socially privileged", "Socially disabled"],
     "following": ["Shadow", "How to be a Man"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "SONG - LGBTQI"
   },
   {
     "id": "Women Bruise",
@@ -247,7 +271,8 @@ let scenes = [
     "content":["LGBTQI perf but with a woman"],
     "choices": ["Socially privileged", "Socially disabled"],
     "following": ["Shadow", "How to be a Man"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": "SONG - Women Bruise"
   },
   {
     "id": "How to be a Man",
@@ -257,7 +282,8 @@ let scenes = [
     "content":["A man comes forward and explains how hard it is to be a man."],
     "choices": ["Like", "Hide"],
     "following": ["Commenting on the Couch", "Popcorn"],
-    "choice_type": "binary"
+    "choice_type": "binary",
+    "cue": ""
   },
   {
     "id": "Commenting on the Couch",
@@ -267,7 +293,8 @@ let scenes = [
     "content":["Everyone is one the couch, commenting on what the news were."],
     "choices": ["Disconnect"],
     "following": ["End"],
-    "choice_type": "single"
+    "choice_type": "end",
+    "cue": ""
   },
   {
     "id": "End",

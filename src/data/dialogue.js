@@ -12,7 +12,7 @@ let dialogue = [
   {
     "type": "message",
     "sender": "L1",
-    "text": "LOL"
+    "text": "haha lol"
   },
   {
     "type": "message",
@@ -27,7 +27,7 @@ let dialogue = [
   {
     "type": "message",
     "sender": "L2",
-    "text": "Let's grab some drink"
+    "text": "Let's grab some drinks??"
   },
   {
     "type": "message",
@@ -37,27 +37,32 @@ let dialogue = [
   {
     "type": "message",
     "sender": "L1",
-    "text": "🍑🍆"
+    "text": "like this kind? 🍑🍆"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "maybe something more meaty"
+    "text": "hmm maybe something more meaty"
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "U know how to talk to me, I will eat you raw"
+    "text": "U know how to talk to me"
+  },
+  {
+    "type": "message",
+    "sender": "L1",
+    "text": "I will eat you raw"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "off course I know you, U like potato and meat. Not difficult"
+    "text": "of course I know you, U like potato and meat. Not difficult"
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "We could cook home, let me be the helping hand"
+    "text": "We could cook at home... let me be the helping hand"
   },
   {
     "type": "message",
@@ -67,7 +72,7 @@ let dialogue = [
   {
     "type": "message",
     "sender": "L2",
-    "text": "My place or yours"
+    "text": "So my place or yours"
   },
   {
     "type": "message",

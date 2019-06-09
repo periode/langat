@@ -214,7 +214,7 @@ export default {
     additionalChatContents: function(newVal, oldVal){
       let msg = {
         "type": "message",
-        "sender": "L1",
+        "sender": "undefined",
         "text": newVal
       }
       this.displayed.push(msg)
@@ -241,7 +241,7 @@ export default {
         let rand = Math.floor(Math.random()*2000+4000)
         setTimeout(this.addNewMessage, rand)
       }else{
-        this.$emit('chat-over')
+        // this.$emit('chat-over')
       }
     }
   },

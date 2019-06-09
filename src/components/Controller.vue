@@ -5,7 +5,16 @@
       <div class="controls">
         <div class="category">CONTROLS</div>
         <div class="subcontrols legend">
-          <button @click="sendStart" class="start">START</button> <button @click="sendKaraoke">KARAOKE</button> <button @click="sendCamera('on')">CAMERA ON</button> <button @click="sendCamera('off')">CAMERA OFF</button>  <button @click="sendPath">PATH</button> <button class="end" @click="sendStop">STOP</button> <button class="end" @click="sendReset">RESET</button> <button class="end" @click="sendEnd">END</button>
+          <button @click="sendStart" class="start">START</button>
+          <button @click="sendKaraoke">KARAOKE</button>
+          <button @click="sendCyrWheel">CYR WHEEL</button>
+          <button @click="sendCamera('on')">CAMERA ON</button>
+          <button @click="sendCamera('off')">CAMERA OFF</button>
+          <button @click="sendPath">PATH</button>
+          <button class="end" @click="sendPanic">PANIC</button>
+          <button class="end" @click="sendStop">STOP</button>
+          <button class="end" @click="sendReset">RESET</button>
+          <button class="end" @click="sendEnd">END</button>
         </div>
         <hr />
         <div class="subcontrols">
@@ -19,7 +28,7 @@
         </div>
         <div class="subcontrols">
           <div class="legend">
-            <span class="legend-static">{{ current.id }}</span>  <span v-for="choice, index in current.choices" class="following-choice">{{choice.toLowerCase()}} ({{current.following[index]}}) </span> <button v-if="armed" @click="sendNext">SEND</button>
+            <span class="legend-static">{{ current.id }}</span>  <span v-for="choice, index in current.choices" class="following-choice">{{choice.toLowerCase()}} ({{current.following[index]}}) </span><span class="legend-cue">{{current.cue}}</span> <button v-if="armed" @click="sendNext">SEND</button>
           </div>
         </div>
         <hr />
@@ -44,6 +53,7 @@
             <button @click="sendMedia('red_hood')">RED HOOD SELFIE</button>
             <button @click="sendMedia('shadow_1')">SHADOW 1 VIDEO</button>
             <button @click="sendMedia('shadow_2')">SHADOW 2 VIDEO</button>
+            <button @click="sendMedia('news')">TOPIC FROM NEWS</button>
             <button class="end" @click="sendMedia('off')">OFF</button>
           </div>
         </div>
@@ -54,14 +64,20 @@
             <button @click="sendCue('4')">FREEZE</button>
             <hr />
             <button @click="sendCue('6')">ENTER</button>
-            <button @click="sendCue('7')">SHADOW</button>
+            <button @click="sendCue('16')">SHADOW</button>
             <button @click="sendCue('8')">SLOWMOTION</button>
             <button @click="sendCue('9')">KARAOKE</button>
-            <button @click="sendCue('10')">PARTICIPATIVE DANCE</button>
+            <button @click="sendCue('10')">RAVE</button>
+            <button @click="sendCue('10.5')">RAVE 2</button>
+            <button @click="sendCue('11')">PARTICIPATIVE DANCE</button>
+            <button @click="sendCue('12')">WOMEN BRUISES</button>
+            <button @click="sendCue('13')">LGBTQI PERF</button>
+            <button @click="sendCue('14')">MTV DANCE</button>
             <hr />
             <button @click="sendCue('2')">SHADOW 1</button>
-            <button @click="sendCue('3')">SHADOW 2</button>
+            <button @click="sendCue('16')">SHADOW 2</button>
             <button @click="sendCue('5')">CHAT</button>
+            <button @click="sendCue('15')">TOPIC FROM NEWS</button>
           </div>
         </div>
         <hr />
@@ -189,6 +205,11 @@ td{
   font-size: bold;
 }
 
+.legend-cue{
+  font-size: 1.5em;
+  border: 2px solid white;
+}
+
 .legend button{
   font-style: italic;
   border: none;
@@ -314,6 +335,12 @@ class User{
       sendFreeze: function(){
         this.oscClient.send({address: '/cue/4/start'})
       },
+      sendUnfreeze: function(){
+        this.oscClient.send({address: '/cue/4.5/start'})
+      },
+      sendPanic: function(){
+        this.oscClient.send({address: '/panic'})
+      },
       sendStart: function(evt){
         this.armed = true
         this.client.send('/all/start', ['go'])
@@ -340,13 +367,19 @@ class User{
         this.client.send('/stage/karaoke')
         this.logs.unshift("[SENDING] - Karaoke")
       },
+      sendCyrWheel: function(){
+        this.oscClient.send('18')
+        this.logs.unshift("[SENDING] - Cyr Wheel")
+      },
       sendCamera: function(state){
         this.client.send('/all/camera', [state])
         this.logs.unshift("[SENDING] - Camera")
       },
       sendEnd: function(){
         console.log('sending end');
+        this.sendPanic()
         this.client.send('/all/end')
+        setTimeout(() => {this.sendCue('20')}, 7000)
         this.logs.unshift("[SENDING] - End")
       },
       sendReset: function(){
@@ -378,6 +411,41 @@ class User{
             this.path.push(this.current.path_id)
             client.send('/stage/next', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
             client.send('/all/current', [this.current.id])
+
+            setTimeout(() => {
+              if(this.current.id == "Love Talk"){
+                this.sendCue('5') //-- show video
+                // this.armNext(this.current.following[0])
+                this.sendNext()
+              }else if(this.current.id == "Rave"){
+                this.sendCue('10') //-- rave music
+              }else if(this.current.id == "Slowmotion"){
+                this.sendCue('10.1') //-- rave music 2
+              }else if(this.current.id == "Participative Dance"){
+                this.sendCue('11') //-- seven nation army
+              }else if(this.current.id == "Objects" || this.current.id == "Subjects"){
+                this.sendCue('8') //-- slowmotion music
+              }else if(this.current.id == "Adsvideo"){
+                this.sendCue('2') //-- send shadow 1
+              }else if(this.current.id == "Shadow"){
+                this.sendCue('16') //-- shadow 2 + song
+              }else if(this.current.id == "Camera"){
+                this.sendCue('17') //-- pokemon song
+              }else if(this.current.id == "Broadway"){
+                // this.sendCue('18') //-- greek song-- WAIT FOR FARID TO BE INSIDE
+              }else if(this.current.id == "Popcorn"){
+                this.sendCue('19') //--muzak song
+              }else if(this.current.id == "Topic From News"){
+                this.sendCue('15')
+              }else if(this.current.id == "LGBTQI Performance"){
+                this.sendCue('13')
+              }else if(this.current.id == "Women Bruise"){
+                this.sendCue('12')
+              }else if(this.current.id == "MTV Dance"){
+                this.sendCue('14')
+              }
+            }, 3000)
+
           }
         }
       },
@@ -387,8 +455,10 @@ class User{
         this.client.send('/stage/color', ['white']) //-- highlighting the actors
 
         if(this.current.choice_type != 'input'){ //-- we do not send the freeze on opening the camera
+          this.sendPanic()
           this.sendFreeze()
-          setTimeout(this.evaluateResults, 17000)
+
+          setTimeout(this.evaluateResults, 15000)
         }
 
       },
@@ -398,7 +468,9 @@ class User{
         if(data == "shadow_1")
           this.sendCue('2')
         else if(data == "shadow_2")
-          this.sendCue('2')
+          this.sendCue('16')
+        else if(data == "news")
+          this.sendCue('15')
 
         this.client.send('/all/media', [data])
       },
@@ -423,15 +495,19 @@ class User{
             }
           }
 
+          let next_scene = this.current.following[highest_index]
+
           this.logs.unshift('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
-          this.logs.unshift('[NEXT] The next scene is: ' + this.current.following[highest_index])
-          this.armNext(this.current.following[highest_index])
+          this.logs.unshift('[NEXT] The next scene is: ' + next_scene)
+          this.armNext(next_scene)
+
 
           for(let choice of this.choices)
             choice.votes = 0
 
           //-- wait 2 seconds before sending the unfreeze
-          setTimeout(this.sendFreeze, 2000)
+          if(this.current_mode != 'input' || this.current_mode != 'single')
+            this.sendUnfreeze()
           //this.client.send('/all/result', [this.current.following[highest_index]])
         }
       },
@@ -444,6 +520,12 @@ class User{
       }
     },
     mounted(){
+
+      document.body.onkeypress = (evt) => {
+        if(evt.key === 'p')
+          this.sendPanic()
+      }
+
       this.client = new rhizome.Client()
       this.scenes = scenes
 
@@ -521,7 +603,8 @@ class User{
       window.client = this.client
 
       this.oscClient = new osc.WebSocketPort({
-        url: 'wss://computer.enframed.net:443',
+        // url: 'wss://computer.enframed.net:443',
+        url: 'ws://192.168.1.3:80',
         metadata: true
       })
 
