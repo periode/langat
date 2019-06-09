@@ -99,7 +99,7 @@
   }
 
   .prompt{
-    top: 15vh;
+    top: 10vh;
     bottom: auto;
     width: 70vw;
     background-color: white;
@@ -126,11 +126,11 @@
     background-color: white;
     width: 96%;
     color: #1335B1;
-    padding: 1%;
+    padding: 2%;
     margin: 1%;
     margin-right: 3%;
     float: left;
-    line-height: 40px;
+    line-height: 60px;
   }
 
   .toggle{
@@ -150,7 +150,7 @@
   }
 
   .checkbox-text{
-    font-size: 1.1em;
+    font-size: 1.5em;
   }
 
   .button-input{
@@ -192,7 +192,7 @@
     }
 
     .prompt{
-      font-size: 3em;
+      font-size: 4em;
       width: 70vw;
     }
 
@@ -201,25 +201,31 @@
     }
 
     .choices{
-      bottom: 17vh;
+      bottom: 25vh;
       top: auto;
       width: 80vw;
+      padding-top: 2vh;
+      padding-bottom: 2vh;
     }
 
     .button-input{
-      font-size: 3.5em;
+      font-size: 4.5em;
     }
 
     .toggle{
-      margin-right: 20px;
+      margin-right: 1%;
+    }
+
+    .checkbox-input{
+      width: 95%;
     }
 
     .checkbox-text{
-      font-size: 3em;
+      font-size: 3.5em;
     }
 
     .text-input{
-      font-size: 2.5em;
+      font-size: 3em;
     }
   }
 </style>

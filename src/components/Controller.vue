@@ -24,7 +24,7 @@
               {{scene.id}}
             </option>
           </select>
-          <button @click="jumpToScene">jump</button>
+          <button @click="jumpToScene">⇝</button>
         </div>
         <div class="subcontrols">
           <div class="legend">

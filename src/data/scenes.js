@@ -60,7 +60,7 @@ let scenes = [
     "timelines": ["T1", "T3"],
     "prompt": "Please consent to the following:",
     "content":["There is a great rave happening."],
-    "choices": ["I consent to this", "I consent to that", "I consent to that too", "I consent to that as well"], // -- IMPROVE
+    "choices": ["I consent to this", "I consent to that and to this motherfucker as well goddammit", "I consent to that too", "I consent to that as well"], // -- IMPROVE
     "following": ["Clever one", "Slowmotion"],
     "choice_type": "checkboxes",
     "cue": "SONG - Play Rave"
