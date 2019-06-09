@@ -433,7 +433,7 @@
       disableInputs: function(){
         let btns = document.getElementsByClassName("all-input")
 
-        if(btns[0] != undefined)
+        if(btns[0] == undefined)
           return
 
         for(let i = 0; i < btns.length; i++)
@@ -443,7 +443,7 @@
       enableInputs: function(){
         let btns = document.getElementsByClassName("all-input")
 
-        if(btns[0] != undefined)
+        if(btns[0] == undefined)
           return
 
         for(let i = 0; i < btns.length; i++){
