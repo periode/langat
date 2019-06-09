@@ -461,26 +461,28 @@ class User{
       },
       sendNext: function(evt){
         this.logs.unshift("[SCENE] - Sending "+this.next_message.join(" | "))
-        this.client.send('/all/next', this.next_message)
-        this.client.send('/stage/color', ['white']) //-- highlighting the actors
 
-        if(this.current.choice_type != 'input'){ //-- we do not send the freeze on opening the camera
-          this.sendPanic()
-          this.sendFreeze()
+        if(this.current.id == "Objects End" || this.current.id == "Subjects End"){ //sending images as conclusion
+          this.logs.unshift('[SCENE] - Sending Media')
+          if(this.current.id == "Objects End")
+            this.sendMedia('wolf_pack')
+          else
+            this.sendMedia('red_hood')
+        }else{ //default
 
-          setTimeout(this.evaluateResults, 15000)
+          this.client.send('/all/next', this.next_message)
+          this.client.send('/stage/color', ['white']) //-- highlighting the actors
+
+          if(this.current.choice_type != 'input'){ //-- we do not send the freeze on opening the camera
+            this.sendPanic()
+            this.sendFreeze()
+
+            setTimeout(this.evaluateResults, 15000)
+          }
         }
-
       },
       sendMedia: function(data){
         this.logs.unshift("[MEDIA] - Sending " + data)
-
-        // if(data == "shadow_1")
-        //   this.sendCue('2')
-        // else if(data == "shadow_2")
-        //   this.sendCue('16')
-        // else if(data == "news")
-        //   this.sendCue('15')
 
         this.client.send('/all/media', [data])
       },

@@ -2,67 +2,67 @@ let dialogue = [
   {
     "type": "control",
     "sender": "",
-    "text": "L1 joined the conversation"
+    "text": "L1 liittyi keskusteluun"
   },
   {
     "type": "control",
     "sender": "",
-    "text": "L2 joined the conversation"
+    "text": "L2 liittyi keskusteluun"
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "haha lol"
+    "text": "LOL"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "I can't wait to get out of work."
+    "text": "En malta odottaa, että pääsen töistä."
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "I'm feeling thirsty tonight ;)"
+    "text": "Mitä suunnitelmia sulla on illaksi?"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "Let's grab some drinks??"
+    "text": "Mennään drinkeille??"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "and maybe food too, i'm starving."
+    "text": "Ja ehkä vaikka syömään myös, mä kuolen nälkään."
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "like this kind? 🍑🍆"
+    "text": "🍑🍆"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "hmm maybe something more meaty"
+    "text": "Ehkä jotain lihaisampaa."
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "U know how to talk to me"
+    "text": "Sä tiiät miten puhua mulle."
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "I will eat you raw"
+    "text": " Syön sut"
   },
   {
     "type": "message",
     "sender": "L2",
-    "text": "of course I know you, U like potato and meat. Not difficult"
+    "text": "Tietysti, tunnen sut. Tykkäät perunoista ja lihasta. Ei kauheen vaikeeta."
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "We could cook at home... let me be the helping hand"
+    "text": "Voitais kokata kotona, mulla ois tarjota auttava käsi."
   },
   {
     "type": "message",
@@ -72,17 +72,17 @@ let dialogue = [
   {
     "type": "message",
     "sender": "L2",
-    "text": "So my place or yours"
+    "text": "Meillä vai teillä"
   },
   {
     "type": "message",
     "sender": "L1",
-    "text": "Can I put my eggs at your place"
+    "text": "Pannaanko muna tulille teillä?"
   },
   {
     "type": "control",
     "sender": "",
-    "text": "Reconnecting..."
+    "text": "Odottaa..."
   }
 ]
 

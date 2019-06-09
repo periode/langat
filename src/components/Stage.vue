@@ -98,7 +98,9 @@ export default {
       contents: [],
       following: [],
       background: null,
-      showKaraoke: false
+      showKaraoke: false,
+      showCleverMonologue_1: false,
+      showCleverMonologue_2: false
     }
   },
   mounted(){
@@ -110,8 +112,6 @@ export default {
     this.client.start((err) => {
       if(err)
         alert(err)
-
-
     })
 
     this.client.on('connected', () => {
@@ -141,6 +141,9 @@ export default {
     this.client.on('message', (address, args) => {
       console.log('[MSG] received at ' + address + ' - ' + args);
 
+      this.showCleverMonologue_1 = false
+      this.showCleverMonologue_2 = false
+
       switch (address) {
         case '/stage/latest':
           if(this.current === args[0] && this.updater){
@@ -165,10 +168,10 @@ export default {
             this.contents = args.slice(2, 2 + length)
             this.following = args.slice(2 + length, args.length)
           break;
-          case '/stage/color':
-            this.background.style.backgroundColor = args[0]
-            this.background.style.color = 'black'
-            break;
+        case '/stage/color':
+          this.background.style.backgroundColor = args[0]
+          this.background.style.color = 'black'
+          break;
         default:
           console.log('[WARN] received unsure - ' + address + ' - ' + args);
           break;
