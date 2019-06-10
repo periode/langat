@@ -509,6 +509,7 @@ class User{
             }
           }
 
+          let winning_vote = this.current.choices[highest_index]
           let next_scene = this.current.following[highest_index]
 
           this.logs.unshift('[RESULT] The highest index is ' + highest_index + ' with ' + highest_value + ' votes.');
@@ -520,9 +521,11 @@ class User{
             choice.votes = 0
 
           //-- wait 2 seconds before sending the unfreeze
-          if(this.current_mode != 'input' || this.current_mode != 'single')
+          if(this.current_mode != 'input' || this.current_mode != 'single'){
             setTimeout(() => {this.sendUnfreeze()}, 3000)
-          //this.client.send('/all/result', [this.current.following[highest_index]])
+            this.client.send('/all/result', [winning_vote])
+          }
+
         }
       },
       findScene: function(_next){

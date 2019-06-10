@@ -377,6 +377,7 @@
       },
       onTimerEnd: function(){
         this.showTimer = false
+        console.log('timer ending');
         if(this.current_mode === "input"){
           this.showChatContent = true
           this.prompt = ''
@@ -405,6 +406,7 @@
 
       },
       resetAll: function(){
+        console.log('resetting all');
         this.button_choice = false
         this.beginning_choice = false
         this.checkbox_choice = false
@@ -638,8 +640,8 @@
 
             case '/all/result': //-- this shows the result of the choices
               console.log('[MSG] - providing results');
-              this.prompt = `Most of you have chosen:\n ${args[0]}`
-              setTimeout(() => {this.prompt = ''}, 4000)
+              setTimeout(() => {this.prompt = `You have all chosen:\n ${args[0]}`}, 500)
+              setTimeout(() => {this.prompt = ''}, 3000)
               break;
 
             case '/all/path': //-- this shows the result of the whole path
