@@ -364,8 +364,11 @@
 
         this.info.id = evt.first_name+'_'+evt.last_name+'_'+rand;
 
-        if(localStorageAvailable())
+        if(localStorageAvailable()){
           localStorage.setItem("user_id", this.info.id)
+          localStorage.setItem("first_name", this.info.first_name)
+        }
+
 
         this.client.send('/sys/subscribe', ['/user_'+this.info.id])
         setTimeout(() => {
@@ -420,7 +423,16 @@
       },
       displayFeedback: function(el){
         this.disableInputs()
-        this.prompt = "Thank you for your contribution ;)"
+
+        let name
+        if(this.info.first_name != null){
+          name = this.info.first_name.length > 0 ? `, ${this.info.first_name}` : ''
+          console.log(name);
+        }else{
+          name = ""
+        }
+
+        this.prompt = `Thank you for your contribution${name}.`
         if(el)
           el.className = "button-input selected"
       },
@@ -470,6 +482,7 @@
         if(localStorageAvailable()){
           this.info.id = localStorage.getItem("user_id")
           this.last_scene = localStorage.getItem("last_scene")
+          this.info.first_name = localStorage.getItem("first_name")
 
           //-- first we check for the ID
           //-- if we don't have a user ID, we create one
@@ -481,6 +494,7 @@
             this.info.id = "Temp_User_"+rand
 
             localStorage.setItem("user_id", this.info.id)
+            localStorage.setItem("first_name", "")
           }
 
           //-- then we check for the scene
