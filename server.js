@@ -22,13 +22,13 @@ const httpsServer = https.createServer(credentials, app);
 httpServer.listen(80, (err) => {
   if(err)
     throw err
-  console.log('listening on 80');
+  console.log('[SERVER] - listening on 80');
 });
 
 httpsServer.listen(443, (err) => {
   if(err)
     throw err
-  console.log('listening on 443');
+  console.log('[SERVER] - listening on 443');
 });
 
 function ensureSecure(req, res, next){
@@ -40,11 +40,11 @@ function ensureSecure(req, res, next){
 }
 
 //-- websocket server for OSC
-var wss = new WebSocket.Server({
+const wss = new WebSocket.Server({
     server: httpsServer
 });
 
-let oscUDP = new osc.UDPPort({
+const oscUDP = new osc.UDPPort({
   remoteAddress: "192.168.1.3",
   remotePort: 53000
 });
@@ -53,7 +53,7 @@ oscUDP.open()
 
 // Listen for Web Socket connections.
 wss.on("connection", function (socket) {
-    console.log('OSC - socket connected')
+    console.log('[OSC] - socket connected')
 
     var socketPort = new osc.WebSocketPort({
         socket: socket,
@@ -61,7 +61,7 @@ wss.on("connection", function (socket) {
     });
 
     socketPort.on("message", function (oscMsg) {
-        console.log("OSC - ", oscMsg.address);
+        console.log(`[OSC] - ${oscMsg.address}`);
 
         oscUDP.send({
           address: oscMsg.address,

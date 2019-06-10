@@ -409,7 +409,7 @@ class User{
 
             //-- letting the actors know what is going to happen
             this.path.push(this.current.path_id)
-            client.send('/stage/next', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
+            client.send('/stage/next', [this.current.id, this.current.cue, this.current.content.length, ...this.current.content, ...this.current.following])
             client.send('/all/current', [this.current.id])
 
             setTimeout(() => {
@@ -601,7 +601,7 @@ class User{
               }
               break;
             case '/control/update':
-              this.client.send('/stage/latest', [this.current.id, this.current.content.length, ...this.current.content, ...this.current.following])
+              this.client.send('/stage/latest', [this.current.id, this.current.cue, this.current.content.length, ...this.current.content, ...this.current.following])
               break;
             default:
               console.log("[WARN] - address: " + address + " - " + args)

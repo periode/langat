@@ -12,6 +12,12 @@
         </div>
       </div>
       <hr />
+      <div class="scene-content">
+        <div>
+          {{cues}}
+        </div>
+      </div>
+      <hr />
       <div class="next-title">
         <span>NEXT</span>
         <div class="single-next" v-for="one in following">{{one}}</div>
@@ -96,6 +102,7 @@ export default {
       updater: '',
       current: 'WAITING',
       contents: [],
+      cues: [],
       following: [],
       background: null,
       showKaraoke: false,
@@ -152,9 +159,10 @@ export default {
             this.current = args[0]
             if(this.current === "Karaoke")
               this.showKaraoke = true
-            let length = args[1]
-            this.contents = args.slice(2, 2 + length)
-            this.following = args.slice(2 + length, args.length)
+            this.cues = args[1]
+            let length = args[2]
+            this.contents = args.slice(3, 3 + length)
+            this.following = args.slice(3 + length, args.length)
           }
           break;
         case '/stage/next':
@@ -164,9 +172,10 @@ export default {
             this.current = args[0]
             if(this.current === "Karaoke")
               this.showKaraoke = true
-            let length = args[1]
-            this.contents = args.slice(2, 2 + length)
-            this.following = args.slice(2 + length, args.length)
+            this.cues = args[1]
+            let length = args[2]
+            this.contents = args.slice(3, 3 + length)
+            this.following = args.slice(3 + length, args.length)
           break;
         case '/stage/color':
           this.background.style.backgroundColor = args[0]

@@ -5,10 +5,10 @@ let scenes = [
     "timelines": ["T1"],
     "prompt": "Select your area of interest",
     "content":["All actors start to get on the couch.", "They look at their phones"],
+    "cue": "Light: Fade intro lights when Carita starts walking.",
     "choices": ["Social", "Music", "Photography", "News"],
     "following": ["Love Talk", "MTV Dance", "Adsvideo", "Topic from News"],
-    "choice_type": "beginning",
-    "cue": "SONG - Play enter"
+    "choice_type": "beginning"
   },
   {
     "id": "Love Talk",
@@ -16,10 +16,10 @@ let scenes = [
     "timelines": ["T1"],
     "prompt": "Would you like to contribute to their conversation?",
     "content":["Two lovers are texting back and forth.", "They are looking at each other sometimes", "The other actors are still looking at their phones"],
+    "cue": "Light: Fade in Love Talk as usual.",
     "choices": ["Text input"],
     "following": ["Relationship"],
-    "choice_type": "input",
-    "cue": "VIDEO - Play Chat"
+    "choice_type": "input"
   },
   {
     "id": "Relationship",
@@ -27,10 +27,10 @@ let scenes = [
     "timelines": ["T1"],
     "prompt": "Do you come back home from a night out...",
     "content":["Actors get a new message, they are confused, debate it, and then ask for the last person to get banned. PBlack sees the phone that gets highlighted."],
+    "cue": "Light: Same as usual.",
     "choices": ["Before midnight", "After midnight"],
     "following": ["MTV Dance", "Rave"],
-    "choice_type": "binary",
-    "cue": ""
+    "choice_type": "binary"
   },
   {
     "id": "Rave",
@@ -39,9 +39,9 @@ let scenes = [
     "prompt": "Do you listen to songs...",
     "content":["There is a great rave happening."," THIS COULD BE A LOOP"],
     "choices": ["On repeat", "Once"], // -- IMPROVE
+    "cue": "Light: slowly fade Rave light",
     "following": ["Rave LOOP", "Rave CONTINUE"],
-    "choice_type": "binary",
-    "cue": "SONG - Play Rave"
+    "choice_type": "binary"
   },
   {
     "id": "Rave LOOP",
@@ -50,6 +50,7 @@ let scenes = [
     "prompt": "Do you listen to songs...",
     "content":["There is a great rave happening."," THIS COULD BE A LOOP"],
     "choices": ["On repeat", "Once"], // -- IMPROVE
+    "cue": "Light: slowly fade Rave light like before",
     "following": ["Rave LOOP", "Rave CONTINUE"],
     "choice_type": "binary",
     "cue": "SONG - Play Rave"
@@ -59,11 +60,11 @@ let scenes = [
     "path_id": "Rave CONTINUE",
     "timelines": ["T1", "T3"],
     "prompt": "Do you consent to the following",
-    "content":["There is a great rave happening."],
+    "content":["There is a great rave that keeps on happening.", "Farid and Valteri are about to getting dressed"],
     "choices": ["I consent to customization", "I consent to further communication", "I consent to the use of my first and last name", "I consent to future modifications."], // -- IMPROVE
+    "cue": "Light: slowly fade Rave light as before",
     "following": ["Clever one", "Slowmotion"],
-    "choice_type": "checkboxes",
-    "cue": "SONG - Play Rave"
+    "choice_type": "checkboxes"
   },
   {
     "id": "Clever one",
@@ -72,9 +73,9 @@ let scenes = [
     "prompt": "Do you like this?",
     "content":["The clever person shows up and interrupts the rave.", "---", "what is the meaning if a choice? what does it mean to be able to choose, for yourself, for others, do you feel free just because you choose?", "we, as characters, are following a script, made by someone, told by a computer.", "you had the ability to choose, but not anymore.", "it's time to tell you the tricks: you didn't have any freedom", "you were like the characters of a show", "is it really a choice when you only have a few choices? i think you know the answer"],
     "choices": ["Like", "Next"],
+    "cue": "Light: Clever One",
     "following": ["Clever end", "Consequences"],
-    "choice_type": "binary",
-    "cue": ""
+    "choice_type": "binary"
   },
   {
     "id": "Consequences",
@@ -83,9 +84,9 @@ let scenes = [
     "prompt": "You have been disconnected.",
     "content":["Slowly, the ravers start to pull out their phone, pretend to scroll or type, and they exit one by one."],
     "choices": ["OK"],
+    "cue": "Light: back to Intro light",
     "following": ["End"],
-    "choice_type": "end",
-    "cue": ""
+    "choice_type": "end"
   },
   {
     "id": "Clever end",
@@ -96,7 +97,7 @@ let scenes = [
     "choices": ["OK"],
     "following": ["End"],
     "choice_type": "end",
-    "cue": ""
+    "cue": "Light: use the same as Clever one"
   },
   {
     "id": "Slowmotion",
@@ -107,7 +108,7 @@ let scenes = [
     "choices": ["Object", "Subject"],
     "following": ["Objects", "Subjects"],
     "choice_type": "binary",
-    "cue": "SONG - Play Slowmotion"
+    "cue": "Light: Rave Light"
   },
   {
     "id": "Objects",
@@ -118,7 +119,7 @@ let scenes = [
     "choices": ["Share"],
     "following": ["Objects End"],
     "choice_type": "single",
-    "cue": "CUE - switch between slowmo and back to rave + SEND IMAGE AT END"
+    "cue": "Light: Open full Rave light, then as the actors get behind the couch in slowmo, slowly increase the rate of strobo and decrease Rave. The actors are fighting. When the winner raises their arms, we switch to RAVE #2 LIGHT and RAVE #2 MUSIC."
   },
   {
     "id": "Subjects",
@@ -129,7 +130,7 @@ let scenes = [
     "choices": ["Share"],
     "following": ["Subjects End"],
     "choice_type": "single",
-    "cue": "CUE - switch between slowmo and back to rave + SEND IMAGE AT END"
+    "cue": "Light: Open full Rave light, then as the actors get behind the couch in slowmo, slowly increase the rate of strobo and decrease Rave. The actors are fighting. When the winner raises their arms, we switch to RAVE #2 LIGHT and RAVE #2 MUSIC."
   },
   {
     "id":"Objects End",
@@ -140,7 +141,7 @@ let scenes = [
     "choices": ["End"],
     "following": ["End"],
     "choice_type": "single",
-    "cue": ""
+    "cue": "LIGHT: Fade to black"
   },
   {
     "id":"Subjects End",
@@ -151,7 +152,7 @@ let scenes = [
     "choices": ["End"],
     "following": ["End"],
     "choice_type": "single",
-    "cue": ""
+    "cue": "LIGHT: Fade to black"
   },
   {
     "id": "MTV Dance",
@@ -162,7 +163,7 @@ let scenes = [
     "choices": ["Lead", "Follow"],
     "following": ["Karaoke", "Broadway"],
     "choice_type": "binary",
-    "cue": "SONG - Play MTV Dance"
+    "cue": "Light: Fade MTV Dance"
   },
   {
     "id": "Karaoke",
@@ -173,7 +174,7 @@ let scenes = [
     "choices": ["Yes", "No"],
     "following": ["Stop Participating", "Broadway"],
     "choice_type": "binary",
-    "cue": "WAIT UNTIL FARID HAS PRESENTED -> ACTION - Send Karaoke"
+    "cue": "WAIT UNTIL FARID HAS TALKED -> LIGHT - Open Entry + ACTION - Send Karaoke"
   },
   {
     "id": "Stop Participating",
@@ -184,7 +185,7 @@ let scenes = [
     "choices": ["Agree"],
     "following": ["End"],
     "choice_type": "end",
-    "cue": ""
+    "cue": "Light: Intro Light"
   },
   {
     "id": "Broadway",
@@ -195,7 +196,7 @@ let scenes = [
     "choices": ["Keep Dancing", "Disconnect"],
     "following": ["Dance", "Stop Participating"],
     "choice_type": "binary",
-    "cue": " LIGHT+SOUND => WAIT FOR FARID TO BE INSIDE THE WHEEL TO START"
+    "cue": "Keep in the dark until the actors have moved the couch. LIGHT+SOUND => WAIT FOR FARID TO BE INSIDE THE WHEEL TO START"
   },
   {
     "id": "Dance",
@@ -206,18 +207,18 @@ let scenes = [
     "choices": ["Keep Dancing"],
     "following": ["End"],
     "choice_type": "single",
-    "cue": "AT THE END FADE MUSIC ON QLAB"
+    "cue": "Light: Fade Dance normally + at the END fade MUSIC on qlab and LIGHT slowly"
   },
   {
     "id": "Choosing the Dark",
     "path_id": "Choosing the Dark",
     "timelines": ["T1", "T2", "T3", "T4"],
     "prompt": "Enjoy.",
-    "content":["While the public is on stage, the actors are in the public.", "Farid is the last one to sit down", "When he sits down, everyone should be looking at their phones and it is the end"],
+    "content":["While the public is on stage, the actors are going to sit in the public.", "Farid is the last one to sit down", "When he sits down, everyone should be looking at their phones and it is the end"],
     "choices": ["Yes"],
     "following": ["End"],
     "choice_type": "end",
-    "cue": ""
+    "cue": "LIGHT: Slowly Fade Out from the previous light"
   },
   {
     "id": "Adsvideo",
@@ -228,7 +229,7 @@ let scenes = [
     "choices": ["To get excited", "To calm down"],
     "following": ["Rave", "Shadow"],
     "choice_type": "binary",
-    "cue": "MOVIE - SHADOW 1"
+    "cue": "MOVIE - SHADOW 1 + NO LIGHT"
   },
   {
     "id": "Shadow",
@@ -239,7 +240,7 @@ let scenes = [
     "choices": ["Ok"],
     "following": ["Camera"],
     "choice_type": "single",
-    "cue": "MOVIE - SHADOW 2"
+    "cue": "MOVIE - SHADOW 2 + NO LIGHT"
   },
   {
     "id": "Camera",
@@ -250,7 +251,7 @@ let scenes = [
     "choices": ["Ok"],
     "following": ["Popcorn"],
     "choice_type": "single",
-    "cue": "ACTION - Send Camera"
+    "cue": "ACTION - Send Camera + LIGHT CAMERA"
   },
   {
     "id": "Popcorn",
@@ -261,7 +262,7 @@ let scenes = [
     "choices": ["Yes!"],
     "following": ["End"],
     "choice_type": "end",
-    "cue": ""
+    "cue": "LIGHT: Popcorn"
   },
   {
     "id": "Topic from News",
@@ -272,7 +273,7 @@ let scenes = [
     "choices": ["The most recent article", "The most commented article"],
     "following": ["Women Bruise", "LGBTQI Performance"],
     "choice_type": "binary",
-    "cue": "MOVIE - News"
+    "cue": "MOVIE - News + NO LIGHT"
   },
   {
     "id": "LGBTQI Performance",
@@ -283,7 +284,7 @@ let scenes = [
     "choices": ["Socially privileged", "Socially disabled"],
     "following": ["Shadow", "How to be a Man"],
     "choice_type": "binary",
-    "cue": "SONG - LGBTQI"
+    "cue": "Light - LGBTQI WOMEN"
   },
   {
     "id": "Women Bruise",
@@ -294,18 +295,18 @@ let scenes = [
     "choices": ["Socially privileged", "Socially disabled"],
     "following": ["Shadow", "How to be a Man"],
     "choice_type": "binary",
-    "cue": "SONG - Women Bruise"
+    "cue": "Light - LGBTQI WOMEN"
   },
   {
     "id": "How to be a Man",
     "path_id": "How to be a Man",
     "timelines": ["T4"],
     "prompt": "Do you think this is going in the right direction?",
-    "content":["Yuho is holding the punching ball.", "The other actors are making gestures from daily life (hello, hugging each other)."],
+    "content":["Yuho is holding the punching ball.", "The other actors are holding Farid."],
     "choices": ["Like", "Hide"],
     "following": ["Commenting on the Couch", "Popcorn"],
     "choice_type": "binary",
-    "cue": ""
+    "cue": "Light - How To Be A Man"
   },
   {
     "id": "Commenting on the Couch",
@@ -316,7 +317,7 @@ let scenes = [
     "choices": ["You're welcome"],
     "following": ["End"],
     "choice_type": "end",
-    "cue": ""
+    "cue": "Light: Intro"
   },
   {
     "id": "End",
