@@ -440,7 +440,7 @@
       },
       displayMedia: function(name){
         if(name === "red_hood" || name === "wolf_pack")
-          this.image_src = `media/${name}.png`
+          this.image_src = `media/${name}.jpg`
         else if(name === "burning_soul" || name === "shadow" || name === "news"){
           this.video_src = `media/${name}.mp4`
           let video = document.getElementsByTagName("video")[0]
@@ -570,8 +570,15 @@
 
         this.client.send('/sys/subscribe', ['/all'])
 
-        if(this.info.id) //-- if we've checked the storage contents
+        if(this.info.id) {//-- if we've checked the storage contents
           this.client.send('/sys/subscribe', ['/user_'+this.info.id])
+          setTimeout(() => {
+            this.client.send('/control/check', [this.info.id])
+          })
+        }
+
+
+
 
         this.client.on('message', (address, args) => {
           console.log('[MSG] received at ' + address + ' - ' + args);
@@ -674,8 +681,16 @@
             case '/user_'+this.info.id+'/color':
               document.body.style.backgroundColor = args[0]
               break;
+            case '/user_'+this.info.id+'/checked':
+              console.log('[MSG] has show started?',args[0]);
+              if(args[0] == '1') //it has started
+                this.showForm = false
+              break;
             case '/all/end':
               this.curtainDown();
+              break;
+            case '/sys/subscribed':
+
               break;
             default:
               console.log('[ERROR] received addr: ' + address + ' with args '+ args);

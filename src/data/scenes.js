@@ -104,7 +104,7 @@ let scenes = [
     "path_id": "Slowmotion",
     "timelines": ["T1", "T3"],
     "prompt": "You consider yourself to be...",
-    "content":["In slowmotion, the Red Hood and the Wolf Pack are getting ready."],
+    "content":["Still raving. The Red Hood and the Wolf Pack get ready."],
     "choices": ["Object", "Subject"],
     "following": ["Objects", "Subjects"],
     "choice_type": "binary",
@@ -115,7 +115,7 @@ let scenes = [
     "path_id": "Objects",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
-    "content":["There is an assault of the red hood. The rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
+    "content":["In slowmotion, the Red Hood and the Wolf Pack are getting ready. There is an assault of the red hood. The rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
     "choices": ["Share"],
     "following": ["Objects End"],
     "choice_type": "single",
@@ -126,7 +126,7 @@ let scenes = [
     "path_id": "Subjects",
     "timelines": ["T1", "T3"],
     "prompt": "Disconnect - Image",
-    "content":["The rave continues. The Red Hood takes selfies, and the Wolf Pack are absorbed by the crowd of dancers."],
+    "content":["In slowmotion, the Red Hood and the Wolf Pack are getting ready. There is an assault of the WOLF PACK. After the end of the slow mo, the rave continues as if nothing happened, the wolf pack laugh and take selfies, the red hood joins the crowd."],
     "choices": ["Share"],
     "following": ["Subjects End"],
     "choice_type": "single",
@@ -207,7 +207,7 @@ let scenes = [
     "choices": ["Keep Dancing"],
     "following": ["End"],
     "choice_type": "single",
-    "cue": "Light: Fade Dance normally + at the END fade MUSIC on qlab and LIGHT slowly"
+    "cue": "Light: Fade Dance normally + at the END. FREEZE first then fade MUSIC on qlab and LIGHT slowly."
   },
   {
     "id": "Choosing the Dark",
@@ -240,7 +240,7 @@ let scenes = [
     "choices": ["Ok"],
     "following": ["Camera"],
     "choice_type": "single",
-    "cue": "MOVIE - SHADOW 2 + NO LIGHT"
+    "cue": "MOVIE - Shadow 2  + Shadow Light as before"
   },
   {
     "id": "Camera",
@@ -323,7 +323,8 @@ let scenes = [
     "id": "End",
     "path_id": "End",
     "choices": ["none"],
-    "content": ["The End"]
+    "content": ["The End"],
+    "following": [""]
   }
 ]
 

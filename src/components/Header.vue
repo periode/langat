@@ -1,6 +1,6 @@
 <template>
   <header>
-    <span class="title">THREADS</span>
+    <span class="title">LANGAT</span>
     <span class="tagline">say something ⇝⇝<br />⇝⇝ see something</span>
   </header>
 </template>

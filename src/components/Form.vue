@@ -42,7 +42,7 @@
         <option value="Female">
           Female
         </option>
-        <option value="None">
+        <option value="Other">
           None
         </option>
       </select>

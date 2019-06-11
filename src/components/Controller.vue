@@ -283,6 +283,7 @@ class User{
     },
     data: function(){
       return {
+        started: false,
         connected: false,
         status: '',
         users: [],
@@ -347,6 +348,7 @@ class User{
         this.sendCue('6')
         this.armNext(this.current.id)
         this.logs.unshift("[SENDING] - Start")
+        this.started = true
       },
       sendStop: function(evt){
         this.logs.unshift('[CONTROL] STOP')
@@ -462,9 +464,9 @@ class User{
       sendNext: function(evt){
         this.logs.unshift("[SCENE] - Sending "+this.next_message.join(" | "))
 
-        if(this.current.id == "Objects End" || this.current.id == "Subjects End"){ //sending images as conclusion
+        if(this.current.id == "Objects" || this.current.id == "Subjects"){ //sending images as conclusion
           this.logs.unshift('[SCENE] - Sending Media')
-          if(this.current.id == "Objects End")
+          if(this.current.id == "Objects")
             this.sendMedia('wolf_pack')
           else
             this.sendMedia('red_hood')
@@ -523,7 +525,7 @@ class User{
           //-- wait 2 seconds before sending the unfreeze
           if(this.current_mode != 'input' || this.current_mode != 'single'){
             setTimeout(() => {this.sendUnfreeze()}, 3000)
-            this.client.send('/all/result', [winning_vote])
+            // this.client.send('/all/result', [winning_vote])
           }
 
         }
@@ -581,6 +583,11 @@ class User{
               this.logs.unshift('[ADMIN] - got a new user: ' + user.first_name)
 
               this.client.send('/user_'+user.id, ['confirmed'])
+              break;
+            case '/control/check': //-- check if the show has started or not
+              let asker = args[0]
+              let msg = this.started ? '1' : '0'
+              this.client.send('/user_'+asker+'/checked', [msg])
               break;
             case '/control/choose':
               if(args[0] === "binary"){
