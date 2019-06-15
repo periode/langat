@@ -6,8 +6,8 @@ let scenes = [
     "prompt": "Select your area of interest",
     "content":["All actors start to get on the couch.", "They look at their phones"],
     "cue": "Light: Fade intro lights when Carita starts walking.",
-    "choices": ["Social", "Music", "Photography", "News"],
-    "following": ["Love Talk", "MTV Dance", "Adsvideo", "Topic from News"],
+    "choices": ["News", "Social", "Photography", "Dance"],
+    "following": ["Topic from News", "Love Talk", "Adsvideo", "MTV Dance"],
     "choice_type": "beginning"
   },
   {
@@ -284,7 +284,7 @@ let scenes = [
     "choices": ["Socially privileged", "Socially disabled"],
     "following": ["Shadow", "How to be a Man"],
     "choice_type": "binary",
-    "cue": "Light - LGBTQI WOMEN"
+    "cue": "Light - LGBTQI WOMEN + MIC up on mixer"
   },
   {
     "id": "Women Bruise",
@@ -306,7 +306,7 @@ let scenes = [
     "choices": ["Like", "Hide"],
     "following": ["Commenting on the Couch", "Popcorn"],
     "choice_type": "binary",
-    "cue": "Light - How To Be A Man"
+    "cue": "Light - How To Be A Man + Freeze a bit towards the end when Farid is upstage"
   },
   {
     "id": "Commenting on the Couch",

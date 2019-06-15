@@ -20,7 +20,7 @@
         <div class="subcontrols">
           <span class="legend-static">scenes</span>
           <select id="scene-list" name="scene" v-model="next">
-            <option v-for="scene in scenes" :value="scene.id">
+            <option v-for="scene in scenes" :value="scene.id" selected='selected'>
               {{scene.id}}
             </option>
           </select>
@@ -525,7 +525,7 @@ class User{
           //-- wait 2 seconds before sending the unfreeze
           if(this.current_mode != 'input' || this.current_mode != 'single'){
             setTimeout(() => {this.sendUnfreeze()}, 3000)
-            // this.client.send('/all/result', [winning_vote])
+            this.client.send('/all/result', [winning_vote])
           }
 
         }

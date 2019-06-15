@@ -2,13 +2,13 @@
   <div class="form-holder">
     <button v-if="isWelcome && connected" class="welcome-button centered" @click="showForm()">JOIN THE NETWORK</button>
     <form v-if="isProgress && connected" v-on:submit.prevent>
-      <h1>Create account</h1>
+      <h1>Luo tili</h1>
       <label for="first_name">
-        First Name:
+        Etunimi
       </label>
       <input type="text" name="first_name" v-model="info.first_name"/>
       <label for="last_name">
-        Last Name:
+        Sukunimi
       </label>
       <input type="text" name="last_name" v-model="info.last_name"/>
       <label for="email">
@@ -16,53 +16,53 @@
       </label>
       <input type="email" name="email" v-model="info.email"/>
       <label for="birthdate">
-        Birthdate:
+        Syntymäaika
       </label>
       <input type="date" name="birthdate" v-model="info.birthdate"/>
       <label for="origin">
-        Origin:
+        Kotimaa
       </label>
       <!-- <input type="text" name="origin" v-model="info.origin"/> -->
       <select name="origin" v-model="info.origin">
         <option value="Finland" selected="selected">
-          Finland
+          Suomi
         </option>
         <option value="Other">
-          Other
+          Muu
         </option>
       </select>
       <label for="gender">
-        Gender:
+        Sukupuoli:
       </label>
       <!-- <input type="text" v-model="info.gender"/> -->
       <select name="gender" v-model="info.gender">
         <option value="Male" selected="selected">
-          Male
+          Mies
         </option>
         <option value="Female">
-          Female
+          Nainen
         </option>
         <option value="Other">
-          None
+          Muu
         </option>
       </select>
       <label for="marital_status">
-        Marital Status:
+        Siviilisääty:
       </label>
       <!-- <input type="text" v-model="info.marital_status"/> -->
       <select name="marital_status" v-model="info.marital_status">
         <option value="Married" selected="selected">
-          Married
+          Naimisissa
         </option>
         <option value="Single">
-          Single
+          Sinkku
         </option>
         <option value="Looking">
-          Looking
+          Muu
         </option>
       </select>
       <label for="occupation">
-        Occupation:
+        Ammatti
       </label>
       <input type="text" v-model="info.occupation"/>
       <input class="submit-button" type="submit" @click="submitInfo()" value="JOIN">

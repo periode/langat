@@ -675,7 +675,8 @@
             case '/user_'+this.info.id:
               if(args[0] == 'confirmed'){
                 this.showForm = false
-                this.popup = "Network successfully joined.\n\nTo maintain the best connection, please avoid refreshing the page.\n\nThe show will start soon."
+                this.popup = "Kiitos.\nNäytös alkaa pian."
+                // this.popup = "Network successfully joined.\n\nTo maintain the best connection, please avoid refreshing the page.\n\nThe show will start soon."
               }
               break;
             case '/user_'+this.info.id+'/color':

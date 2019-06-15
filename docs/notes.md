@@ -1,4 +1,14 @@
-## TODO
+## SHOOT
+le but c'est un trailer
+- chacune des séquences
+- - 10 a 15 secondes sur chaque sequence
+- images de pierre entrain de programmer (twine et/ou interface)
+- exterieur de la factory
+- interieur du barn
+- plan du public shooté de derrière
+- plan du public qui choisit avec portable
+images de aku pour voix de farid
+- entrée du public
 
 
 ## MONOLOGUE PROGRAMMER
@@ -33,13 +43,17 @@ __FREEZE__
 http://paletton.com/#uid=53Q0g0kzjxyhN5Wkyvw5Gy61uwh
 
 ## QUESTIONS
-- tension entre la similarité digitale et différences qui exitent dans la réalité
-- changement de styles suivant les timelines
-- feedback necessaire/suffisant pour les publics?
-- comment trouver l'équivalent du langage dramaturgique réelle sur des écrans
-- comment des choix individuels forment-ils un groupe? (mais les codes ne sont pas pour le bien de tous, mais pour le bien de chacun)
-- qu'est-ce qui se passe dans une société quand chacun décide pour soi? on va faire croire à une réalité/fiction qui devient atomisée?
-- qui décide du système de montage d'internet? le public? le programmeur? le "système"?
+- tension entre la similarité digitale et différences qui existent dans la réalité
+- changement de styles suivant les timelines > oui, mais ne pas rentrer dans une continuité de la linéarité (PAS DE thématique A > A > A et séparément B > B > B, mais bien A > B > C > B autant que C > B > C > A)
+- feedback necessaire/suffisant pour les publics? > 2 représentations aide
+- comment trouver l'équivalent du langage dramaturgique du réel sur des écrans? (changer l'interface selon les sections > question pas explorée encore) (langage dramatique du réel, ex. slowmotion durant lequel on raconte une histoire en filigrane par les choix)
+- comment des choix individuels forment-ils un groupe? (mais les codes ne sont pas pour le bien de tous, mais pour le bien de chacun) (pas poussé/à développer, e.g. avec des codes couleurs pour délimiter les personalités du public (e.g. chomeur, etudiant, femme, etc.))
+
+
+
+- qu'est-ce qui se passe dans une société quand chacun décide pour soi? on va faire croire à une réalité/fiction qui devient atomisée? (version 2.0 >> fond de la pièce)
+
+- qui décide du système de montage d'internet? le public? le programmeur? le "système"? (une des conclusions de la pièce, qui doit finir par apparaître dans le dossier: implications de la pièce d'un point de vue politique, social, etc.)
 
 
 Synthèse: question du choix? de la présence d'autrui dans le libre arbitre du choix. dialogue enregistré?
