@@ -6,4 +6,5 @@ wstemp/
 *.pem
 *.wav
 *.mov
+*.mp4
 push-notifications/
